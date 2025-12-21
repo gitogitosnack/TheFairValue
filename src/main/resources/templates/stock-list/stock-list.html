@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>銘柄一覧</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@3.0.2/destyle.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<!-- headerBar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -16,6 +18,7 @@
                 <li><a href="#" class="active">銘柄一覧</a></li>
                 <li><a href="#">マーケット情報</a></li>
                 <li><a href="#">ウォッチリスト</a></li>
+
                 <li><a href="#">設定</a></li>
             </ul>
             <div class="nav-user">
@@ -25,11 +28,13 @@
         </div>
     </nav>
 
+
     <div class="container main-content">
         <header class="page-header">
             <h1>銘柄管理ダッシュボード</h1>
         </header>
 
+        <!-- search condition input area -->
         <section class="search-section">
             <div class="search-box">
                 <input type="text" placeholder="銘柄名・コードを入力（部分一致）" id="searchInput">
@@ -41,6 +46,7 @@
             </div>
         </section>
 
+        <!-- search result display area -->
         <section class="list-section">
             <div class="list-header">
                 <h2>登録銘柄一覧</h2>
@@ -58,20 +64,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>7203</td>
-                    <td>トヨタ自動車</td>
-                    <td>東証プライム</td>
-                    <td>2,500.5</td>
-                    <td><a href="#" class="edit-link">更新</a></td>
-                </tr>
-                <tr>
-                    <td>9984</td>
-                    <td>ソフトバンクグループ</td>
-                    <td>東証プライム</td>
-                    <td>6,200.0</td>
-                    <td><a href="#" class="edit-link">更新</a></td>
-                </tr>
+                    <tr th:each="stock : ${stockList}">
+                        <td th:text="${stock.code}">7203</td>
+                        <td th:text="${stock.name}">トヨタ自動車</td>
+                        <td th:text="${stock.market}">東証プライム</td>
+                        <td>2,500.5</td>
+                        <td><a href="#" class="edit-link">更新</a></td>
+                    </tr>
                 </tbody>
             </table>
         </section>
