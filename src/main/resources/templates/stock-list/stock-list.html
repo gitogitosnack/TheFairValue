@@ -66,15 +66,52 @@
                 <tbody>
                     <tr th:each="stock : ${stockList}">
                         <td th:text="${stock.code}">7203</td>
-                        <td th:text="${stock.name}">トヨタ自動車</td>
+                        <td th:text="${stock.stock_name}">トヨタ自動車</td>
                         <td th:text="${stock.market}">東証プライム</td>
                         <td>2,500.5</td>
-                        <td><a href="#" class="edit-link">更新</a></td>
+                        <td><a href="#" class="edit-link">編集</a></td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </div>
+
+<!--  START: Modal for edit display  -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>銘柄情報の編集</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <form id="editForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>銘柄コード</label>
+                        <input type="text" id="modalCode" name="code" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>銘柄名</label>
+                        <input type="text" id="modalName" name="stock_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>市場</label>
+                        <select id="modalMarket" name="market">
+                            <option value="東証プライム">東証プライム</option>
+                            <option value="東証スタンダード">東証スタンダード</option>
+                            <option value="東証グロース">東証グロース</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal">キャンセル</button>
+                    <button type="submit" class="btn btn-primary">更新保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+<!--  END: Modal for edit display  -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

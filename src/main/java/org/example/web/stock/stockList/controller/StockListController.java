@@ -1,8 +1,8 @@
-package org.example.web.stock.list.controller;
+package org.example.web.stock.stockList.controller;
 
-import org.example.web.stock.list.domain.StockEntity;
-import org.example.web.stock.list.service.StockListService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.web.stock.stockList.domain.StockEntity;
+import org.example.web.stock.stockList.domain.StockListResponseDto;
+import org.example.web.stock.stockList.service.StockListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ public class StockListController {
     @GetMapping("")
     public ModelAndView display(ModelAndView mav) {
         mav.setViewName("stock-list/stock-list");
-        List<StockEntity> list = stockListService.initialDispAll();
+        List<StockListResponseDto> list = stockListService.initialDispAll();
         mav.addObject("stockList", list);
         return mav;
     }
