@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpStatusCodeException;
 
-@RestController
+@RestController // JSONを返すためのアノテーション
 @RequestMapping("/rest_stock_list")
 public class StockListRestController {
 

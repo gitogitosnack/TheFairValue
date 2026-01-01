@@ -4,6 +4,7 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(immutable = true)
@@ -16,15 +17,15 @@ public class StockEntity {
     private final String code;
     private final String stock_name;
     private final String market;
-    private final Date created_at;
+    private final LocalDateTime created_at;
 
     // Constructor with 3 arguments
     public StockEntity(
             Integer id
-            ,String code
-            ,String stock_name
-            ,String market
-            ,Date created_at
+            , String code
+            , String stock_name
+            , String market
+            , LocalDateTime created_at
     ) {
         this.id = id;
         this.code = code;   // ← コンストラクターでキャッチした後、値をこのクラスのフィールドに入れ忘れると値が画面に表示されない。
@@ -50,7 +51,7 @@ public class StockEntity {
         return market;
     }
 
-    public Date getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 

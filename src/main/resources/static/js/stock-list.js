@@ -2,8 +2,8 @@
     const $modal = $('#editModal');
 
     // 1. 編集リンクをクリックした時の処理
-    $('.edit-link').on('click', function(e) {
-        e.preventDefault();
+    $('.edit-link').on('click', function(event) {
+        event.preventDefault();
 
         // クリックされた行のデータを取得
         const $row = $(this).closest('tr');
@@ -13,7 +13,7 @@
 
         // モーダルのインプットに値をセット
         $('#modalCode').val(code);
-        $('#modalName').val(name);
+        $('#modalStockName').val(name);
         $('#modalMarket').val(market);
 
         // モーダルを表示
@@ -26,26 +26,42 @@
     });
 
     // モーダルの外側をクリックしたら閉じる
-    $(window).on('click', function(e) {
-        if ($(e.target).is($modal)) {
+    $(window).on('click', function(event) {
+        if ($(event.target).is($modal)) {
             $modal.fadeOut(200);
         }
     });
 
     // 3. 更新処理 (Ajax)
-    $('#editForm').on('submit', function(e) {
-        e.preventDefault();
+    $('#editForm').on('submit', function(event) {
+        event.preventDefault();
 
         const formData = {
             code: $('#modalCode').val(),
-            stock_name: $('#modalName').val(),
+            stockName: $('#modalStockName').val(),
             market: $('#modalMarket').val()
         };
 
         console.log("送信データ:", formData);
 
         // ここにSpring Bootへの$.ajax({ type: 'POST', ... }) 処理を書く
-        alert('更新処理をここに実装します: ' + formData.stock_name);
+        $.ajax({
+            url: '/rest_stock_list/update',    // サーバ側のコントローラに書かれているURL
+            type: 'POST',                      // HTTPメソッド
+            contentType: 'application/json',   // 送るデータ形式
+            data: JSON.stringify(formData),    // JSオブジェクトをJSON文字列に変換（変換しないと415エラーになるらしい）
+            dataType: 'json'                   // サーバーから返ってくるデータの形式
+        })
+        .done(function(response) {
+            // process after success
+            alert("the record updated. Code:" + respose.xxx);
+        })
+        .fail(function(xhr, status, error) {
+            // process after failed
+            alert("Error occurred.");
+            console.log(error);
+        });
+        // alert('更新処理をここに実装します: ' + formData.stock_name);
         $modal.fadeOut(200);
     });
 });

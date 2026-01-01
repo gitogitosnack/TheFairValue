@@ -7,6 +7,8 @@ import org.example.web.stock.stockList.domain.StockListResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,21 +45,22 @@ public class StockListServiceImpl implements StockListService {
 
     public void updateStockInfo(StockListForm form) {
         // 1. 現在のデータを取得
-        StockEntity entity = stockListDao.selectById(form.getCode());
+        //StockEntity entity = stockListDao.selectById(form.getCode());
 
-        if (entity != null) {
+        //if (entity != null) {
             // 2. 画面からの入力値で上書き
-            new StockEntity(null
-                    , form.getCode()
-                    , form.getStockName()
-                    , null
-                    , null
-            );
+        StockEntity entity = new StockEntity(
+                1
+                ,form.getCode()
+                ,form.getStockName()
+                ,form.getMarket()
+                ,LocalDateTime.now()
+                );
             // entity.setUpdatedAt(LocalDateTime.now()); // 更新日などがあれば
 
             // 3. 更新実行
             stockListDao.update(entity);
-        }
+        //}
 
     }
 }

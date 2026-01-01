@@ -87,11 +87,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>銘柄コード</label>
-                        <input type="text" id="modalCode" name="code" readonly>
+                        <input type="text" id="modalCode" name="code" required>
                     </div>
                     <div class="form-group">
                         <label>銘柄名</label>
-                        <input type="text" id="modalName" name="stock_name" required>
+                        <input type="text" id="modalStockName" name="stock_name" required>
                     </div>
                     <div class="form-group">
                         <label>市場</label>
@@ -112,6 +112,6 @@
 <!--  END: Modal for edit display  -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/stock-list.js}"></script>
 </body>
 </html>
