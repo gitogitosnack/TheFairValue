@@ -1,5 +1,7 @@
 SELECT
-  /*%expand*/*
+    /*%expand*/*
 FROM
-  stock_list list
+    companies com
+WHERE
+    com.delete_flg = 0
 ;

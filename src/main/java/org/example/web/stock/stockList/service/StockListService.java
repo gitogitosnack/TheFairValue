@@ -11,4 +11,8 @@ public interface StockListService {
     List<StockListResponseDto> initialDispAll ();
 
     void updateStockInfo(StockListForm form);
+
+    void deleteStockInfoById(Integer id);
+
+    void insertStockInfo(StockListForm form);
 }

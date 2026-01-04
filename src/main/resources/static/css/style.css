@@ -94,13 +94,15 @@ input[type="text"] {
     color: #555;
 }
 
-.edit-link {
+/* 編集・削除リンク用 */
+.operation-link {
     color: #0056b3;
     text-decoration: none;
     font-weight: bold;
 }
 
-.edit-link:hover {
+/* 編集・削除リンク用 */
+.operation-link:hover {
     text-decoration: underline;
 }
 

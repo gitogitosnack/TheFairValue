@@ -1,8 +1,6 @@
 SELECT
-    code,
-    stock_name,
-    market
+    /*%expand*/*
 FROM
-    stock_list list
+    companies com
 WHERE
-    list.code = /* code */'7203'
+    com.id = /* id */1

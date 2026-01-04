@@ -2,32 +2,41 @@ package org.example.web.stock.stockList.domain;
 
 public class StockListForm {
 
-    private String code;
-    private String stockName;
-    private String market;
+    private Integer id;
+    private String ticker_symbol;
+    private String name;
+    private String market_name;
 
     // Getter and Setter
-    public String getCode() {
-        return code;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getStockName() {
-        return stockName;
+    public String getTicker_symbol() {
+        return ticker_symbol;
     }
 
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
+    public void setTicker_symbol(String ticker_symbol) {
+        this.ticker_symbol = ticker_symbol;
     }
 
-    public String getMarket() {
-        return market;
+    public String getName() {
+        return name;
     }
 
-    public void setMarket(String market) {
-        this.market = market;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMarket_name() {
+        return market_name;
+    }
+
+    public void setMarket_name(String market_name) {
+        this.market_name = market_name;
     }
 }

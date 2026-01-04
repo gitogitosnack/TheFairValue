@@ -2,9 +2,7 @@ package org.example.web.dao;
 
 
 import org.example.web.stock.stockList.domain.StockEntity;
-import org.seasar.doma.Dao;
-import org.seasar.doma.Select;
-import org.seasar.doma.Update;
+import org.seasar.doma.*;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 
@@ -18,9 +16,15 @@ public interface StockListDao {
     List<StockEntity> findAll();
 
     @Select
-    StockEntity selectById(String code);
+    StockEntity selectById(Integer id);
 
     @Update
     Result<StockEntity> update(StockEntity entity);
+
+    @Delete
+    Result<StockEntity> delete(StockEntity entity);
+
+    @Insert
+    Result<StockEntity> insert(StockEntity entity);
 
 }
