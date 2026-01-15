@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銘柄詳細分析 - StockAnalyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo"><a href="index.html">StockAnalyzer</a></div>
+        <ul class="nav-menu">
+            <li><a href="index.html">銘柄一覧</a></li>
+            <li><a href="#" class="active">銘柄詳細</a></li>
+            <li><a href="#">マーケット</a></li>
+        </ul>
+        <div class="nav-user">
+            <span class="user-name">テスト太郎 様</span>
+            <button class="btn-logout">ログアウト</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container main-content">
+    <div class="stock-header">
+        <div class="stock-title">
+            <span class="stock-code">7203</span>
+            <h1>トヨタ自動車 (株)</h1>
+            <span class="market-badge">東証プライム</span>
+        </div>
+        <div class="stock-price-area">
+            <div class="current-price">2,500.5<span class="unit">円</span></div>
+            <button class="btn btn-analysis-trigger" id="openModalBtn">
+                AI適正株価判定: <span class="judgement-text">買い推奨</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="card chart-main">
+            <h3>株価推移 (日足)</h3>
+            <div class="chart-placeholder">
+                <p>[ 株価チャート 表示エリア ]</p>
+            </div>
+        </div>
+
+        <div class="card stats-summary">
+            <h3>主要指標</h3>
+            <table class="stats-table">
+                <tr><th>時価総額</th><td>40.5兆円</td></tr>
+                <tr><th>PER (連)</th><td>12.5倍</td></tr>
+                <tr><th>PBR (連)</th><td>1.1倍</td></tr>
+                <tr><th>配当利回り</th><td>3.2%</td></tr>
+                <tr><th>自己資本比率</th><td>38.5%</td></tr>
+            </table>
+        </div>
+
+        <div class="card chart-sub">
+            <h3>売上高・営業利益推移</h3>
+            <div class="chart-placeholder small">
+                <p>[ 棒グラフ 表示エリア ]</p>
+            </div>
+        </div>
+
+        <div class="card chart-sub">
+            <h3>財務バランス</h3>
+            <div class="chart-placeholder small">
+                <p>[ レーダーチャート 表示エリア ]</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-actions">
+        <a href="index.html" class="btn btn-secondary">← 一覧に戻る</a>
+        <button class="btn btn-primary">この銘柄をウォッチリストに追加</button>
+    </div>
+</div>
+
+<!-- modal1 -->
+<div class="modal-overlay" id="inputModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>分析条件の入力</h2>
+            <button class="close-btn" id="closeInputBtn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <p class="input-intro">最新の株価、または分析したい株価を入力してください。</p>
+            <div class="form-group">
+                <label for="manualPrice">現在の株価 (円)</label>
+                <input type="number" id="manualPrice" class="form-input-large" placeholder="例: 2500">
+            </div>
+            <div class="form-group">
+                <label for="manualEps">予想EPS (任意)</label>
+                <input type="number" id="manualEps" class="form-input-large" placeholder="例: 200">
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelInputBtn">キャンセル</button>
+            <button class="btn btn-primary" id="calculateBtn">適正株価を算出する →</button>
+        </div>
+    </div>
+</div>
+
+<!-- modal2 -->
+<div class="modal-overlay" id="analysisModal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>銘柄詳細・分析結果</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="stock-info-brief">
+                <span class="stock-code">7203</span>
+                <span class="stock-name">トヨタ自動車 (株)</span>
+            </div>
+
+            <div class="analysis-container">
+                <div class="analysis-card">
+                    <div class="label">現在の株価</div>
+                    <div class="value">2,500.5<span class="unit">円</span></div>
+                </div>
+                <div class="analysis-card highlighted">
+                    <div class="label">理論上の適正株価</div>
+                    <div class="value">2,850.0<span class="unit">円</span></div>
+                    <div class="fair-value-note">（DCF法による算出）</div>
+                </div>
+            </div>
+
+            <div class="judgement-area buy">
+                <div class="judgement-label">総合判断</div>
+                <div class="judgement-result">割安：買い推奨</div>
+                <p class="judgement-desc">
+                    ファンダメンタルズ分析に基づくと、現在の株価は適正価格より約14%乖離しています。収益力に対して割安な水準です。
+                </p>
+            </div>
+
+            <form class="edit-form">
+                <div class="form-group">
+                    <label>メモ・備考</label>
+                    <textarea rows="3" placeholder="分析のポイントなどを入力..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary">キャンセル</button>
+            <button class="btn btn-primary">更新内容を保存</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const inputModal = document.getElementById('inputModal');
+    const resultModal = document.getElementById('editModal'); // 前回作成した結果用ID
+
+    const openInputBtn = document.getElementById('openModalBtn'); // Detail画面のボタン
+    const calculateBtn = document.getElementById('calculateBtn'); // 入力画面の算出ボタン
+
+    // 1. 入力ダイアログを開く
+    openInputBtn.addEventListener('click', () => {
+        inputModal.style.display = 'flex';
+    });
+
+    // 2. 算出ボタンを押して、入力から結果へ切り替える
+    calculateBtn.addEventListener('click', () => {
+        const price = document.getElementById('manualPrice').value;
+        if (!price) {
+            alert('株価を入力してください');
+            return;
+        }
+
+        // 入力された値を結果ダイアログに反映（例）
+        resultModal.querySelector('.analysis-card:first-child .value').innerHTML =
+            `${Number(price).toLocaleString()}<span class="unit">円</span>`;
+
+        // 画面の切り替え
+        inputModal.style.display = 'none';
+        resultModal.style.display = 'flex';
+    });
+
+    // 閉じる処理（各ボタンに設定）
+    [document.getElementById('closeInputBtn'), document.getElementById('cancelInputBtn')].forEach(btn => {
+        btn.addEventListener('click', () => {
+            inputModal.style.display = 'none';
+        });
+    });
+});
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const openBtn = document.getElementById('openModalBtn');
+    //     const closeBtn = document.getElementById('closeModalBtn');
+    //     const modal = document.getElementById('analysisModal');
+    //     const cancelBtn = modal.querySelector('.btn-secondary');
+
+    //     // モーダルを開く
+    //     openBtn.addEventListener('click', () => {
+    //         modal.classList.add('active');
+    //         document.body.style.overflow = 'hidden'; // 背景スクロール禁止
+    //     });
+
+    //     // モーダルを閉じる関数
+    //     const closeModal = () => {
+    //         modal.classList.remove('active');
+    //         document.body.style.overflow = 'auto'; // スクロール再開
+    //     };
+
+    //     closeBtn.addEventListener('click', closeModal);
+    //     cancelBtn.addEventListener('click', closeModal);
+
+    //     // モーダルの外側をクリックしたら閉じる
+    //     modal.addEventListener('click', (e) => {
+    //         if (e.target === modal) {
+    //             closeModal();
+    //         }
+    //     });
+    // });
+</script>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

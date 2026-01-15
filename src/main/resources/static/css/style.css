@@ -455,3 +455,18 @@ input[type="text"] {
     font-size: 24px;
     cursor: pointer;
 }
+
+/* 銘柄コードのリンクスタイル */
+.stock-table td a {
+    color: #0056b3;         /* リンクの色（既存のボタン色と統一） */
+    text-decoration: none;  /* 初期状態では下線を消す */
+    font-weight: bold;      /* 少し太くして目立たせる */
+    display: inline-block;  /* 当たり判定を安定させる */
+    transition: all 0.2s;   /* 変化を滑らかにする */
+}
+
+.stock-table td a:hover {
+    color: #003d82;         /* ホバー時に少し濃い青にする */
+    text-decoration: underline; /* ホバー時に下線を表示 */
+    transform: translateY(-1px); /* わずかに上に浮かせて「押せる感」を出す */
+}

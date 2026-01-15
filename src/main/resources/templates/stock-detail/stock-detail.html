@@ -4,15 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>銘柄詳細分析 - StockAnalyzer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@3.0.2/destyle.css"> <!-- あれ？リセットCSSが効かない！？ -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* Summary Header */
+        .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
+        .price-area { text-align: right; }
+        .price { font-size: 32px; font-weight: bold; }
+
+        /* Top Grid */
+        .top-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .card { background: var(--card); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .card h3 { margin-top: 0; font-size: 14px; color: #64748b; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 15px; }
+
+        .valuation-box { text-align: center; }
+        .fair-price { font-size: 32px; font-weight: bold; color: var(--primary); margin: 10px 0; }
+        .gap-badge { display: inline-block; padding: 6px 16px; border-radius: 20px; background: #dcfce7; color: var(--success); font-weight: bold; }
+
+        /* Tab System */
+        .tabs-container { margin-top: 30px; }
+        .tabs { display: flex; background: #e2e8f0; border-radius: 8px 8px 0 0; padding: 5px 5px 0 5px; gap: 5px; }
+        .tab-btn {
+            padding: 12px 20px; border: none; background: none; cursor: pointer;
+            font-weight: bold; color: #64748b; border-radius: 6px 6px 0 0; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--card); color: var(--primary); }
+
+        .tab-content { display: none; background: var(--card); padding: 25px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .tab-content.active { display: block; }
+
+        /* Graph & Table Layout */
+        .analysis-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+        .chart-wrapper { min-height: 350px; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .data-table th, .data-table td { padding: 12px 8px; border-bottom: 1px solid var(--border); text-align: right; }
+        .data-table th { background: #f8fafc; }
+        .label-cell { text-align: left; font-weight: bold; color: #475569; }
+        .highlight-row { background: #f0f7ff; }
+    </style>
 </head>
 <body>
 
 <nav class="navbar">
     <div class="nav-container">
-        <div class="nav-logo"><a href="index.html">StockAnalyzer</a></div>
+        <div class="nav-logo"><a th:href="@{/top}">StockAnalyzer</a></div>
         <ul class="nav-menu">
-            <li><a href="index.html">銘柄一覧</a></li>
+            <li><a th:href="@{/top}">銘柄一覧</a></li>
             <li><a href="#" class="active">銘柄詳細</a></li>
             <li><a href="#">マーケット</a></li>
         </ul>
@@ -23,205 +74,165 @@
     </div>
 </nav>
 
-<div class="container main-content">
-    <div class="stock-header">
-        <div class="stock-title">
-            <span class="stock-code">7203</span>
-            <h1>トヨタ自動車 (株)</h1>
-            <span class="market-badge">東証プライム</span>
+<div class="container">
+    <div class="header">
+        <div>
+            <span>4567 | 未来技術株式会社</span>
+            <h1>銘柄分析ダッシュボード</h1>
         </div>
-        <div class="stock-price-area">
-            <div class="current-price">2,500.5<span class="unit">円</span></div>
-            <button class="btn btn-analysis-trigger" id="openModalBtn">
-                AI適正株価判定: <span class="judgement-text">買い推奨</span>
-            </button>
+        <div class="price-area">
+            <div class="price">¥7,250</div>
+            <div style="color:var(--success)">▲ +120 (1.68%)</div>
         </div>
     </div>
 
-    <div class="dashboard-grid">
-
-        <div class="card chart-main">
-            <h3>株価推移 (日足)</h3>
-            <div class="chart-placeholder">
-                <p>[ 株価チャート 表示エリア ]</p>
-            </div>
+    <div class="top-grid">
+        <div class="card valuation-box">
+            <h3>理論株価 (DCF法)</h3>
+            <div class="fair-price">¥9,500</div>
+            <div class="gap-badge">割安度: +31.0%</div>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 15px;">将来キャッシュフロー予測に基づく適正値</p>
         </div>
 
-        <div class="card stats-summary">
+        <div class="card">
+            <h3>総合診断スコア (業界比較)</h3>
+            <canvas id="radarChart" height="200"></canvas>
+        </div>
+
+        <div class="card">
             <h3>主要指標</h3>
-            <table class="stats-table">
-                <tr><th>時価総額</th><td>40.5兆円</td></tr>
-                <tr><th>PER (連)</th><td>12.5倍</td></tr>
-                <tr><th>PBR (連)</th><td>1.1倍</td></tr>
-                <tr><th>配当利回り</th><td>3.2%</td></tr>
-                <tr><th>自己資本比率</th><td>38.5%</td></tr>
+            <table class="data-table" style="margin-top:0">
+                <tr><td class="label-cell">PER (予想)</td><td>12.4倍</td></tr>
+                <tr><td class="label-cell">PBR (実績)</td><td>0.85倍</td></tr>
+                <tr><td class="label-cell">配当利回り</td><td>3.8%</td></tr>
+                <tr><td class="label-cell">自己資本比率</td><td>62.5%</td></tr>
             </table>
         </div>
-
-        <div class="card chart-sub">
-            <h3>売上高・営業利益推移</h3>
-            <div class="chart-placeholder small">
-                <p>[ 棒グラフ 表示エリア ]</p>
-            </div>
-        </div>
-
-        <div class="card chart-sub">
-            <h3>財務バランス</h3>
-            <div class="chart-placeholder small">
-                <p>[ レーダーチャート 表示エリア ]</p>
-            </div>
-        </div>
-
     </div>
 
-    <div class="footer-actions">
-        <a href="index.html" class="btn btn-secondary">← 一覧に戻る</a>
-        <button class="btn btn-primary">この銘柄をウォッチリストに追加</button>
-    </div>
-</div>
-
-<!-- modal1 -->
-<div class="modal-overlay" id="inputModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>分析条件の入力</h2>
-            <button class="close-btn" id="closeInputBtn">&times;</button>
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="profit">収益・成長性 (①-⑥)</button>
+            <button class="tab-btn" data-tab="efficiency">効率性 (⑦-⑨)</button>
+            <button class="tab-btn" data-tab="safety">安全性 (⑩-⑭)</button>
+            <button class="tab-btn" data-tab="cashflow">キャッシュフロー (⑮-⑰)</button>
         </div>
 
-        <div class="modal-body">
-            <p class="input-intro">最新の株価、または分析したい株価を入力してください。</p>
-            <div class="form-group">
-                <label for="manualPrice">現在の株価 (円)</label>
-                <input type="number" id="manualPrice" class="form-input-large" placeholder="例: 2500">
-            </div>
-            <div class="form-group">
-                <label for="manualEps">予想EPS (任意)</label>
-                <input type="number" id="manualEps" class="form-input-large" placeholder="例: 200">
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="cancelInputBtn">キャンセル</button>
-            <button class="btn btn-primary" id="calculateBtn">適正株価を算出する →</button>
-        </div>
-    </div>
-</div>
-
-<!-- modal2 -->
-<div class="modal-overlay" id="analysisModal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>銘柄詳細・分析結果</h2>
-            <button class="close-btn">&times;</button>
-        </div>
-
-        <div class="modal-body">
-            <div class="stock-info-brief">
-                <span class="stock-code">7203</span>
-                <span class="stock-name">トヨタ自動車 (株)</span>
-            </div>
-
-            <div class="analysis-container">
-                <div class="analysis-card">
-                    <div class="label">現在の株価</div>
-                    <div class="value">2,500.5<span class="unit">円</span></div>
-                </div>
-                <div class="analysis-card highlighted">
-                    <div class="label">理論上の適正株価</div>
-                    <div class="value">2,850.0<span class="unit">円</span></div>
-                    <div class="fair-value-note">（DCF法による算出）</div>
+        <div id="profit" class="tab-content active">
+            <div class="analysis-layout">
+                <div class="chart-wrapper"><canvas id="profitChart"></canvas></div>
+                <div>
+                    <table class="data-table">
+                        <thead><tr><th class="label-cell">指標 (収益・成長)</th><th>2023</th><th>2024</th><th>2025(予)</th></tr></thead>
+                        <tbody>
+                        <tr class="highlight-row"><td class="label-cell">⑤ ROE (%)</td><td>10.1</td><td>11.5</td><td>12.2</td></tr>
+                        <tr><td class="label-cell">① Gross Margin (%)</td><td>33.5</td><td>34.2</td><td>35.0</td></tr>
+                        <tr><td class="label-cell">② Net Margin (%)</td><td>8.0</td><td>8.5</td><td>9.0</td></tr>
+                        <tr><td class="label-cell">⑥ EPS (円)</td><td>485</td><td>540</td><td>585</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <div class="judgement-area buy">
-                <div class="judgement-label">総合判断</div>
-                <div class="judgement-result">割安：買い推奨</div>
-                <p class="judgement-desc">
-                    ファンダメンタルズ分析に基づくと、現在の株価は適正価格より約14%乖離しています。収益力に対して割安な水準です。
-                </p>
-            </div>
-
-            <form class="edit-form">
-                <div class="form-group">
-                    <label>メモ・備考</label>
-                    <textarea rows="3" placeholder="分析のポイントなどを入力..."></textarea>
-                </div>
-            </form>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn btn-secondary">キャンセル</button>
-            <button class="btn btn-primary">更新内容を保存</button>
+        <div id="efficiency" class="tab-content">
+            <div class="analysis-layout">
+                <div class="chart-wrapper"><canvas id="efficiencyChart"></canvas></div>
+                <div>
+                    <table class="data-table">
+                        <thead><tr><th class="label-cell">指標 (効率性)</th><th>2023</th><th>2024</th><th>2025(予)</th></tr></thead>
+                        <tbody>
+                        <tr class="highlight-row"><td class="label-cell">⑦ 総資産回転率</td><td>1.2</td><td>1.2</td><td>1.3</td></tr>
+                        <tr><td class="label-cell">⑧ 在庫回転率</td><td>5.2</td><td>5.4</td><td>5.8</td></tr>
+                        <tr><td class="label-cell">⑨ 売上債権回転率</td><td>8.0</td><td>8.2</td><td>8.5</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="safety" class="tab-content">
+            <div class="analysis-layout">
+                <div class="chart-wrapper"><canvas id="safetyChart"></canvas></div>
+                <div>
+                    <table class="data-table">
+                        <thead><tr><th class="label-cell">指標 (安全性)</th><th>2024</th><th>2025(予)</th></tr></thead>
+                        <tbody>
+                        <tr><td class="label-cell">⑫ 自己資本比率 (%)</td><td>60.2</td><td>62.5</td></tr>
+                        <tr><td class="label-cell">⑩ D/Eレシオ</td><td>0.45</td><td>0.40</td></tr>
+                        <tr><td class="label-cell">⑭ ICR (倍)</td><td>15.2</td><td>18.5</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="cashflow" class="tab-content">
+            <div class="analysis-layout">
+                <div class="chart-wrapper"><canvas id="cfChart"></canvas></div>
+                <div>
+                    <table class="data-table">
+                        <thead><tr><th class="label-cell">指標 (CF)</th><th>2024</th><th>2025(予)</th></tr></thead>
+                        <tbody>
+                        <tr class="highlight-row"><td class="label-cell">⑯ フリーCF</td><td>2,100</td><td>2,400</td></tr>
+                        <tr><td class="label-cell">⑮ 営業CFマージン</td><td>12.5</td><td>13.8</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const inputModal = document.getElementById('inputModal');
-    const resultModal = document.getElementById('editModal'); // 前回作成した結果用ID
-
-    const openInputBtn = document.getElementById('openModalBtn'); // Detail画面のボタン
-    const calculateBtn = document.getElementById('calculateBtn'); // 入力画面の算出ボタン
-
-    // 1. 入力ダイアログを開く
-    openInputBtn.addEventListener('click', () => {
-        inputModal.style.display = 'flex';
-    });
-
-    // 2. 算出ボタンを押して、入力から結果へ切り替える
-    calculateBtn.addEventListener('click', () => {
-        const price = document.getElementById('manualPrice').value;
-        if (!price) {
-            alert('株価を入力してください');
-            return;
-        }
-
-        // 入力された値を結果ダイアログに反映（例）
-        resultModal.querySelector('.analysis-card:first-child .value').innerHTML =
-            `${Number(price).toLocaleString()}<span class="unit">円</span>`;
-
-        // 画面の切り替え
-        inputModal.style.display = 'none';
-        resultModal.style.display = 'flex';
-    });
-
-    // 閉じる処理（各ボタンに設定）
-    [document.getElementById('closeInputBtn'), document.getElementById('cancelInputBtn')].forEach(btn => {
-        btn.addEventListener('click', () => {
-            inputModal.style.display = 'none';
+    $(function() {
+        // 1. レーダーチャート (サマリー用)
+        new Chart($('#radarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['収益', '成長', '安全', '割安', '配当'],
+                datasets: [{
+                    data: [4.5, 4, 5, 3.5, 4],
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)', borderColor: 'var(--primary)', borderWidth: 2
+                }]
+            },
+            options: { scales: { r: { min: 0, max: 5, ticks: { display: false } } }, plugins: { legend: { display: false } } }
         });
+
+        // 2. タブ切替イベント
+        $('.tab-btn').on('click', function() {
+            const target = $(this).data('tab');
+            $('.tab-btn').removeClass('active');
+            $(this).addClass('active');
+            $('.tab-content').removeClass('active');
+            $('#' + target).addClass('active');
+        });
+
+        // 3. 各カテゴリのグラフ初期化 (収益性)
+        new Chart($('#profitChart'), {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    { label: 'ROE (%)', data: [8.5, 9.2, 10.1, 11.5, 12.2], borderColor: '#2563eb', yAxisID: 'y' },
+                    { label: 'EPS (円)', data: [420, 450, 485, 540, 585], backgroundColor: 'rgba(16, 185, 129, 0.2)', type: 'bar', yAxisID: 'y1' }
+                ]
+            },
+            options: { maintainAspectRatio: false, scales: { y1: { position: 'right', grid: { drawOnChartArea: false } } } }
+        });
+
+        // 効率性グラフ
+        new Chart($('#efficiencyChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [{ label: '総資産回転率', data: [1.1, 1.15, 1.2, 1.2, 1.3], backgroundColor: '#94a3b8' }]
+            },
+            options: { maintainAspectRatio: false }
+        });
+
+        // 他のグラフも同様に定義可能...
     });
-});
-
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     const openBtn = document.getElementById('openModalBtn');
-    //     const closeBtn = document.getElementById('closeModalBtn');
-    //     const modal = document.getElementById('analysisModal');
-    //     const cancelBtn = modal.querySelector('.btn-secondary');
-
-    //     // モーダルを開く
-    //     openBtn.addEventListener('click', () => {
-    //         modal.classList.add('active');
-    //         document.body.style.overflow = 'hidden'; // 背景スクロール禁止
-    //     });
-
-    //     // モーダルを閉じる関数
-    //     const closeModal = () => {
-    //         modal.classList.remove('active');
-    //         document.body.style.overflow = 'auto'; // スクロール再開
-    //     };
-
-    //     closeBtn.addEventListener('click', closeModal);
-    //     cancelBtn.addEventListener('click', closeModal);
-
-    //     // モーダルの外側をクリックしたら閉じる
-    //     modal.addEventListener('click', (e) => {
-    //         if (e.target === modal) {
-    //             closeModal();
-    //         }
-    //     });
-    // });
 </script>
 <script th:src="@{/js/script.js}"></script>
 </body>

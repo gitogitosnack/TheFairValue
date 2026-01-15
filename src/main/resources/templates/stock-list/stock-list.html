@@ -11,9 +11,7 @@
 <!-- headerBar -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#">StockAnalyzer</a>
-            </div>
+            <div class="nav-logo"><a th:href="@{/top}">StockAnalyzer</a></div>
             <ul class="nav-menu">
                 <li><a href="#" class="active">銘柄一覧</a></li>
                 <li><a href="#">マーケット情報</a></li>
@@ -66,7 +64,11 @@
                 </thead>
                 <tbody>
                     <tr th:each="stock : ${stockList}" th:data-id="${stock.id}">
-                        <td th:text="${stock.ticker_symbol}">7203</td>
+                        <td>
+                            <a th:href="@{/stock-detail/{id}(id=${stock.id})}" th:text="${stock.ticker_symbol}">
+                                7203
+                            </a>
+                        </td>
                         <td th:text="${stock.name}">トヨタ自動車</td>
                         <td th:text="${stock.market_name}">東証プライム</td>
                         <td>2,500.5</td>
