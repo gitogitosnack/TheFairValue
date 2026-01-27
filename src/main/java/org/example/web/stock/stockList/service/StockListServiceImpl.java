@@ -1,14 +1,12 @@
 package org.example.web.stock.stockList.service;
 
 import org.example.web.dao.StockListDao;
-import org.example.web.stock.stockList.domain.StockEntity;
+import org.example.web.entity.StockEntity;
 import org.example.web.stock.stockList.domain.StockListForm;
 import org.example.web.stock.stockList.domain.StockListResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service

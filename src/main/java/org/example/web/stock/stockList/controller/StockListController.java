@@ -1,6 +1,5 @@
 package org.example.web.stock.stockList.controller;
 
-import org.example.web.stock.stockList.domain.StockEntity;
 import org.example.web.stock.stockList.domain.StockListResponseDto;
 import org.example.web.stock.stockList.service.StockListService;
 import org.springframework.stereotype.Controller;

@@ -192,11 +192,12 @@
             data: {
                 labels: ['収益', '成長', '安全', '割安', '配当'],
                 datasets: [{
-                    data: [4.5, 4, 5, 3.5, 4],
+                    data: [4.5, 4, 2, 3.5, 1],
                     backgroundColor: 'rgba(37, 99, 235, 0.2)', borderColor: 'var(--primary)', borderWidth: 2
                 }]
             },
-            options: { scales: { r: { min: 0, max: 5, ticks: { display: false } } }, plugins: { legend: { display: false } } }
+            options: { scales: { r: { min: 0, max: 5, ticks: { display: false } } },
+            plugins: { legend: { display: false } } }
         });
 
         // 2. タブ切替イベント

@@ -1,8 +1,6 @@
-package org.example.web.stock.stockList.domain;
+package org.example.web.entity;
 
 import org.seasar.doma.*;
-
-import java.time.LocalDateTime;
 
 @Entity(immutable = true)
 @Table(name = "companies")
