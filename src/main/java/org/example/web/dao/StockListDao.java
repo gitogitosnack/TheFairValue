@@ -1,4 +1,8 @@
 package org.example.web.dao;
+/* このDaoインターファイスは、画面のために最初の頃作成したファイルである。
+本来、Daoインターファイスとは、DBテーブル毎に一個ずつ作成されるものであるため、
+このDAOはいずれ消す。
+*/
 
 
 import org.example.web.entity.StockEntity;
