@@ -17,11 +17,11 @@ public interface CurrencyDao {
     Optional<CurrencyEntity> selectByCode(String currencyCode);
 
     @Insert
-    Result<CurrencyEntity> insert(CurrencyEntity entity);
+    int insert(CurrencyEntity entity);
 
     @Update
-    Result<CurrencyEntity> update(CurrencyEntity entity);
+    int update(CurrencyEntity entity);
 
     @Delete
-    Result<CurrencyEntity> delete(CurrencyEntity entity);
+    int delete(CurrencyEntity entity);
 }

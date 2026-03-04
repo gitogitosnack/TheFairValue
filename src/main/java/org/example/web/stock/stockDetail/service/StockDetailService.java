@@ -4,5 +4,9 @@ import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
 
 public interface StockDetailService {
 
-    public StockAnalysisResponse getComprehensiveAnalysis(Long code);
+    public StockAnalysisResponse getComprehensiveAnalysis(String code);
+
+    // void getCompanyCodeAndName (String code);
+
+
 }

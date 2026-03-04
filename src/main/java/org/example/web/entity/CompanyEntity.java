@@ -42,7 +42,7 @@ public class CompanyEntity {
     private Integer deleteFlg;
 
     @Column(name = "current_price")
-    private BigDecimal currentPrice;
+    private Integer currentPrice;
 
     @Column(name = "outstanding_shares")
     private Long outstandingShares;
@@ -116,11 +116,9 @@ public class CompanyEntity {
         this.deleteFlg = deleteFlg;
     }
 
-    public BigDecimal getCurrentPrice() {
-        return currentPrice;
-    }
+    public Integer getCurrentPrice() { return currentPrice; }
 
-    public void setCurrentPrice(BigDecimal currentPrice) {
+    public void setCurrentPrice(Integer currentPrice) {
         this.currentPrice = currentPrice;
     }
 

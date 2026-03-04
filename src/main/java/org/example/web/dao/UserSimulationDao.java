@@ -17,11 +17,11 @@ public interface UserSimulationDao {
     Optional<UserSimulationEntity> selectById(Long id);
 
     @Insert
-    Result<UserSimulationEntity> insert(UserSimulationEntity entity);
+    int insert(UserSimulationEntity entity);
 
     @Update
-    Result<UserSimulationEntity> update(UserSimulationEntity entity);
+    int update(UserSimulationEntity entity);
 
     @Delete
-    Result<UserSimulationEntity> delete(UserSimulationEntity entity);
+    int delete(UserSimulationEntity entity);
 }

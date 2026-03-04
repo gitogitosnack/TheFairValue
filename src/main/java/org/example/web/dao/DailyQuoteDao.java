@@ -17,11 +17,11 @@ public interface DailyQuoteDao {
     Optional<DailyQuoteEntity> selectById(Long id);
 
     @Insert
-    Result<DailyQuoteEntity> insert(DailyQuoteEntity entity);
+    int insert(DailyQuoteEntity entity);
 
     @Update
-    Result<DailyQuoteEntity> update(DailyQuoteEntity entity);
+    int update(DailyQuoteEntity entity);
 
     @Delete
-    Result<DailyQuoteEntity> delete(DailyQuoteEntity entity);
+    int delete(DailyQuoteEntity entity);
 }

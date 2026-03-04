@@ -17,11 +17,11 @@ public interface IndustryDao {
     Optional<IndustryEntity> selectById(Integer id);
 
     @Insert
-    Result<IndustryEntity> insert(IndustryEntity entity);
+    int insert(IndustryEntity entity);
 
     @Update
-    Result<IndustryEntity> update(IndustryEntity entity);
+    int update(IndustryEntity entity);
 
     @Delete
-    Result<IndustryEntity> delete(IndustryEntity entity);
+    int delete(IndustryEntity entity);
 }

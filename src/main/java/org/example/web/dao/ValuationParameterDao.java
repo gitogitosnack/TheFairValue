@@ -17,11 +17,11 @@ public interface ValuationParameterDao {
     Optional<ValuationParameterEntity> selectById(Long id);
 
     @Insert
-    Result<ValuationParameterEntity> insert(ValuationParameterEntity entity);
+    int insert(ValuationParameterEntity entity);
 
     @Update
-    Result<ValuationParameterEntity> update(ValuationParameterEntity entity);
+    int update(ValuationParameterEntity entity);
 
     @Delete
-    Result<ValuationParameterEntity> delete(ValuationParameterEntity entity);
+    int delete(ValuationParameterEntity entity);
 }

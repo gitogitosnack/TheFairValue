@@ -20,15 +20,15 @@ public interface CompanyDao {
     List<CompanyEntity> selectAll();
 
     @Select
-    Optional<CompanyEntity> selectByCode(Long code);
+    Optional<CompanyEntity> selectByCode(String code);
 
     @Insert
-    Result<CompanyEntity> insert(String code);
+    int insert(CompanyEntity code);
 
     @Update
-    Result<CompanyEntity> update(String code);
+    int update(CompanyEntity code);
 
     @Delete
-    Result<CompanyEntity> delete(String code);
+    int delete(CompanyEntity code);
 
 }

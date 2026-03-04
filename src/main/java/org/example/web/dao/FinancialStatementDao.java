@@ -17,11 +17,11 @@ public interface FinancialStatementDao {
     Optional<FinancialStatementEntity> selectById(Long id);
 
     @Insert
-    Result<FinancialStatementEntity> insert(FinancialStatementEntity entity);
+    int insert(FinancialStatementEntity entity);
 
     @Update
-    Result<FinancialStatementEntity> update(FinancialStatementEntity entity);
+    int update(FinancialStatementEntity entity);
 
     @Delete
-    Result<FinancialStatementEntity> delete(FinancialStatementEntity entity);
+    int delete(FinancialStatementEntity entity);
 }

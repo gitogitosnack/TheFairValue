@@ -14,14 +14,17 @@ public interface AnalysisIndicatorDao {
     List<AnalysisIndicatorEntity> selectAll();
 
     @Select
-    Optional<AnalysisIndicatorEntity> selectById(Integer id);
+    Optional<AnalysisIndicatorEntity> selectById(String id);
+
+    @Select
+    List<AnalysisIndicatorEntity> selectByCode(String code);
 
     @Insert
-    Result<AnalysisIndicatorEntity> insert(AnalysisIndicatorEntity entity);
+    int insert(AnalysisIndicatorEntity entity);
 
     @Update
-    Result<AnalysisIndicatorEntity> update(AnalysisIndicatorEntity entity);
+    int update(AnalysisIndicatorEntity entity);
 
     @Delete
-    Result<AnalysisIndicatorEntity> delete(AnalysisIndicatorEntity entity);
+    int delete(AnalysisIndicatorEntity entity);
 }

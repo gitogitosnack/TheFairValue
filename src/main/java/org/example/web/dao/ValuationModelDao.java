@@ -14,14 +14,14 @@ public interface ValuationModelDao {
     List<ValuationModelEntity> selectAll();
 
     @Select
-    Optional<ValuationModelEntity> selectById(Integer id);
+    Optional<ValuationModelEntity> selectById(String id);
 
     @Insert
-    Result<ValuationModelEntity> insert(ValuationModelEntity entity);
+    int insert(ValuationModelEntity entity);
 
     @Update
-    Result<ValuationModelEntity> update(ValuationModelEntity entity);
+    int update(ValuationModelEntity entity);
 
     @Delete
-    Result<ValuationModelEntity> delete(ValuationModelEntity entity);
+    int delete(ValuationModelEntity entity);
 }

@@ -14,14 +14,14 @@ public interface CalculatedFairValueDao {
     List<CalculatedFairValueEntity> selectAll();
 
     @Select
-    Optional<CalculatedFairValueEntity> selectById(Integer id);
+    Optional<CalculatedFairValueEntity> selectById(String id);
 
     @Insert
-    Result<CalculatedFairValueEntity> insert(CalculatedFairValueEntity entity);
+    int insert(CalculatedFairValueEntity entity);
 
     @Update
-    Result<CalculatedFairValueEntity> update(CalculatedFairValueEntity entity);
+    int update(CalculatedFairValueEntity entity);
 
     @Delete
-    Result<CalculatedFairValueEntity> delete(CalculatedFairValueEntity entity);
+    int delete(CalculatedFairValueEntity entity);
 }

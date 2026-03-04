@@ -17,11 +17,11 @@ public interface CountryDao {
     Optional<CountryEntity> selectByCode(String countryCode);
 
     @Insert
-    Result<CountryEntity> insert(CountryEntity entity);
+    int insert(CountryEntity entity);
 
     @Update
-    Result<CountryEntity> update(CountryEntity entity);
+    int update(CountryEntity entity);
 
     @Delete
-    Result<CountryEntity> delete(CountryEntity entity);
+    int delete(CountryEntity entity);
 }

@@ -17,11 +17,11 @@ public interface UserDao {
     Optional<UserEntity> selectById(Long id);
 
     @Insert
-    Result<UserEntity> insert(UserEntity entity);
+    int insert(UserEntity entity);
 
     @Update
-    Result<UserEntity> update(UserEntity entity);
+    int update(UserEntity entity);
 
     @Delete
-    Result<UserEntity> delete(UserEntity entity);
+    int delete(UserEntity entity);
 }

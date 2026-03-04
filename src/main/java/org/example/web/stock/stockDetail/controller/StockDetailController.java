@@ -19,13 +19,14 @@ public class StockDetailController {
     StockDetailService stockDetailService;
 
     @GetMapping("/{id}")
-    public ModelAndView display (@PathVariable("id") Long id, StockDetailForm form, ModelAndView mav) {
+    public ModelAndView display (@PathVariable("id") String id, StockDetailForm form, ModelAndView mav) {
 
         //画面のHTMLを設定
         mav.setViewName("stock-detail/stock-detail");
 
         //call the service class
         StockAnalysisResponse analysisData = stockDetailService.getComprehensiveAnalysis(id);
+        mav.addObject("analysisData", analysisData);
 
         return mav;
     }
