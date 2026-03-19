@@ -1,3 +1,4 @@
+
  $(document).ready(function() {
     const $modal = $('#editModal');
 
@@ -8,13 +9,13 @@
         // クリックされた行のデータを取得
         const $row = $(this).closest('tr');
         const id = $(this).data('id');
-        const ticker_symbol = $row.find('td:eq(0)').text(); // 1番目のtd（コード）
+        const code = $row.find('td:eq(0)').text(); // 1番目のtd（コード）
         const name = $row.find('td:eq(1)').text(); // 2番目のtd（銘柄名）
         const market_name = $row.find('td:eq(2)').text(); // 3番目のtd（市場）
 
         // モーダルのインプットに値をセット
         $('#modalId').val(id);
-        $('#modalTicker_symbol').val(ticker_symbol);
+        $('#modalCode').val(code);
         $('#modalName').val(name);
         $('#modalMarket_name').val(market_name);
 
@@ -46,7 +47,7 @@
 
         const formData = {
             id: id
-            ,ticker_symbol: $('#modalTicker_symbol').val()
+            ,code: $('#modalCode').val()
             ,name: $('#modalName').val()
             ,market_name: $('#modalMarket_name').val()
         };
@@ -83,11 +84,11 @@
         // 1. 削除対象の行とデータを特定
         const $row = $(this).closest('tr');
         const id = $(this).data('id');
-        const ticker_symbol = $row.find('td:eq(0)').text(); // 1番目のtdからコード取得
+        const code = $row.find('td:eq(0)').text(); // 1番目のtdからコード取得
         const name = $row.find('td:eq(1)').text(); // 2番目のtdから銘柄名取得
 
         // 2. 削除確認
-        if (!confirm(`銘柄「${name} (${ticker_symbol})」を削除してもよろしいですか？`)) {
+        if (!confirm(`銘柄「${name} (${code})」を削除してもよろしいですか？`)) {
             return false;
         }
 

@@ -20,8 +20,8 @@ public class CompanyEntity {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "ticker_symbol")
-    private String tickerSymbol;
+    @Column(name = "code")
+    private String code;
 
     @Column(name = "name")
     private String name;
@@ -60,12 +60,12 @@ public class CompanyEntity {
         this.id = id;
     }
 
-    public String getTickerSymbol() {
-        return tickerSymbol;
+    public String getCode() {
+        return code;
     }
 
-    public void setTickerSymbol(String tickerSymbol) {
-        this.tickerSymbol = tickerSymbol;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

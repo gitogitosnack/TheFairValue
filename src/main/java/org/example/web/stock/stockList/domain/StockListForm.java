@@ -3,7 +3,7 @@ package org.example.web.stock.stockList.domain;
 public class StockListForm {
 
     private Integer id;
-    private String ticker_symbol;
+    private String code;
     private String name;
     private String market_name;
 
@@ -16,12 +16,12 @@ public class StockListForm {
         this.id = id;
     }
 
-    public String getTicker_symbol() {
-        return ticker_symbol;
+    public String getCode() {
+        return code;
     }
 
-    public void setTicker_symbol(String ticker_symbol) {
-        this.ticker_symbol = ticker_symbol;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

@@ -14,7 +14,7 @@ public interface ValuationModelDao {
     List<ValuationModelEntity> selectAll();
 
     @Select
-    Optional<ValuationModelEntity> selectById(String id);
+    Optional<ValuationModelEntity> selectById(Integer id);
 
     @Insert
     int insert(ValuationModelEntity entity);

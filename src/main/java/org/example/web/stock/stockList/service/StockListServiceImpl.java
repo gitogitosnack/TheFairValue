@@ -36,7 +36,7 @@ public class StockListServiceImpl implements StockListService {
     public List<StockListResponseDto> unloading(List<StockEntity> entity) {
         return entity.stream().map(record -> new StockListResponseDto(
                 record.getId()
-                ,record.getTicker_symbol()
+                ,record.getCode()
                 ,record.getName()
                 ,record.getMarket_name()
         )).toList();
@@ -51,7 +51,7 @@ public class StockListServiceImpl implements StockListService {
             // 2. 画面からの入力値で上書き
         StockEntity entity = new StockEntity(
                 form.getId()
-                ,form.getTicker_symbol()
+                ,form.getCode()
                 ,form.getName()
                 ,1
                 ,1
@@ -84,7 +84,7 @@ public class StockListServiceImpl implements StockListService {
             // 新規登録情報をセット
             StockEntity entity = new StockEntity(
                     null
-                    ,form.getTicker_symbol()
+                    ,form.getCode()
                     ,form.getName()
                     ,1
                     ,1

@@ -63,17 +63,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="stock : ${stockList}" th:data-id="${stock.id}">
+                    <tr th:each="stock : ${stockList}" th:data-code="${stock.id}">
                         <td>
-                            <a th:href="@{/stock-detail/{id}(id=${stock.id})}" th:text="${stock.ticker_symbol}">
+                            <a th:href="@{/stock-detail/{code}(code=${stock.code})}" th:text="${stock.code}">
                                 7203
                             </a>
                         </td>
                         <td th:text="${stock.name}">トヨタ自動車</td>
                         <td th:text="${stock.market_name}">東証プライム</td>
                         <td>2,500.5</td>
-                        <td><a href="#" class="operation-link edit-link" th:data-id="${stock.id}">編集</a></td>
-                        <td><a href="#" class="operation-link delete-link" th:data-id="${stock.id}">削除</a></td>
+                        <td><a href="#" class="operation-link edit-link" th:data-code="${stock.code}">編集</a></td>
+                        <td><a href="#" class="operation-link delete-link" th:data-code="${stock.code}">削除</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -92,7 +92,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>銘柄コード</label>
-                        <input type="text" id="modalTicker_symbol" name="ticker_symbol" required>
+                        <input type="text" id="modalCode" name="code" required>
                     </div>
                     <div class="form-group">
                         <label>銘柄名</label>

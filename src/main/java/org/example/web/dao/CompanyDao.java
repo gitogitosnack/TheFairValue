@@ -20,7 +20,7 @@ public interface CompanyDao {
     List<CompanyEntity> selectAll();
 
     @Select
-    Optional<CompanyEntity> selectByCode(String code);
+    Optional<CompanyEntity> selectById(int id);
 
     @Insert
     int insert(CompanyEntity code);

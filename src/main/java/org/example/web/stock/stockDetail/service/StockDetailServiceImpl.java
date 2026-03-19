@@ -8,23 +8,35 @@ import org.example.web.entity.AnalysisIndicatorEntity;
 import org.example.web.entity.CalculatedFairValueEntity;
 import org.example.web.entity.CompanyEntity;
 import org.example.web.entity.ValuationModelEntity;
+import org.example.web.stock.common.service.CIMapper;
 import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
 import org.example.web.stock.stockDetail.domain.StockDetailDto1;
 import org.example.web.stock.stockDetail.domain.StockDetailDto2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class StockDetailServiceImpl implements StockDetailService{
 
+	// 本日の日付から「年」を取得して入れる
+    private static final int CURRENT_YEAR = LocalDate.now().getYear();
+	private static final String FISCAL_QUARTER_Q4 = "q4";
+	private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
+	
     // initialize the dto1
     StockDetailDto1 stockDetailDto1 = new StockDetailDto1();
 
     // initialize the dto2
     StockDetailDto2 stockDetailDto2 = new StockDetailDto2();
+    
+    @Autowired
+    CIMapper ciMapper;
 
     @Autowired
     CompanyDao companyDao;
@@ -37,30 +49,41 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     @Autowired
     AnalysisIndicatorDao analysisIndicatorDao;
+    
+//  -----------------------------------------------------
+///////////////////////////////////////////////////////
+//--- 0. main process for getting company details indicators ---
+///////////////////////////////////////////////////////
+//-----------------------------------------------------
 
     public StockAnalysisResponse getComprehensiveAnalysis(String code){
 
 // Get data in the upper side of the detail display.
+    	
+    	// どのテーブルのIDが欲しいかに合わせて、テーブル名を固定値で渡す
+        Integer companyId = ciMapper.convertCodeToId("companies", code);
+    	
         // Get the company code and name
         // Get the current_price
-        this.getCompanyCodeAndName(code);
+        this.getCompanyCodeAndName(companyId);
 
         // Get the calc model id and name
-        this.getCalculationCodeAndName(code);
+        this.getCalculationCodeAndName(companyId);
+        
 
         // Get the calculated_fair_value
-        this.getFairValue(code);
+        this.getFairValue(companyId);
 
         // Get the 割安割高度(TBC)
 
         // Get the values for レーダーチャート from 総合診断用テーブル(TBC)
 
         // Get the per, pbr, dividend_yield, equity_ratio
-        this.getMarketIndicators(code);
+        this.getMarketIndicators(companyId);
 
 // Get data in the lower side of the detail display called dto2.
         // Get each analysis indicators for 5 years
-        this.getAnalysisIndicators(code);
+        this.getAnalysisIndicators(companyId);
 
         // Set data1 and data2 to the StockAnalysisResponse class.
         StockAnalysisResponse response = new StockAnalysisResponse();
@@ -70,15 +93,19 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     }
 
+//  -----------------------------------------------------
+///////////////////////////////////////////////////////
 // --- 1. Upper Side Data (StockDetailDto1) ---
+///////////////////////////////////////////////////////
+//  -----------------------------------------------------
 
     // This function gets the company code and name.
     // Get the current_price
-    void getCompanyCodeAndName(String code) {
-        Optional<CompanyEntity> company = companyDao.selectByCode(code);
+    void getCompanyCodeAndName(Integer id) {
+        Optional<CompanyEntity> company = companyDao.selectById(id);
         if(company.isPresent()){
             // Set the company code to dto
-            stockDetailDto1.setCompanyCode(company.get().getTickerSymbol());
+            stockDetailDto1.setCompanyCode(company.get().getCode());
             // Set the company name to dto
             stockDetailDto1.setCompanyName(company.get().getName());
             // Set the current price to dto
@@ -87,23 +114,24 @@ public class StockDetailServiceImpl implements StockDetailService{
     }
 
     // This function gets the calc model and name.
-    void getCalculationCodeAndName (String code) {
-        Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(code);
+    void getCalculationCodeAndName (Integer id) {
+        Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(id);
         if(calcModel.isPresent()){
-            // Set the calcModel id to dto
-            stockDetailDto1.setCalcurationId(calcModel.get().getId());
+            // Set the calcModel id to dto / String.valueOf() or Integer.toString()
+            stockDetailDto1.setCalcurationId(String.valueOf(calcModel.get().getId()));
             // Set the calcModel name to dto
             stockDetailDto1.setCalcurationName(calcModel.get().getModelName());
         }
     }
 
     // Get the calculated_fair_value
-    void getFairValue(String code) {
-        Optional<CalculatedFairValueEntity> fairValue = calculatedFairValueDao.selectById(code);
+    void getFairValue(Integer id) {
+        Optional<CalculatedFairValueEntity> fairValue = calculatedFairValueDao.selectById(id);
         if (fairValue.isPresent()) {
             stockDetailDto1.setFairValue(fairValue.get().getFairValue());
         }
     }
+
 
     // Get the 割安割高度
 
@@ -112,10 +140,10 @@ public class StockDetailServiceImpl implements StockDetailService{
     // Get the per, pbr, dividend_yield, equity_ratio
 
 // Need to provide info of which year you want to get from DB.
-    void getMarketIndicators(String code) {
+    void getMarketIndicators(Integer id) {
         // get this year info and quoter.ex)2025,Q4
 
-        Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(code);
+        Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(id, CURRENT_YEAR, FISCAL_QUARTER_Q4);
         if (indicator.isPresent()) {
             stockDetailDto1.setPer(indicator.get().getPer());
             stockDetailDto1.setPbr(indicator.get().getPbr());
@@ -124,12 +152,15 @@ public class StockDetailServiceImpl implements StockDetailService{
         }
     }
 
+//  -----------------------------------------------------
+///////////////////////////////////////////////////////  
 // --- 2. Lower Side Data (StockDetailDto2 - 5 Years History) ---
-
+///////////////////////////////////////////////////////
+//-----------------------------------------------------
     // Get the analysis indicators for 5 years to use those dato to lower tables.
-    void getAnalysisIndicators(String code) {
+    void getAnalysisIndicators(Integer id) {
         // Data to be transferred Dao to Entity.
-        List<AnalysisIndicatorEntity> indicators = analysisIndicatorDao.selectByCode(code);
+        List<AnalysisIndicatorEntity> indicators = analysisIndicatorDao.selectByCompanyId(id, DEFAULT_DISPLAY_YEARS_COUNT);
 
         if (!indicators.isEmpty()) {
 

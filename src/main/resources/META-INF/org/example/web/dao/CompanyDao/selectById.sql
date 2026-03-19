@@ -3,5 +3,5 @@ select
 from
   companies
 where
-  ticker_symbol = /* code */'7203'
+  id = /* id */''
   and delete_flg = 0

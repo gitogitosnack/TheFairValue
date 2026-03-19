@@ -14,7 +14,7 @@ public interface CalculatedFairValueDao {
     List<CalculatedFairValueEntity> selectAll();
 
     @Select
-    Optional<CalculatedFairValueEntity> selectById(String id);
+    Optional<CalculatedFairValueEntity> selectById(Integer id);
 
     @Insert
     int insert(CalculatedFairValueEntity entity);

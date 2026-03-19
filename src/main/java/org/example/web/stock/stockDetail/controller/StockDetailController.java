@@ -3,7 +3,7 @@ package org.example.web.stock.stockDetail.controller;
 import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
 import org.example.web.stock.stockDetail.domain.StockDetailForm;
 import org.example.web.stock.stockDetail.service.StockDetailService;
-import org.example.web.stock.stockDetail.service.StockDetailServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +18,14 @@ public class StockDetailController {
     @Autowired
     StockDetailService stockDetailService;
 
-    @GetMapping("/{id}")
-    public ModelAndView display (@PathVariable("id") String id, StockDetailForm form, ModelAndView mav) {
+    @GetMapping("/{code}")
+    public ModelAndView display (@PathVariable("code") String code, StockDetailForm form, ModelAndView mav) {
 
         //画面のHTMLを設定
         mav.setViewName("stock-detail/stock-detail");
 
         //call the service class
-        StockAnalysisResponse analysisData = stockDetailService.getComprehensiveAnalysis(id);
+        StockAnalysisResponse analysisData = stockDetailService.getComprehensiveAnalysis(code);
         mav.addObject("analysisData", analysisData);
 
         return mav;

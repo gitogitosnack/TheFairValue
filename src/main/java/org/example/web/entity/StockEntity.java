@@ -10,8 +10,8 @@ public class StockEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Integer id;
-    @Column(name = "ticker_symbol")
-    private final String ticker_symbol;
+    @Column(name = "code")
+    private final String code;
     @Column(name = "name")
     private final String name;
     @Column(name = "country_id")
@@ -28,7 +28,7 @@ public class StockEntity {
     // Constructor with 3 arguments
     public StockEntity(
             Integer id
-            ,String ticker_symbol   // ★ フィールド名と完全に一致させる
+            ,String code   // ★ フィールド名と完全に一致させる
             ,String name
             ,Integer country_id    // ★ フィールド名と完全に一致させる
             ,Integer industry_id   // ★ フィールド名と完全に一致させる
@@ -37,7 +37,7 @@ public class StockEntity {
             ,Integer delete_flg    // ★ フィールド名と完全に一致させる
     ) {
         this.id = id;
-        this.ticker_symbol = ticker_symbol;
+        this.code = code;
         this.name = name;
         this.country_id = country_id;
         this.industry_id = industry_id;
@@ -51,8 +51,8 @@ public class StockEntity {
         return id;
     }
 
-    public String getTicker_symbol() {
-        return ticker_symbol;
+    public String getCode() {
+        return code;
     }
 
     public String getName() {

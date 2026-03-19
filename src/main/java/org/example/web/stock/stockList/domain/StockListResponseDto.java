@@ -4,19 +4,19 @@ public class StockListResponseDto {
 
     // Field
     private final Integer id;
-    private final String ticker_symbol;
+    private final String code;
     private final String name;
     private final String market_name;
 
     // Constructor
     public StockListResponseDto(
             Integer id
-            ,String ticker_symbol
+            ,String code
             ,String name
             ,String market_name
     ) {
         this.id = id;
-        this.ticker_symbol = ticker_symbol;
+        this.code = code;
         this.name = name;
         this.market_name = market_name;
     }
@@ -26,8 +26,8 @@ public class StockListResponseDto {
         return id;
     }
 
-    public String getTicker_symbol() {
-        return ticker_symbol;
+    public String getCode() {
+        return code;
     }
 
     public String getName() {
