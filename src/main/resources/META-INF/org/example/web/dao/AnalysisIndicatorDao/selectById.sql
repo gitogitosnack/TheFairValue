@@ -5,4 +5,4 @@ from
 where
   company_id = /* company_id */1
 and fiscal_year = /* fiscal_year */'2026'
-and fiscal_quarter = /* fiscal_quarter */'q4'
+and fiscal_quarter = /* fiscal_quarter */'Q4'

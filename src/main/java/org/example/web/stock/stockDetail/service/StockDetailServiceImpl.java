@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +25,9 @@ import java.util.Optional;
 public class StockDetailServiceImpl implements StockDetailService{
 
 	// 本日の日付から「年」を取得して入れる
-    private static final int CURRENT_YEAR = LocalDate.now().getYear();
-	private static final String FISCAL_QUARTER_Q4 = "q4";
+//    private static final int CURRENT_YEAR = LocalDate.now().getYear();
+    private static final int CURRENT_YEAR = 2025;
+	private static final String FISCAL_QUARTER_Q4 = "Q4";
 	private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
 	
     // initialize the dto1
@@ -50,11 +51,9 @@ public class StockDetailServiceImpl implements StockDetailService{
     @Autowired
     AnalysisIndicatorDao analysisIndicatorDao;
     
-//  -----------------------------------------------------
-///////////////////////////////////////////////////////
+//  ====================================================
 //--- 0. main process for getting company details indicators ---
-///////////////////////////////////////////////////////
-//-----------------------------------------------------
+//  ====================================================
 
     public StockAnalysisResponse getComprehensiveAnalysis(String code){
 
@@ -93,11 +92,9 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     }
 
-//  -----------------------------------------------------
-///////////////////////////////////////////////////////
+//  ====================================================
 // --- 1. Upper Side Data (StockDetailDto1) ---
-///////////////////////////////////////////////////////
-//  -----------------------------------------------------
+//  ====================================================
 
     // This function gets the company code and name.
     // Get the current_price
@@ -152,11 +149,9 @@ public class StockDetailServiceImpl implements StockDetailService{
         }
     }
 
-//  -----------------------------------------------------
-///////////////////////////////////////////////////////  
+//  ====================================================
 // --- 2. Lower Side Data (StockDetailDto2 - 5 Years History) ---
-///////////////////////////////////////////////////////
-//-----------------------------------------------------
+//  ====================================================
     // Get the analysis indicators for 5 years to use those dato to lower tables.
     void getAnalysisIndicators(Integer id) {
         // Data to be transferred Dao to Entity.

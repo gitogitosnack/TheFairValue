@@ -19,7 +19,7 @@ public class StockDetailController {
     StockDetailService stockDetailService;
 
     @GetMapping("/{code}")
-    public ModelAndView display (@PathVariable("code") String code, StockDetailForm form, ModelAndView mav) {
+    public ModelAndView display (@PathVariable String code, StockDetailForm form, ModelAndView mav) {
 
         //画面のHTMLを設定
         mav.setViewName("stock-detail/stock-detail");

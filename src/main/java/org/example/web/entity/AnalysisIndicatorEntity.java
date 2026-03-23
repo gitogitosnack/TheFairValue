@@ -25,7 +25,7 @@ public class AnalysisIndicatorEntity {
     private Integer fiscalYear;
 
     @Column(name = "fiscal_quarter")
-    private Integer fiscalQuarter;
+    private String fiscalQuarter;
 
     @Column(name = "company_id")
     private Integer companyId;
@@ -114,11 +114,11 @@ public class AnalysisIndicatorEntity {
         this.fiscalYear = fiscalYear;
     }
 
-    public Integer getFiscalQuarter() {
+    public String getFiscalQuarter() {
         return fiscalQuarter;
     }
 
-    public void setFiscalQuarter(Integer fiscalQuarter) {
+    public void setFiscalQuarter(String fiscalQuarter) {
         this.fiscalQuarter = fiscalQuarter;
     }
 

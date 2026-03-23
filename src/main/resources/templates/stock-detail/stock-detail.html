@@ -75,13 +75,14 @@
 </nav>
 
 <div class="container">
-    <div class="header">
+    <div class="header" th:object="${analysisData.dto1}">
         <div>
-            <span>4567 | 未来技術株式会社</span>
+            <!--<span th:text="|*{companyCode} | *{companyName}|">4567 | 未来技術株式会社</span>--> <!-- Bad coding -->
+			<span th:text="*{companyCode} + ' | ' + *{companyName}">4567 | 未来技術株式会社</span>
             <h1>銘柄分析ダッシュボード</h1>
         </div>
         <div class="price-area">
-            <div class="price">¥7,250</div>
+            <div class="price" th:text="'¥' + ${#numbers.formatInteger(analysisData.dto1.currentPrice, 3, 'COMMA')}">¥7,250</div>
             <div style="color:var(--success)">▲ +120 (1.68%)</div>
         </div>
     </div>
@@ -101,12 +102,12 @@
 
         <div class="card">
             <h3>主要指標</h3>
-            <table class="data-table" style="margin-top:0">
-                <tr><td class="label-cell">PER (予想)</td><td>12.4倍</td></tr>
-                <tr><td class="label-cell">PBR (実績)</td><td>0.85倍</td></tr>
-                <tr><td class="label-cell">配当利回り</td><td>3.8%</td></tr>
-                <tr><td class="label-cell">自己資本比率</td><td>62.5%</td></tr>
-            </table>
+			<table class="data-table" style="margin-top:0">
+			    <tr><td class="label-cell">PER (予想)</td><td th:text="|${analysisData.dto1.per}倍|">12.4倍</td></tr>
+			    <tr><td class="label-cell">PBR (実績)</td><td th:text="|${analysisData.dto1.pbr}倍|">0.85倍</td></tr>
+			    <tr><td class="label-cell">配当利回り</td><td th:text="|${analysisData.dto1.dividendYield}%|">3.8%</td></tr>
+			    <tr><td class="label-cell">自己資本比率</td><td th:text="|${analysisData.dto1.equityRatio}%|">62.5%</td></tr>
+			</table>
         </div>
     </div>
 
@@ -235,6 +236,7 @@
         // 他のグラフも同様に定義可能...
     });
 </script>
-<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/stock-detail.js}"></script>
+<!--<script th:src="@{/js/script.js}"></script>-->
 </body>
 </html>
