@@ -178,7 +178,10 @@ public class StockDetailServiceImpl implements StockDetailService{
             List<Double> operationCfMarginList = new ArrayList<>();
 
             for (AnalysisIndicatorEntity entity : indicators) {
-                // roe
+            	// 年度ラベルの追加 (例: "2025" を String として格納)
+                fiscalYearLabels.add(String.valueOf(entity.getFiscalYear()));
+                
+                // 1st tab
                 roeList.add(this.toDouble(entity.getRoe()));
                 grossMarginList.add(this.toDouble(entity.getGrossMargin()));
                 netMarginList.add(this.toDouble(entity.getNetMargin()));

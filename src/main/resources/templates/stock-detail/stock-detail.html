@@ -17,7 +17,7 @@
             --text: #1e293b;
             --border: #e2e8f0;
         }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0;}
         .container { max-width: 1200px; margin: 0 auto; }
 
         /* Summary Header */
@@ -77,7 +77,6 @@
 <div class="container">
     <div class="header" th:object="${analysisData.dto1}">
         <div>
-            <!--<span th:text="|*{companyCode} | *{companyName}|">4567 | 未来技術株式会社</span>--> <!-- Bad coding -->
 			<span th:text="*{companyCode} + ' | ' + *{companyName}">4567 | 未来技術株式会社</span>
             <h1>銘柄分析ダッシュボード</h1>
         </div>
@@ -111,6 +110,8 @@
         </div>
     </div>
 
+	<!-- Tab section -->
+
     <div class="tabs-container">
         <div class="tabs">
             <button class="tab-btn active" data-tab="profit">収益・成長性 (①-⑥)</button>
@@ -118,7 +119,7 @@
             <button class="tab-btn" data-tab="safety">安全性 (⑩-⑭)</button>
             <button class="tab-btn" data-tab="cashflow">キャッシュフロー (⑮-⑰)</button>
         </div>
-
+<!--
         <div id="profit" class="tab-content active">
             <div class="analysis-layout">
                 <div class="chart-wrapper"><canvas id="profitChart"></canvas></div>
@@ -135,7 +136,47 @@
                 </div>
             </div>
         </div>
-
+-->
+		<!--以下、DTO２を画面に反映中-->
+		<div id="profit" class="tab-content active" th:object="${analysisData.dto2}">
+		    <div class="analysis-layout">
+		        <div class="chart-wrapper"><canvas id="profitChart"></canvas></div>
+		        <div>
+		            <table class="data-table">
+		                <thead>
+		                    <tr>
+		                        <th class="label-cell" th:text="*{tableTitle}">指標 (収益・成長)</th>
+		                        <th th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
+								<!--<th>2024</th>
+								<th>2025</th>
+								<th>2024</th>
+								<th>2025</th>
+								<th>2024</th>-->
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                    <tr class="highlight-row">
+		                        <td class="label-cell" th:text="*{roeLabel}">⑤ ROE (%)</td>
+		                        <td th:each="val : *{roeList}" th:text="${val}">0000</td>
+		                    </tr>
+		                    <tr>
+		                        <td class="label-cell" th:text="*{grossMarginLabel}">① Gross Margin (%)</td>
+		                        <td th:each="val : *{grossMarginList}" th:text="${val}">33.5</td>
+		                    </tr>
+		                    <tr>
+		                        <td class="label-cell" th:text="*{netMarginLabel}">② Net Margin (%)</td>
+		                        <td th:each="val : *{netMarginList}" th:text="${val}">8.0</td>
+		                    </tr>
+		                    <tr>
+		                        <td class="label-cell" th:text="*{epsLabel}">⑥ EPS (円)</td>
+		                        <td th:each="val : *{epsList}" th:text="${#numbers.formatInteger(val, 0, 'COMMA')}">485</td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		        </div>
+		    </div>
+		</div>
+		<!--以上、DTO２を画面に反映中-->
         <div id="efficiency" class="tab-content">
             <div class="analysis-layout">
                 <div class="chart-wrapper"><canvas id="efficiencyChart"></canvas></div>
