@@ -221,7 +221,7 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     // function to set the label name for each table and their rows.
     private void setupLabels(StockDetailDto2 dto2) {
-        dto2.setTableTitle("財務分析指標（5期推移）");
+    	// dto2.setTableTitle("財務分析指標（5期推移）");
         dto2.setRoeLabel("ROE (%)");
         dto2.setGrossMarginLabel("売上高総利益率 (%)");
         dto2.setNetMarginLabel("売上高純利益率 (%)");

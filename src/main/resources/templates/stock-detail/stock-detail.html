@@ -82,20 +82,20 @@
         </div>
         <div class="price-area">
             <div class="price" th:text="'¥' + ${#numbers.formatInteger(analysisData.dto1.currentPrice, 3, 'COMMA')}">¥7,250</div>
-            <div style="color:var(--success)">▲ +120 (1.68%)</div>
+            <div style="color:var(--success)"><mark>▲ +120 (1.68%)</mark></div>
         </div>
     </div>
 
     <div class="top-grid">
         <div class="card valuation-box">
-            <h3>理論株価 (DCF法)</h3>
-            <div class="fair-price">¥9,500</div>
-            <div class="gap-badge">割安度: +31.0%</div>
+            <h3><mark>理論株価 (DCF法)</mark></h3>
+            <div class="fair-price"><mark>¥9,500</mark></div>
+            <div class="gap-badge"><mark>割安度: +31.0%</mark></div>
             <p style="font-size: 12px; color: #94a3b8; margin-top: 15px;">将来キャッシュフロー予測に基づく適正値</p>
         </div>
 
         <div class="card">
-            <h3>総合診断スコア (業界比較)</h3>
+            <h3><mark>総合診断スコア (業界比較)</mark></h3>
             <canvas id="radarChart" height="200"></canvas>
         </div>
 
@@ -145,13 +145,8 @@
 		            <table class="data-table">
 		                <thead>
 		                    <tr>
-		                        <th class="label-cell" th:text="*{tableTitle}">指標 (収益・成長)</th>
+		                        <th class="label-cell">指標(収益・成長)</th>
 		                        <th th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
-								<!--<th>2024</th>
-								<th>2025</th>
-								<th>2024</th>
-								<th>2025</th>
-								<th>2024</th>-->
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -177,55 +172,95 @@
 		    </div>
 		</div>
 		<!--以上、DTO２を画面に反映中-->
-        <div id="efficiency" class="tab-content">
+		
+        <div id="efficiency" class="tab-content" th:object="${analysisData.dto2}">
             <div class="analysis-layout">
                 <div class="chart-wrapper"><canvas id="efficiencyChart"></canvas></div>
                 <div>
                     <table class="data-table">
-                        <thead><tr><th class="label-cell">指標 (効率性)</th><th>2023</th><th>2024</th><th>2025(予)</th></tr></thead>
+                        <thead>
+							<tr>
+								<th class="label-cell">指標(効率性)</th>
+								<th th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
+							</tr>
+						</thead>
                         <tbody>
-                        <tr class="highlight-row"><td class="label-cell">⑦ 総資産回転率</td><td>1.2</td><td>1.2</td><td>1.3</td></tr>
-                        <tr><td class="label-cell">⑧ 在庫回転率</td><td>5.2</td><td>5.4</td><td>5.8</td></tr>
-                        <tr><td class="label-cell">⑨ 売上債権回転率</td><td>8.0</td><td>8.2</td><td>8.5</td></tr>
+                        <tr class="highlight-row">
+							<td class="label-cell" th:text="*{assetTurnoverLabel}">⑦ 総資産回転率</td>
+							<td th:each="val : *{assetTurnoverList}" th:text="${val}">1.2</td>
+						</tr>
+                        <tr>
+							<td class="label-cell" th:text="*{inventoryTurnoverLabel}">⑧ 在庫回転率</td>
+							<td th:each="val : *{inventoryTurnoverList}" th:text="${val}">1.2</td>
+						</tr>
+                        <tr>
+							<td class="label-cell" th:text="*{receivablesTurnoverLabel}">⑨ 売上債権回転率</td>
+							<td th:each="val : *{receivablesTurnoverList}" th:text="${val}">1.2</td>
+						</tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div id="safety" class="tab-content">
+        <div id="safety" class="tab-content" th:object="${analysisData.dto2}">
             <div class="analysis-layout">
                 <div class="chart-wrapper"><canvas id="safetyChart"></canvas></div>
                 <div>
                     <table class="data-table">
-                        <thead><tr><th class="label-cell">指標 (安全性)</th><th>2024</th><th>2025(予)</th></tr></thead>
+						<thead>
+							<tr>
+								<th class="label-cell">指標(安全性)</th>
+								<th th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
+							</tr>
+						</thead>
                         <tbody>
-                        <tr><td class="label-cell">⑫ 自己資本比率 (%)</td><td>60.2</td><td>62.5</td></tr>
-                        <tr><td class="label-cell">⑩ D/Eレシオ</td><td>0.45</td><td>0.40</td></tr>
-                        <tr><td class="label-cell">⑭ ICR (倍)</td><td>15.2</td><td>18.5</td></tr>
+                        <tr>
+							<td class="label-cell" th:text="*{equityRatioLabel}">⑫ 自己資本比率 (%)</td>
+							<td th:each="val : *{equityRatioList}" th:text="${val}">1.2</td>
+						</tr>
+                        <tr>
+							<td class="label-cell" th:text="*{debtEquityRatioLabel}">⑩ D/Eレシオ</td>
+							<td th:each="val : *{debtEquityRatioList}" th:text="${val}">1.2</td>
+						</tr>
+                        <tr>
+							<td class="label-cell" th:text="*{interestCoverageRatioLabel}">⑭ ICR (倍)</td>
+							<td th:each="val : *{interestCoverageRatioList}" th:text="${val}">1.2</td>
+						</tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div id="cashflow" class="tab-content">
+        <div id="cashflow" class="tab-content" th:object="${analysisData.dto2}">
             <div class="analysis-layout">
                 <div class="chart-wrapper"><canvas id="cfChart"></canvas></div>
                 <div>
                     <table class="data-table">
-                        <thead><tr><th class="label-cell">指標 (CF)</th><th>2024</th><th>2025(予)</th></tr></thead>
-                        <tbody>
-                        <tr class="highlight-row"><td class="label-cell">⑯ フリーCF</td><td>2,100</td><td>2,400</td></tr>
-                        <tr><td class="label-cell">⑮ 営業CFマージン</td><td>12.5</td><td>13.8</td></tr>
-                        </tbody>
+						<thead>
+							<tr>
+								<th class="label-cell">指標(CF)</th>
+								<th th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
+							</tr>
+						</thead>
+	                    <tbody>
+	                        <tr class="highlight-row">
+								<td class="label-cell" th:text="*{fcfLabel}">⑯ フリーCF</td>
+								<td th:each="val : *{fcfList}" th:text="${val}">1.2</td>
+							</tr>
+	                        <tr>
+								<td class="label-cell" th:text="*{operationCfMarginLabel}">⑮ 営業CFマージン</td>
+								<td th:each="val : *{operationCfMarginList}" th:text="${val}">1.2</td>
+							</tr>
+	                    </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<!--
 <script>
     $(function() {
         // 1. レーダーチャート (サマリー用)
@@ -277,6 +312,7 @@
         // 他のグラフも同様に定義可能...
     });
 </script>
+-->
 <script th:src="@{/js/stock-detail.js}"></script>
 <!--<script th:src="@{/js/script.js}"></script>-->
 </body>
