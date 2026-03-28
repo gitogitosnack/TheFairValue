@@ -1,0 +1,83 @@
+/* 一覧画面専用スタイル */
+
+/* 検索エリア */
+.search-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 一覧エリア */
+.list-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* テーブル */
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stock-table th, .stock-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.stock-table th {
+    background-color: #f8f9fa;
+    color: #555;
+}
+
+/* 銘柄コードのリンクスタイル */
+.stock-table td a {
+    color: #0056b3;         /* リンクの色（既存のボタン色と統一） */
+    text-decoration: none;  /* 初期状態では下線を消す */
+    font-weight: bold;      /* 少し太くして目立たせる */
+    display: inline-block;  /* 当たり判定を安定させる */
+    transition: all 0.2s;   /* 変化を滑らかにする */
+}
+
+.stock-table td a:hover {
+    color: #003d82;         /* ホバー時に少し濃い青にする */
+    text-decoration: underline; /* ホバー時に下線を表示 */
+    transform: translateY(-1px); /* わずかに上に浮かせて「押せる感」を出す */
+}
+
+/* 編集・削除リンク用 */
+.operation-link {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.operation-link:hover {
+    text-decoration: underline;
+}

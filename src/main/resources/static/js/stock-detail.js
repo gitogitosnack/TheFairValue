@@ -119,4 +119,32 @@ $(function() {
             }
         }
     });
+	
+	
+	// --- 既存のチャート初期化コードなどはそのまま ---
+	const $compareModal = $('#compareModal');
+	
+	// モーダルの初期状態を非表示に設定（CSSクラスで管理）
+	$compareModal.removeClass('show');
+
+    // 比較モーダルを開く
+    $('#openCompareModal').on('click', function() {
+        $compareModal.addClass('show').fadeIn(200);
+    });
+
+    // 閉じるボタン（×ボタン、キャンセルボタン）
+    $('#closeCompareModal, #cancelCompareModal').on('click', function() {
+        $compareModal.fadeOut(200, function() {
+            $compareModal.removeClass('show');
+        });
+    });
+
+    // モーダルの外側をクリックしたら閉じる
+    $(window).on('click', function(event) {
+        if ($(event.target).is($compareModal)) {
+            $compareModal.fadeOut(200, function() {
+                $compareModal.removeClass('show');
+            });
+        }
+    });
 });
