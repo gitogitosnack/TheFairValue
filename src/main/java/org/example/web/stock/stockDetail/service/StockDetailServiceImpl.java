@@ -138,16 +138,27 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     // Get the per, pbr, dividend_yield, equity_ratio
 
-// Need to provide info of which year you want to get from DB.
     void getMarketIndicators(Integer id) {
-        // get this year info and quoter.ex)2025,Q4
+        // Get the latest fiscal year that has Q4 data in DB
+    	int row_count = 10;
+        List<AnalysisIndicatorEntity> indicators = analysisIndicatorDao.selectByCompanyId(id, row_count);
+        
+        // Find the latest fiscal year with Q4 data
+        Integer latestYear = indicators.stream()
+            .filter(indicator -> FISCAL_QUARTER_Q4.equals(indicator.getFiscalQuarter()))
+            .map(AnalysisIndicatorEntity::getFiscalYear)
+            .max(Integer::compareTo)
+            .orElse(CURRENT_YEAR);
 
-        Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(id, CURRENT_YEAR, FISCAL_QUARTER_Q4);
-            if (indicator.isPresent()) {
-                stockDetailDto1.setPer(indicator.get().getPer());
-                stockDetailDto1.setPbr(indicator.get().getPbr());
-                stockDetailDto1.setDividendYield(indicator.get().getDividendYield());
-                stockDetailDto1.setEquityRatio(indicator.get().getEquityRatio());
+        // Get market indicators for the latest Q4 year
+        Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(id, latestYear, FISCAL_QUARTER_Q4);
+        if (indicator.isPresent()) {
+            stockDetailDto1.setPer(indicator.get().getPer());
+            stockDetailDto1.setPbr(indicator.get().getPbr());
+            stockDetailDto1.setDividendYield(indicator.get().getDividendYield());
+            stockDetailDto1.setEquityRatio(indicator.get().getEquityRatio());
+            // Set the fiscal year for reference
+            stockDetailDto1.setMainIndicatorYearLabel(latestYear);
         }
     }
 

@@ -17,6 +17,7 @@ public class StockDetailDto1 {
     private BigDecimal pbr;
     private BigDecimal dividendYield;
     private BigDecimal equityRatio;
+    private Integer mainIndicatorYearLabel;
 
 
 
@@ -100,5 +101,13 @@ public class StockDetailDto1 {
 
     public void setEquityRatio(BigDecimal equityRatio) {
         this.equityRatio = equityRatio;
+    }
+
+    public Integer getMainIndicatorYearLabel() {
+        return mainIndicatorYearLabel;
+    }
+
+    public void setMainIndicatorYearLabel(Integer mainIndicatorYearLabel) {
+        this.mainIndicatorYearLabel = mainIndicatorYearLabel;
     }
 }
