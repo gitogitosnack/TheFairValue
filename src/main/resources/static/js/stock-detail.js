@@ -26,10 +26,10 @@ $(function() {
     new Chart($('#profitChart'), {
         type: 'line',
         data: {
-            labels: ['2021', '2022', '2023', '2024', '2025'],
+            labels: chartData.fiscalYearLabels,
             datasets: [
-                { label: 'ROE (%)', data: [8.5, 9.2, 10.1, 11.5, 12.2], borderColor: '#2563eb', yAxisID: 'y' },
-                { label: 'EPS (円)', data: [420, 450, 485, 540, 585], backgroundColor: 'rgba(16, 185, 129, 0.2)', type: 'bar', yAxisID: 'y1' }
+                { label: 'ROE (%)', data: chartData.roeList, borderColor: '#2563eb', yAxisID: 'y' },
+                { label: 'EPS (円)', data: chartData.epsList, backgroundColor: 'rgba(16, 185, 129, 0.2)', type: 'bar', yAxisID: 'y1' }
             ]
         },
         options: { maintainAspectRatio: false, scales: { y1: { position: 'right', grid: { drawOnChartArea: false } } } }
@@ -39,8 +39,8 @@ $(function() {
     new Chart($('#efficiencyChart'), {
         type: 'bar',
         data: {
-            labels: ['2021', '2022', '2023', '2024', '2025'],
-            datasets: [{ label: '総資産回転率', data: [1.1, 1.15, 1.2, 1.2, 1.3], backgroundColor: '#94a3b8' }]
+            labels: chartData.fiscalYearLabels,
+            datasets: [{ label: '総資産回転率', data: chartData.assetTurnoverList, backgroundColor: '#94a3b8' }]
         },
         options: { maintainAspectRatio: false }
     });
@@ -50,11 +50,11 @@ $(function() {
     new Chart($('#safetyChart'), {
         type: 'line',
         data: {
-            labels: ['2021', '2022', '2023', '2024', '2025'],
+            labels: chartData.fiscalYearLabels,
             datasets: [
                 {
                     label: '自己資本比率 (%)',
-                    data: [55.2, 58.0, 60.5, 62.5, 63.8],
+                    data: chartData.equityRatioList,
                     borderColor: '#10b981', // success color
                     backgroundColor: '#10b981',
                     yAxisID: 'y',
@@ -62,7 +62,7 @@ $(function() {
                 },
                 {
                     label: 'D/Eレシオ',
-                    data: [0.45, 0.42, 0.38, 0.35, 0.33],
+                    data: chartData.debtEquityRatioList,
                     type: 'bar',
                     backgroundColor: 'rgba(148, 163, 184, 0.5)', // slate-400
                     yAxisID: 'y1'
@@ -91,16 +91,16 @@ $(function() {
     new Chart($('#cfChart'), {
         type: 'bar',
         data: {
-            labels: ['2021', '2022', '2023', '2024', '2025'],
+            labels: chartData.fiscalYearLabels,
             datasets: [
                 {
-                    label: '営業CF',
-                    data: [1200, 1500, 1450, 1800, 2100],
+                    label: 'フリーCF',
+                    data: chartData.fcfList,
                     backgroundColor: '#2563eb', // primary color
                 },
                 {
-                    label: 'フリーCF',
-                    data: [400, 700, 650, 900, 1200],
+                    label: '営業CFマージン',
+                    data: chartData.operationCfMarginList,
                     backgroundColor: '#60a5fa', // lighter blue
                 }
             ]

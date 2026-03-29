@@ -203,6 +203,24 @@
 	<div th:insert="modals/stock-detail/compare-modal :: compareModal"></div>
 </div>
 
+<script th:inline="javascript">
+    var chartData = {
+        fiscalYearLabels: /*[[${analysisData.dto2.fiscalYearLabels}]]*/[],
+        roeList: /*[[${analysisData.dto2.roeList}]]*/[],
+        grossMarginList: /*[[${analysisData.dto2.grossMarginList}]]*/[],
+        netMarginList: /*[[${analysisData.dto2.netMarginList}]]*/[],
+        epsList: /*[[${analysisData.dto2.epsList}]]*/[],
+        assetTurnoverList: /*[[${analysisData.dto2.assetTurnoverList}]]*/[],
+        inventoryTurnoverList: /*[[${analysisData.dto2.inventoryTurnoverList}]]*/[],
+        receivablesTurnoverList: /*[[${analysisData.dto2.receivablesTurnoverList}]]*/[],
+        equityRatioList: /*[[${analysisData.dto2.equityRatioList}]]*/[],
+        debtEquityRatioList: /*[[${analysisData.dto2.debtEquityRatioList}]]*/[],
+        interestCoverageRatioList: /*[[${analysisData.dto2.interestCoverageRatioList}]]*/[],
+        fcfList: /*[[${analysisData.dto2.fcfList}]]*/[],
+        operationCfMarginList: /*[[${analysisData.dto2.operationCfMarginList}]]*/[]
+    };
+</script>
+
 <script th:src="@{/js/stock-detail.js}"></script>
 <!--<script th:src="@{/js/script.js}"></script>-->
 </body>
