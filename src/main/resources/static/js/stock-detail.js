@@ -98,13 +98,14 @@ $(function() {
     // 4. 安全性グラフ (Safety Chart)
     // 自己資本比率を折れ線、D/Eレシオを棒グラフで表示する複合チャート
     new Chart($('#safetyChart'), {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: chartData.fiscalYearLabels,
             datasets: [
                 {
                     label: '自己資本比率 (%)',
                     data: chartData.equityRatioList,
+					type: 'line',
                     borderColor: '#10b981',
                     backgroundColor: '#10b981',
                     yAxisID: 'y',
@@ -113,16 +114,14 @@ $(function() {
                 {
                     label: 'D/Eレシオ',
                     data: chartData.debtEquityRatioList,
-                    type: 'bar',
                     backgroundColor: 'rgba(148, 163, 184, 1.0)',
-                    // yAxisID: 'y1',
+                    yAxisID: 'y1',
                     barThickness: 20, 
                     maxBarThickness: 50, 
                 },
 				{
                     label: 'インタレスト・カバレッジ・レシオ',
                     data: chartData.interestCoverageRatioList,
-                    type: 'bar',
                     backgroundColor: 'rgba(148, 163, 184, 0.5)',
                     yAxisID: 'y1',
                     barThickness: 20, 
@@ -135,19 +134,21 @@ $(function() {
             scales: {
                 y: {
 					position: 'right',
-                    beginAtZero: false,
+                    beginAtZero: true,
                     title: { display: true, text: '自己資本比率 (%)' },
                     // 右側のグリッド線を消してスッキリさせる
                     grid: { drawOnChartArea: true },
                     max: Math.max(...chartData.equityRatioList.filter(v => v !== null)) * 1.5,
                 },
                 y1: {
+					type: 'logarithmic', // ここを対数に設定
                     position: 'left',
                     beginAtZero: true,
                     title: { display: true, text: '倍率' },
 					// 左側のグリッド線を消してスッキリさせる
                     grid: { drawOnChartArea: false },
-                    max: Math.max(...chartData.interestCoverageRatioList.filter(v => v !== null)) * 1.1,
+					// 対数軸の場合、0は表示できないので最小値に注意
+					min: 0.1,
                 }
             }
         }
