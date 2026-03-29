@@ -12,7 +12,7 @@
         const code = $row.find('td:eq(0)').text().trim(); // 1番目のtd（コード）
         const name = $row.find('td:eq(1)').text(); // 2番目のtd（銘柄名）
         const market_name = $row.find('td:eq(2)').text(); // 3番目のtd（市場）
-debugger;
+
         // モーダルのインプットに値をセット
         $('#modalId').val(id);
         $('#modalCode').val(code);

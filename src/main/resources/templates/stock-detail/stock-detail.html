@@ -91,19 +91,19 @@
 		                <tbody>
 		                    <tr class="highlight-row">
 		                        <td class="label-cell" th:text="*{roeLabel}">⑤ ROE (%)</td>
-		                        <td th:each="val : *{roeList}" th:text="${val}">0000</td>
+		                        <td th:each="val : *{roeList}" th:text="${val != null ? val : 'NA'}">0000</td>
 		                    </tr>
 		                    <tr>
 		                        <td class="label-cell" th:text="*{grossMarginLabel}">① Gross Margin (%)</td>
-		                        <td th:each="val : *{grossMarginList}" th:text="${val}">33.5</td>
+		                        <td th:each="val : *{grossMarginList}" th:text="${val != null ? val : 'NA'}">33.5</td>
 		                    </tr>
 		                    <tr>
 		                        <td class="label-cell" th:text="*{netMarginLabel}">② Net Margin (%)</td>
-		                        <td th:each="val : *{netMarginList}" th:text="${val}">8.0</td>
+		                        <td th:each="val : *{netMarginList}" th:text="${val != null ? val : 'NA'}">8.0</td>
 		                    </tr>
 		                    <tr>
 		                        <td class="label-cell" th:text="*{epsLabel}">⑥ EPS (円)</td>
-		                        <td th:each="val : *{epsList}" th:text="${#numbers.formatInteger(val, 0, 'COMMA')}">485</td>
+		                        <td th:each="val : *{epsList}" th:text="${val != null ? #numbers.formatInteger(val, 0, 'COMMA') : 'NA'}">485</td>
 		                    </tr>
 		                </tbody>
 		            </table>
@@ -125,15 +125,15 @@
                         <tbody>
                         <tr class="highlight-row">
 							<td class="label-cell" th:text="*{assetTurnoverLabel}">⑦ 総資産回転率</td>
-							<td th:each="val : *{assetTurnoverList}" th:text="${val}">1.2</td>
+							<td th:each="val : *{assetTurnoverList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 						</tr>
                         <tr>
 							<td class="label-cell" th:text="*{inventoryTurnoverLabel}">⑧ 在庫回転率</td>
-							<td th:each="val : *{inventoryTurnoverList}" th:text="${val}">1.2</td>
+							<td th:each="val : *{inventoryTurnoverList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 						</tr>
                         <tr>
 							<td class="label-cell" th:text="*{receivablesTurnoverLabel}">⑨ 売上債権回転率</td>
-							<td th:each="val : *{receivablesTurnoverList}" th:text="${val}">1.2</td>
+							<td th:each="val : *{receivablesTurnoverList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 						</tr>
                         </tbody>
                     </table>
@@ -155,15 +155,15 @@
                         <tbody>
                         <tr>
 							<td class="label-cell" th:text="*{equityRatioLabel}">⑫ 自己資本比率 (%)</td>
-							<td th:each="val : *{equityRatioList}" th:text="${val}">1.2</td>
+							<td th:each="val : *{equityRatioList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 						</tr>
                         <tr>
 							<td class="label-cell" th:text="*{debtEquityRatioLabel}">⑩ D/Eレシオ</td>
-							<td th:each="val : *{debtEquityRatioList}" th:text="${val}">1.2</td>
+							<td th:each="val : *{debtEquityRatioList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 						</tr>
                         <tr>
 							<td class="label-cell" th:text="*{interestCoverageRatioLabel}">⑭ ICR (倍)</td>
-							<td th:each="val : *{interestCoverageRatioList}" th:text="${val}">1.2</td>
+							<td th:each="val : *{interestCoverageRatioList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 						</tr>
                         </tbody>
                     </table>
@@ -185,11 +185,11 @@
 	                    <tbody>
 	                        <tr class="highlight-row">
 								<td class="label-cell" th:text="*{fcfLabel}">⑯ フリーCF</td>
-								<td th:each="val : *{fcfList}" th:text="${val}">1.2</td>
+								<td th:each="val : *{fcfList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 							</tr>
 	                        <tr>
 								<td class="label-cell" th:text="*{operationCfMarginLabel}">⑮ 営業CFマージン</td>
-								<td th:each="val : *{operationCfMarginList}" th:text="${val}">1.2</td>
+								<td th:each="val : *{operationCfMarginList}" th:text="${val != null ? val : 'NA'}">1.2</td>
 							</tr>
 	                    </tbody>
                     </table>
