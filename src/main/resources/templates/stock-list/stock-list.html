@@ -15,10 +15,11 @@
         <div class="nav-container">
             <div class="nav-logo"><a th:href="@{/top}">StockAnalyzer</a></div>
             <ul class="nav-menu">
-                <li><a href="#" class="active">銘柄一覧</a></li>
-                <li><a href="#">マーケット情報</a></li>
-                <li><a href="#">ウォッチリスト</a></li>
-
+                <li><a th:href="@{/top}" class="active">銘柄一覧</a></li>
+                <li><a th:href="@{/countries}">国マスタ</a></li>
+                <li><a th:href="@{/currencies}">通貨マスタ</a></li>
+                <li><a th:href="@{/industries}">業種マスタ</a></li>
+                <li><a th:href="@{/valuation-models}">評価モデル</a></li>
                 <li><a href="#">設定</a></li>
             </ul>
             <div class="nav-user">

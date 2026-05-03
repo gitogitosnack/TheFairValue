@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通貨マスタ一覧</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@3.0.2/destyle.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/stock-list.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><a th:href="@{/top}">StockAnalyzer</a></div>
+            <ul class="nav-menu">
+                <li><a th:href="@{/top}">銘柄一覧</a></li>
+                <li><a th:href="@{/countries}">国マスタ</a></li>
+                <li><a th:href="@{/currencies}" class="active">通貨マスタ</a></li>
+                <li><a th:href="@{/industries}">業種マスタ</a></li>
+                <li><a th:href="@{/valuation-models}">評価モデル</a></li>
+                <li><a href="#">設定</a></li>
+            </ul>
+            <div class="nav-user">
+                <span class="user-name">テスト太郎 様</span>
+                <button class="btn-logout">ログアウト</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <header class="page-header">
+            <h1>通貨マスタ一覧</h1>
+        </header>
+
+        <section class="search-section">
+            <div class="search-box">
+                <input type="text" placeholder="通貨コード・シンボルを入力（部分一致）" id="searchInput">
+                <button class="btn btn-primary">検索</button>
+                <button class="btn btn-secondary">クリア</button>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-export">Excel出力</button>
+            </div>
+        </section>
+
+        <section class="list-section">
+            <div class="list-header">
+                <h2>登録通貨一覧</h2>
+                <button id="addCurrencyBtn" class="btn btn-success">+ 新規通貨登録</button>
+            </div>
+
+            <table class="stock-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>コード</th>
+                    <th>シンボル</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.id}">1</td>
+                    <td th:text="${item.code}">JPY</td>
+                    <td th:text="${item.symbol}">¥</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
