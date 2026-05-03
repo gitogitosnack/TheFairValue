@@ -1,6 +1,6 @@
-package org.example.web.master.industry.service;
+package org.example.web.stock.industry.service;
 
-import org.example.web.master.industry.domain.IndustryResponseDto;
+import org.example.web.stock.industry.domain.IndustryResponseDto;
 
 import java.util.List;
 

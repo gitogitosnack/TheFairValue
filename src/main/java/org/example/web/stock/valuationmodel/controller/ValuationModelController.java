@@ -1,7 +1,7 @@
-package org.example.web.master.valuationmodel.controller;
+package org.example.web.stock.valuationmodel.controller;
 
-import org.example.web.master.valuationmodel.domain.ValuationModelResponseDto;
-import org.example.web.master.valuationmodel.service.ValuationModelService;
+import org.example.web.stock.valuationmodel.domain.ValuationModelResponseDto;
+import org.example.web.stock.valuationmodel.service.ValuationModelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

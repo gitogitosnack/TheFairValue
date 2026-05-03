@@ -1,4 +1,4 @@
-package org.example.web.master.industry.domain;
+package org.example.web.stock.industry.domain;
 
 import java.math.BigDecimal;
 

@@ -1,6 +1,6 @@
-package org.example.web.master.country.service;
+package org.example.web.stock.country.service;
 
-import org.example.web.master.country.domain.CountryResponseDto;
+import org.example.web.stock.country.domain.CountryResponseDto;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package org.example.web.master.country.controller;
+package org.example.web.stock.country.controller;
 
-import org.example.web.master.country.domain.CountryResponseDto;
-import org.example.web.master.country.service.CountryService;
+import org.example.web.stock.country.domain.CountryResponseDto;
+import org.example.web.stock.country.service.CountryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package org.example.web.master.valuationmodel.domain;
+package org.example.web.stock.valuationmodel.domain;
 
 public class ValuationModelResponseDto {
     private final Integer id;

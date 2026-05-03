@@ -1,6 +1,6 @@
-package org.example.web.master.valuationmodel.service;
+package org.example.web.stock.valuationmodel.service;
 
-import org.example.web.master.valuationmodel.domain.ValuationModelResponseDto;
+import org.example.web.stock.valuationmodel.domain.ValuationModelResponseDto;
 
 import java.util.List;
 

@@ -73,6 +73,9 @@
                             <version>2.53.1</version>
                         </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Adoma.resources.dir=${project.basedir}/src/main/resources</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

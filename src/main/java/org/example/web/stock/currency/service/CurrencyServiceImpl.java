@@ -1,7 +1,7 @@
-package org.example.web.master.currency.service;
+package org.example.web.stock.currency.service;
 
 import org.example.web.dao.CurrencyDao;
-import org.example.web.master.currency.domain.CurrencyResponseDto;
+import org.example.web.stock.currency.domain.CurrencyResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

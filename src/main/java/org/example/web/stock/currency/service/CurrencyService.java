@@ -1,6 +1,6 @@
-package org.example.web.master.currency.service;
+package org.example.web.stock.currency.service;
 
-import org.example.web.master.currency.domain.CurrencyResponseDto;
+import org.example.web.stock.currency.domain.CurrencyResponseDto;
 
 import java.util.List;
 

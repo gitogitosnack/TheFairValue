@@ -1,4 +1,4 @@
-package org.example.web.master.currency.domain;
+package org.example.web.stock.currency.domain;
 
 public class CurrencyResponseDto {
     private final Integer id;

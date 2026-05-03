@@ -1,7 +1,7 @@
-package org.example.web.master.industry.controller;
+package org.example.web.stock.industry.controller;
 
-import org.example.web.master.industry.domain.IndustryResponseDto;
-import org.example.web.master.industry.service.IndustryService;
+import org.example.web.stock.industry.domain.IndustryResponseDto;
+import org.example.web.stock.industry.service.IndustryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

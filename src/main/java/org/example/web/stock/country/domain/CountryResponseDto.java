@@ -1,4 +1,4 @@
-package org.example.web.master.country.domain;
+package org.example.web.stock.country.domain;
 
 public class CountryResponseDto {
     private final Integer id;
