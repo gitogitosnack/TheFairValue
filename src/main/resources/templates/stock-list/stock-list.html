@@ -65,7 +65,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="stock : ${stockList}" th:data-code="${stock.id}">
+                    <tr th:each="stock : ${stockList}" th:data-id="${stock.id}">
                         <td>
                             <a th:href="@{/stock-detail/{code}(code=${stock.code})}" th:text="${stock.code}">
                                 7203
@@ -74,8 +74,8 @@
                         <td th:text="${stock.name}">トヨタ自動車</td>
                         <td th:text="${stock.market_name}">東証プライム</td>
                         <td>2,500.5</td>
-                        <td><a href="#" class="operation-link edit-link" th:data-code="${stock.code}">編集</a></td>
-                        <td><a href="#" class="operation-link delete-link" th:data-code="${stock.code}">削除</a></td>
+                        <td><a href="#" class="operation-link edit-link" th:data-id="${stock.id}">編集</a></td>
+                        <td><a href="#" class="operation-link delete-link" th:data-id="${stock.id}">削除</a></td>
                     </tr>
                 </tbody>
             </table>

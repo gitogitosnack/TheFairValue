@@ -43,7 +43,7 @@
         // idに値が入っているかどうかでコントローラメソッド先をカエル
         // 空なら、新規登録
         // 値があれば、更新処理
-        const targetUrl = (id === "" || id === null) ? 'rest_stock_list/insert' : 'rest_stock_list/update';
+        const targetUrl = (id === "" || id === null) ? 'rest_stock_list/update' : 'rest_stock_list/update';
 
         const formData = {
             id: id

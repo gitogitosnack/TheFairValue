@@ -1,0 +1,685 @@
+Folder PATH listing for volume Windows
+Volume serial number is 381F-6A32
+C:.
+|   .classpath
+|   .factorypath
+|   .gitignore
+|   .project
+|   hs_err_pid9588.log
+|   javap_companydaoimpl.txt
+|   javap_companydaoimpl2.txt
+|   pom.xml
+|   TheFairValue.iml
+|   tree_full.txt
+|   
++---.claude
+|       settings.local.json
+|       
++---.github
+|   \---java-upgrade
+|       |   .gitignore
+|       |   
+|       +---20260516025604
+|       |   \---logs
+|       |           0.log
+|       |           
+|       \---hooks
+|           |   3fd3d88e-a049-4b90-8e20-2abf4f8b8439.json
+|           |   
+|           \---scripts
+|                   recordToolUse.ps1
+|                   recordToolUse.sh
+|                   
++---.idea
+|   |   .gitignore
+|   |   compiler.xml
+|   |   encodings.xml
+|   |   jarRepositories.xml
+|   |   misc.xml
+|   |   modules.xml
+|   |   vcs.xml
+|   |   workspace.xml
+|   |   
+|   \---inspectionProfiles
+|           Project_Default.xml
+|           
++---.metadata
+|   |   .lock
+|   |   .lock_info
+|   |   .log
+|   |   version.ini
+|   |   
+|   +---.mylyn
+|   |   |   .tasks.xml.zip
+|   |   |   repositories.xml.zip
+|   |   |   tasks.xml.zip
+|   |   |   
+|   |   \---contexts
+|   \---.plugins
+|       +---org.eclipse.buildship.core
+|       |   \---gradle
+|       |           versions.json
+|       |           
+|       +---org.eclipse.core.resources
+|       |   +---.history
+|       |   +---.projects
+|       |   |   \---.org.eclipse.egit.core.cmp
+|       |   |           .location
+|       |   |           
+|       |   +---.root
+|       |   |   |   3.tree
+|       |   |   |   
+|       |   |   \---.indexes
+|       |   |           history.version
+|       |   |           properties.index
+|       |   |           properties.version
+|       |   |           
+|       |   \---.safetable
+|       |           org.eclipse.core.resources
+|       |           
+|       +---org.eclipse.core.runtime
+|       |   \---.settings
+|       |           Docker.prefs
+|       |           org.eclipse.ant.ui.prefs
+|       |           org.eclipse.core.resources.prefs
+|       |           org.eclipse.debug.ui.prefs
+|       |           org.eclipse.egit.core.prefs
+|       |           org.eclipse.jdt.ui.prefs
+|       |           org.eclipse.jsch.core.prefs
+|       |           org.eclipse.m2e.apt.prefs
+|       |           org.eclipse.m2e.discovery.prefs
+|       |           org.eclipse.mylyn.context.core.prefs
+|       |           org.eclipse.mylyn.monitor.ui.prefs
+|       |           org.eclipse.mylyn.tasks.ui.prefs
+|       |           org.eclipse.ui.editors.prefs
+|       |           org.eclipse.ui.ide.prefs
+|       |           org.eclipse.ui.workbench.prefs
+|       |           org.eclipse.wst.sse.ui.prefs
+|       |           org.springframework.ide.eclipse.boot.dash.prefs
+|       |           org.springframework.ide.eclipse.imports.prefs
+|       |           org.springsource.ide.eclipse.commons.ui.prefs
+|       |           
+|       +---org.eclipse.debug.core
+|       +---org.eclipse.debug.ui
+|       +---org.eclipse.e4.workbench
+|       |       workbench.xmi
+|       |       
+|       +---org.eclipse.egit.core
+|       |   \---.org.eclipse.egit.core.cmp
+|       |       |   .project
+|       |       |   
+|       |       \---.settings
+|       |               org.eclipse.core.resources.prefs
+|       |               
+|       +---org.eclipse.jdt.core
+|       |       assumedExternalFilesCache
+|       |       externalFilesCache
+|       |       javaLikeNames.txt
+|       |       nonChainingJarsCache
+|       |       variablesAndContainers.dat
+|       |       
+|       +---org.eclipse.jdt.ui
+|       |       dialog_settings.xml
+|       |       OpenTypeHistory.xml
+|       |       QualifiedTypeNameHistory.xml
+|       |       
+|       +---org.eclipse.linuxtools.docker.core
+|       +---org.eclipse.linuxtools.docker.ui
+|       +---org.eclipse.m2e.core
+|       |       workspaceState.ser
+|       |       
+|       +---org.eclipse.m2e.core.ui
+|       |       dialog_settings.xml
+|       |       
+|       +---org.eclipse.m2e.logback
+|       |       0.log
+|       |       logback.2.7.100.20250418-1315.xml
+|       |       
+|       +---org.eclipse.mylyn.context.core
+|       |   \---contexts
+|       +---org.eclipse.mylyn.tasks.ui
+|       +---org.eclipse.pde.core
+|       |   +---.cache
+|       |   |       clean-cache.properties
+|       |   |       
+|       |   \---.p2
+|       |       \---org.eclipse.equinox.p2.engine
+|       |           \---profileRegistry
+|       +---org.eclipse.tips.ide
+|       |       dialog_settings.xml
+|       |       
+|       +---org.eclipse.tm.terminal.view.ui
+|       +---org.eclipse.ui.ide
+|       |       dialog_settings.xml
+|       |       
+|       +---org.eclipse.ui.workbench
+|       |       dialog_settings.xml
+|       |       workingsets.xml
+|       |       
+|       +---org.springframework.ide.eclipse.boot
+|       |   \---installs
+|       \---org.springframework.ide.eclipse.boot.dash
++---.mvn
++---.settings
+|       org.eclipse.core.resources.prefs
+|       org.eclipse.jdt.apt.core.prefs
+|       org.eclipse.jdt.core.prefs
+|       org.eclipse.m2e.core.prefs
+|       org.springframework.ide.eclipse.prefs
+|       
++---.vscode
+|       settings.json
+|       
++---docs
+|       doma4019-vscode.md
+|       
++---src
+|   +---main
+|   |   +---java
+|   |   |   \---org
+|   |   |       \---example
+|   |   |           |   TheFairValue.java
+|   |   |           |   
+|   |   |           \---web
+|   |   |               +---dao
+|   |   |               |       AnalysisIndicatorDao.java
+|   |   |               |       CalculatedFairValueDao.java
+|   |   |               |       CompanyDao.java
+|   |   |               |       CountryDao.java
+|   |   |               |       CurrencyDao.java
+|   |   |               |       DailyQuoteDao.java
+|   |   |               |       FinancialStatementDao.java
+|   |   |               |       GenericDao.java
+|   |   |               |       IndustryDao.java
+|   |   |               |       StockListDao.java
+|   |   |               |       UserDao.java
+|   |   |               |       UserSimulationDao.java
+|   |   |               |       ValuationModelDao.java
+|   |   |               |       ValuationParameterDao.java
+|   |   |               |       
+|   |   |               +---entity
+|   |   |               |       AnalysisIndicatorEntity.java
+|   |   |               |       CalculatedFairValueEntity.java
+|   |   |               |       CompanyEntity.java
+|   |   |               |       CountryEntity.java
+|   |   |               |       CurrencyEntity.java
+|   |   |               |       DailyQuoteEntity.java
+|   |   |               |       FinancialStatementEntity.java
+|   |   |               |       IndustryEntity.java
+|   |   |               |       StockEntity.java
+|   |   |               |       UserEntity.java
+|   |   |               |       UserSimulationEntity.java
+|   |   |               |       ValuationModelEntity.java
+|   |   |               |       ValuationParameterEntity.java
+|   |   |               |       
+|   |   |               \---stock
+|   |   |                   +---common
+|   |   |                   |   \---service
+|   |   |                   |           CIMapper.java
+|   |   |                   |           
+|   |   |                   +---country
+|   |   |                   |   +---controller
+|   |   |                   |   |       CountryController.java
+|   |   |                   |   |       
+|   |   |                   |   +---domain
+|   |   |                   |   |       CountryResponseDto.java
+|   |   |                   |   |       
+|   |   |                   |   \---service
+|   |   |                   |           CountryService.java
+|   |   |                   |           CountryServiceImpl.java
+|   |   |                   |           
+|   |   |                   +---currency
+|   |   |                   |   +---controller
+|   |   |                   |   |       CurrencyController.java
+|   |   |                   |   |       
+|   |   |                   |   +---domain
+|   |   |                   |   |       CurrencyResponseDto.java
+|   |   |                   |   |       
+|   |   |                   |   \---service
+|   |   |                   |           CurrencyService.java
+|   |   |                   |           CurrencyServiceImpl.java
+|   |   |                   |           
+|   |   |                   +---industry
+|   |   |                   |   +---controller
+|   |   |                   |   |       IndustryController.java
+|   |   |                   |   |       
+|   |   |                   |   +---domain
+|   |   |                   |   |       IndustryResponseDto.java
+|   |   |                   |   |       
+|   |   |                   |   \---service
+|   |   |                   |           IndustryService.java
+|   |   |                   |           IndustryServiceImpl.java
+|   |   |                   |           
+|   |   |                   +---stockDetail
+|   |   |                   |   +---controller
+|   |   |                   |   |       StockDetailController.java
+|   |   |                   |   |       
+|   |   |                   |   +---domain
+|   |   |                   |   |       StockAnalysisResponse.java
+|   |   |                   |   |       StockDetailDto1.java
+|   |   |                   |   |       StockDetailDto2.java
+|   |   |                   |   |       StockDetailForm.java
+|   |   |                   |   |       
+|   |   |                   |   \---service
+|   |   |                   |           StockDetailService.java
+|   |   |                   |           StockDetailServiceImpl.java
+|   |   |                   |           
+|   |   |                   +---stockList
+|   |   |                   |   +---controller
+|   |   |                   |   |       StockListController.java
+|   |   |                   |   |       StockListRestController.java
+|   |   |                   |   |       
+|   |   |                   |   +---domain
+|   |   |                   |   |       StockListForm.java
+|   |   |                   |   |       StockListResponseDto.java
+|   |   |                   |   |       
+|   |   |                   |   \---service
+|   |   |                   |           StockListService.java
+|   |   |                   |           StockListServiceImpl.java
+|   |   |                   |           
+|   |   |                   \---valuationmodel
+|   |   |                       +---controller
+|   |   |                       |       ValuationModelController.java
+|   |   |                       |       
+|   |   |                       +---domain
+|   |   |                       |       ValuationModelResponseDto.java
+|   |   |                       |       
+|   |   |                       \---service
+|   |   |                               ValuationModelService.java
+|   |   |                               ValuationModelServiceImpl.java
+|   |   |                               
+|   |   \---resources
+|   |       |   application.properties
+|   |       |   
+|   |       +---META-INF
+|   |       |   \---org
+|   |       |       \---example
+|   |       |           \---web
+|   |       |               \---dao
+|   |       |                   +---AnalysisIndicatorDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectByCompanyId.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---CalculatedFairValueDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---CompanyDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---CountryDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectByCode.sql
+|   |       |                   |       
+|   |       |                   +---CurrencyDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectByCode.sql
+|   |       |                   |       
+|   |       |                   +---DailyQuoteDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---FinancialStatementDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---GenericDao
+|   |       |                   |       getIdByCode.sql
+|   |       |                   |       
+|   |       |                   +---IndustryDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---StockListDao
+|   |       |                   |       findAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---UserDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---UserSimulationDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   +---ValuationModelDao
+|   |       |                   |       selectAll.sql
+|   |       |                   |       selectById.sql
+|   |       |                   |       
+|   |       |                   \---ValuationParameterDao
+|   |       |                           selectAll.sql
+|   |       |                           selectById.sql
+|   |       |                           
+|   |       +---static
+|   |       |   +---css
+|   |       |   |       modals.css
+|   |       |   |       stock-detail-modals.css
+|   |       |   |       stock-detail.css
+|   |       |   |       stock-list-modals.css
+|   |       |   |       stock-list.css
+|   |       |   |       style.css
+|   |       |   |       
+|   |       |   +---img
+|   |       |   \---js
+|   |       |           stock-detail.js
+|   |       |           stock-list.js
+|   |       |           
+|   |       \---templates
+|   |           +---country-list
+|   |           |       country-list.html
+|   |           |       
+|   |           +---currency-list
+|   |           |       currency-list.html
+|   |           |       
+|   |           +---industry-list
+|   |           |       industry-list.html
+|   |           |       
+|   |           +---modals
+|   |           |   +---stock-detail
+|   |           |   |       compare-modal.html
+|   |           |   |       
+|   |           |   \---stock-list
+|   |           +---stock-detail
+|   |           |       stock-detail.html
+|   |           |       
+|   |           +---stock-list
+|   |           |       stock-list.html
+|   |           |       
+|   |           \---valuation-model-list
+|   |                   valuation-model-list.html
+|   |                   
+|   \---test
+|       +---java
+|       \---resources
+\---target
+    +---classes
+    |   |   application.properties
+    |   |   
+    |   +---META-INF
+    |   |   \---org
+    |   |       \---example
+    |   |           \---web
+    |   |               \---dao
+    |   |                   +---AnalysisIndicatorDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectByCompanyId.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---CalculatedFairValueDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---CompanyDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---CountryDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectByCode.sql
+    |   |                   |       
+    |   |                   +---CurrencyDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectByCode.sql
+    |   |                   |       
+    |   |                   +---DailyQuoteDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---FinancialStatementDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---GenericDao
+    |   |                   |       getIdByCode.sql
+    |   |                   |       
+    |   |                   +---IndustryDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---StockListDao
+    |   |                   |       findAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---UserDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---UserSimulationDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   +---ValuationModelDao
+    |   |                   |       selectAll.sql
+    |   |                   |       selectById.sql
+    |   |                   |       
+    |   |                   \---ValuationParameterDao
+    |   |                           selectAll.sql
+    |   |                           selectById.sql
+    |   |                           
+    |   +---org
+    |   |   \---example
+    |   |       |   TheFairValue.class
+    |   |       |   
+    |   |       \---web
+    |   |           +---dao
+    |   |           |       AnalysisIndicatorDao.class
+    |   |           |       AnalysisIndicatorDaoImpl.class
+    |   |           |       CalculatedFairValueDao.class
+    |   |           |       CalculatedFairValueDaoImpl.class
+    |   |           |       CompanyDao.class
+    |   |           |       CompanyDaoImpl.class
+    |   |           |       CountryDao.class
+    |   |           |       CountryDaoImpl.class
+    |   |           |       CurrencyDao.class
+    |   |           |       CurrencyDaoImpl.class
+    |   |           |       DailyQuoteDao.class
+    |   |           |       DailyQuoteDaoImpl.class
+    |   |           |       FinancialStatementDao.class
+    |   |           |       FinancialStatementDaoImpl.class
+    |   |           |       GenericDao.class
+    |   |           |       GenericDaoImpl.class
+    |   |           |       IndustryDao.class
+    |   |           |       IndustryDaoImpl.class
+    |   |           |       StockListDao.class
+    |   |           |       StockListDaoImpl.class
+    |   |           |       UserDao.class
+    |   |           |       UserDaoImpl.class
+    |   |           |       UserSimulationDao.class
+    |   |           |       UserSimulationDaoImpl.class
+    |   |           |       ValuationModelDao.class
+    |   |           |       ValuationModelDaoImpl.class
+    |   |           |       ValuationParameterDao.class
+    |   |           |       ValuationParameterDaoImpl.class
+    |   |           |       
+    |   |           +---entity
+    |   |           |       AnalysisIndicatorEntity.class
+    |   |           |       CalculatedFairValueEntity.class
+    |   |           |       CompanyEntity.class
+    |   |           |       CountryEntity.class
+    |   |           |       CurrencyEntity.class
+    |   |           |       DailyQuoteEntity.class
+    |   |           |       FinancialStatementEntity.class
+    |   |           |       IndustryEntity.class
+    |   |           |       StockEntity.class
+    |   |           |       UserEntity.class
+    |   |           |       UserSimulationEntity.class
+    |   |           |       ValuationModelEntity.class
+    |   |           |       ValuationParameterEntity.class
+    |   |           |       _AnalysisIndicatorEntity.class
+    |   |           |       _CalculatedFairValueEntity.class
+    |   |           |       _CompanyEntity.class
+    |   |           |       _CountryEntity.class
+    |   |           |       _CurrencyEntity.class
+    |   |           |       _DailyQuoteEntity.class
+    |   |           |       _FinancialStatementEntity.class
+    |   |           |       _IndustryEntity.class
+    |   |           |       _StockEntity.class
+    |   |           |       _UserEntity.class
+    |   |           |       _UserSimulationEntity.class
+    |   |           |       _ValuationModelEntity.class
+    |   |           |       _ValuationParameterEntity.class
+    |   |           |       
+    |   |           \---stock
+    |   |               +---common
+    |   |               |   \---service
+    |   |               |           CIMapper.class
+    |   |               |           
+    |   |               +---country
+    |   |               |   +---controller
+    |   |               |   |       CountryController.class
+    |   |               |   |       
+    |   |               |   +---domain
+    |   |               |   |       CountryResponseDto.class
+    |   |               |   |       
+    |   |               |   \---service
+    |   |               |           CountryService.class
+    |   |               |           CountryServiceImpl.class
+    |   |               |           
+    |   |               +---currency
+    |   |               |   +---controller
+    |   |               |   |       CurrencyController.class
+    |   |               |   |       
+    |   |               |   +---domain
+    |   |               |   |       CurrencyResponseDto.class
+    |   |               |   |       
+    |   |               |   \---service
+    |   |               |           CurrencyService.class
+    |   |               |           CurrencyServiceImpl.class
+    |   |               |           
+    |   |               +---industry
+    |   |               |   +---controller
+    |   |               |   |       IndustryController.class
+    |   |               |   |       
+    |   |               |   +---domain
+    |   |               |   |       IndustryResponseDto.class
+    |   |               |   |       
+    |   |               |   \---service
+    |   |               |           IndustryService.class
+    |   |               |           IndustryServiceImpl.class
+    |   |               |           
+    |   |               +---stockDetail
+    |   |               |   +---controller
+    |   |               |   |       StockDetailController.class
+    |   |               |   |       
+    |   |               |   +---domain
+    |   |               |   |       StockAnalysisResponse.class
+    |   |               |   |       StockDetailDto1.class
+    |   |               |   |       StockDetailDto2.class
+    |   |               |   |       StockDetailForm.class
+    |   |               |   |       
+    |   |               |   \---service
+    |   |               |           StockDetailService.class
+    |   |               |           StockDetailServiceImpl.class
+    |   |               |           
+    |   |               +---stockList
+    |   |               |   +---controller
+    |   |               |   |       StockListController.class
+    |   |               |   |       StockListRestController.class
+    |   |               |   |       
+    |   |               |   +---domain
+    |   |               |   |       StockListForm.class
+    |   |               |   |       StockListResponseDto.class
+    |   |               |   |       
+    |   |               |   \---service
+    |   |               |           StockListService.class
+    |   |               |           StockListServiceImpl.class
+    |   |               |           
+    |   |               \---valuationmodel
+    |   |                   +---controller
+    |   |                   |       ValuationModelController.class
+    |   |                   |       
+    |   |                   +---domain
+    |   |                   |       ValuationModelResponseDto.class
+    |   |                   |       
+    |   |                   \---service
+    |   |                           ValuationModelService.class
+    |   |                           ValuationModelServiceImpl.class
+    |   |                           
+    |   +---static
+    |   |   +---css
+    |   |   |       modals.css
+    |   |   |       stock-detail-modals.css
+    |   |   |       stock-detail.css
+    |   |   |       stock-list-modals.css
+    |   |   |       stock-list.css
+    |   |   |       style.css
+    |   |   |       
+    |   |   \---js
+    |   |           stock-detail.js
+    |   |           stock-list.js
+    |   |           
+    |   \---templates
+    |       +---country-list
+    |       |       country-list.html
+    |       |       
+    |       +---currency-list
+    |       |       currency-list.html
+    |       |       
+    |       +---industry-list
+    |       |       industry-list.html
+    |       |       
+    |       +---modals
+    |       |   \---stock-detail
+    |       |           compare-modal.html
+    |       |           
+    |       +---stock-detail
+    |       |       stock-detail.html
+    |       |       
+    |       +---stock-list
+    |       |       stock-list.html
+    |       |       
+    |       \---valuation-model-list
+    |               valuation-model-list.html
+    |               
+    +---generated-sources
+    |   \---annotations
+    |       \---org
+    |           \---example
+    |               \---web
+    |                   +---dao
+    |                   |       AnalysisIndicatorDaoImpl.java
+    |                   |       CalculatedFairValueDaoImpl.java
+    |                   |       CompanyDaoImpl.java
+    |                   |       CountryDaoImpl.java
+    |                   |       CurrencyDaoImpl.java
+    |                   |       DailyQuoteDaoImpl.java
+    |                   |       FinancialStatementDaoImpl.java
+    |                   |       GenericDaoImpl.java
+    |                   |       IndustryDaoImpl.java
+    |                   |       StockListDaoImpl.java
+    |                   |       UserDaoImpl.java
+    |                   |       UserSimulationDaoImpl.java
+    |                   |       ValuationModelDaoImpl.java
+    |                   |       ValuationParameterDaoImpl.java
+    |                   |       
+    |                   \---entity
+    |                           _AnalysisIndicatorEntity.java
+    |                           _CalculatedFairValueEntity.java
+    |                           _CompanyEntity.java
+    |                           _CountryEntity.java
+    |                           _CurrencyEntity.java
+    |                           _DailyQuoteEntity.java
+    |                           _FinancialStatementEntity.java
+    |                           _IndustryEntity.java
+    |                           _StockEntity.java
+    |                           _UserEntity.java
+    |                           _UserSimulationEntity.java
+    |                           _ValuationModelEntity.java
+    |                           _ValuationParameterEntity.java
+    |                           
+    +---generated-test-sources
+    |   \---test-annotations
+    +---maven-status
+    |   \---maven-compiler-plugin
+    |       +---compile
+    |       |   \---default-compile
+    |       |           createdFiles.lst
+    |       |           inputFiles.lst
+    |       |           
+    |       \---testCompile
+    |           \---default-testCompile
+    |                   inputFiles.lst
+    |                   
+    \---test-classes
