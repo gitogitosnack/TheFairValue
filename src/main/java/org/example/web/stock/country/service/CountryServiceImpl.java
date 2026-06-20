@@ -1,6 +1,8 @@
 package org.example.web.stock.country.service;
 
 import org.example.web.dao.CountryDao;
+import org.example.web.entity.CountryEntity;
+import org.example.web.stock.country.domain.CountryForm;
 import org.example.web.stock.country.domain.CountryResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +25,18 @@ public class CountryServiceImpl implements CountryService {
                 .map(entity -> new CountryResponseDto(
                         entity.getId(),
                         entity.getCode(),
-                        entity.getName()
-                ))
+                        entity.getName()))
                 .toList();
     }
+
+    @Override
+    public void insertCountryInfo(CountryForm form) {
+        CountryEntity entity = new CountryEntity();
+        entity.setId(null);
+        entity.setCode(form.code());
+        entity.setName(form.name());
+
+        countryDao.insert(entity);
+    }
+
 }

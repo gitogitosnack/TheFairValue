@@ -1,9 +1,14 @@
 
- $(document).ready(function() {
+$(document).ready(function () {
     const $modal = $('#editModal');
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     // 1. 編集リンクをクリックした時の処理
-    $('.edit-link').on('click', function(event) {
+    $('.edit-link').on('click', function (event) {
+        // 超重要！ preventDefault()メソッド
+        // 通常、フォームをサブミットするとページ全体がリロード（再読み込み）されてしまいます。
+        // 今回はAjaxを使って裏側でデータを送りたいので、
+        // ブラウザ本来の「ページ遷移を伴う送信挙動」をここでストップさせています。
         event.preventDefault();
 
         // クリックされた行のデータを取得
@@ -24,32 +29,32 @@
     });
 
     // 2. モーダルを閉じる処理
-    $('.close-btn, .close-modal').on('click', function() {
+    $('.close-btn, .close-modal').on('click', function () {
         $modal.fadeOut(200);
     });
 
     // モーダルの外側をクリックしたら閉じる
-    $(window).on('click', function(event) {
+    $(window).on('click', function (event) {
         if ($(event.target).is($modal)) {
             $modal.fadeOut(200);
         }
     });
 
     // 3. 更新処理 (Ajax)
-    $('#editForm').on('submit', function(event) {
+    $('#editForm').on('submit', function (event) {
         event.preventDefault();
 
         const id = $('#modalId').val();
         // idに値が入っているかどうかでコントローラメソッド先をカエル
         // 空なら、新規登録
         // 値があれば、更新処理
-        const targetUrl = (id === "" || id === null) ? 'rest_stock_list/update' : 'rest_stock_list/update';
+        const targetUrl = (id === "" || id === null) ? 'rest_stock_list/insert' : 'rest_stock_list/update';
 
         const formData = {
             id: id
-            ,code: $('#modalCode').val()
-            ,name: $('#modalName').val()
-            ,market_name: $('#modalMarket_name').val()
+            , code: $('#modalCode').val()
+            , name: $('#modalName').val()
+            , market_name: $('#modalMarket_name').val()
         };
 
         console.log("送信データ:", formData);
@@ -57,28 +62,29 @@
         // ここにSpring Bootへの$.ajax({ type: 'POST', ... }) 処理を書く
         $.ajax({
             url: targetUrl    // サーバ側のコントローラに書かれているURL
-            ,type: 'POST'                     // HTTPメソッド
-            ,contentType: 'application/json'   // 送るデータ形式
-            ,data: JSON.stringify(formData)    // JSオブジェクトをJSON文字列に変換（変換しないと415エラーになるらしい）
-            //,dataType: 'json'                   // サーバーから返ってくるデータの形式
+            , type: 'POST'                     // HTTPメソッド
+            , contentType: 'application/json'   // 送るデータ形式
+            , data: JSON.stringify(formData)    // JSオブジェクトをJSON文字列に変換（変換しないと415エラーになるらしい）
+            //,dataType: 'json'
+            //, async: false                      // ここを false にすると「同期処理」になります（デフォルトは true「非同期処理」）
         })
-        .done(function(response) {
-            // process after success
-            alert("the record updated.");
-            location.reload();
-        })
-        .fail(function(xhr, status, error) {
-            // process after failed
-            alert("Error occurred.");
-            console.log(error);
-        });
+            .done(function (response) {
+                // process after success
+                alert("the record updated.");
+                location.reload();
+            })
+            .fail(function (xhr, status, error) {
+                // process after failed
+                alert("Error occurred.");
+                console.log(error);
+            });
         // alert('更新処理をここに実装します: ' + formData.stock_name);
         $modal.fadeOut(200);
     });
 
 
     // 削除リンクがクリックされた時の処理
-    $('.delete-link').on('click', function(event) {
+    $('.delete-link').on('click', function (event) {
         event.preventDefault(); // リンクのデフォルト遷移を無効化
 
         // 1. 削除対象の行とデータを特定
@@ -97,26 +103,26 @@
         $.ajax({
             url: '/rest_stock_list/delete/' + id,
             type: 'DELETE', // Spring Boot側で@DeleteMappingを使用する場合
-            beforeSend: function() {
+            beforeSend: function () {
                 // 二重送信防止などが必要な場合は,ここで処理
             }
         })
-        .done(function(response) {
-            // 4. 成功時の処理：テーブルから行を削除
-            $row.fadeOut(400, function() {
-                $(this).remove();
-                alert('削除が完了しました。');
+            .done(function (response) {
+                // 4. 成功時の処理：テーブルから行を削除
+                $row.fadeOut(400, function () {
+                    $(this).remove();
+                    alert('削除が完了しました。');
+                });
+            })
+            .fail(function (xhr) {
+                // 5. 失敗時の処理
+                console.error('Error:', xhr);
+                alert('削除に失敗しました。時間をおいて再度お試しください。');
             });
-        })
-        .fail(function(xhr) {
-            // 5. 失敗時の処理
-            console.error('Error:', xhr);
-            alert('削除に失敗しました。時間をおいて再度お試しください。');
-        });
     });
 
     // 新規登録ボタンが押されたとき
-    $('#addStockBtn').on('click', function() {
+    $('#addStockBtn').on('click', function () {
         // 1. フォームをリセット（前回の入力内容を消す）
         $('#editForm')[0].reset();
 
