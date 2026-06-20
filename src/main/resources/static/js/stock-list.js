@@ -65,7 +65,7 @@ $(document).ready(function () {
             , type: 'POST'                     // HTTPメソッド
             , contentType: 'application/json'   // 送るデータ形式
             , data: JSON.stringify(formData)    // JSオブジェクトをJSON文字列に変換（変換しないと415エラーになるらしい）
-            //,dataType: 'json'
+            , dataType: 'json'                  //「サーバー（Spring Boot）から返ってくるデータの形式は JSON だから、JavaScriptのオブジェクトに自動で変換して受け取ってね！」という、jQueryに対する指示（設定）です。
             //, async: false                      // ここを false にすると「同期処理」になります（デフォルトは true「非同期処理」）
         })
             .done(function (response) {
