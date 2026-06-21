@@ -1,14 +1,9 @@
 
 $(document).ready(function () {
     const $modal = $('#editModal');
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     // 1. 編集リンクをクリックした時の処理
     $('.edit-link').on('click', function (event) {
-        // 超重要！ preventDefault()メソッド
-        // 通常、フォームをサブミットするとページ全体がリロード（再読み込み）されてしまいます。
-        // 今回はAjaxを使って裏側でデータを送りたいので、
-        // ブラウザ本来の「ページ遷移を伴う送信挙動」をここでストップさせています。
         event.preventDefault();
 
         // クリックされた行のデータを取得
@@ -42,6 +37,10 @@ $(document).ready(function () {
 
     // 3. 更新処理 (Ajax)
     $('#editForm').on('submit', function (event) {
+        // 超重要！ preventDefault()メソッド
+        // 通常、フォームをSubmitするとページ全体がリロード（再読み込み）されてしまいます。
+        // 今回はAjaxを使って裏側でデータを送りたいので、
+        // ブラウザ本来の「ページ遷移を伴う送信挙動」をここでストップさせています。
         event.preventDefault();
 
         const id = $('#modalId').val();
