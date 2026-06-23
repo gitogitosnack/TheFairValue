@@ -43,6 +43,7 @@ public class StockListRestController {
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public ResponseEntity<String> delete(@PathVariable Integer id) {
+        // @PathVariableは、「URLのパスに含まれる変数を、Javaのメソッドの引数として受け取るための目印」
         try {
             stockListService.deleteStockInfoById(id); // 削除ロジック
             return ResponseEntity.ok("Deleted");

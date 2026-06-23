@@ -89,8 +89,8 @@ $(document).ready(function () {
         // 1. 削除対象の行とデータを特定
         const $row = $(this).closest('tr');
         const id = $(this).data('id');
-        const code = $row.find('td:eq(0)').text(); // 1番目のtdからコード取得
-        const name = $row.find('td:eq(1)').text(); // 2番目のtdから銘柄名取得
+        const code = $row.find('td:eq(0)').text().trim(); // 1番目のtdからコード取得
+        const name = $row.find('td:eq(1)').text().trim(); // 2番目のtdから銘柄名取得
 
         // 2. 削除確認
         if (!confirm(`銘柄「${name} (${code})」を削除してもよろしいですか？`)) {

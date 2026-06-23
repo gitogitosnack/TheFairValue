@@ -14,7 +14,7 @@ public interface CountryDao {
     List<CountryEntity> selectAll();
 
     @Select
-    Optional<CountryEntity> selectByCode(String countryCode);
+    Optional<CountryEntity> selectById(Integer id);
 
     @Insert
     int insert(CountryEntity entity);
