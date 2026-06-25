@@ -11,6 +11,8 @@ public interface CountryService {
 
     void insertCountryInfo(CountryForm form);
 
+    void updateCountryInfo(CountryForm form);
+
     void deleteCountryInfoById(Integer id);
 
     // void updateCountryInfo(CountryForm form);

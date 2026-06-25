@@ -91,5 +91,20 @@ $(document).ready(function () {
             });
     });
 
+    $('.edit-link').on('click', function (event) {
+        event.preventDefault();
+
+        const $row = $(this).closest('tr');
+        const id = $row.find('td:eq(0)').text().trim();
+        const code = $row.find('td:eq(1)').text().trim();
+        const name = $row.find('td:eq(2)').text().trim();
+
+        $('#modalId').val(id);
+        $('#modalCode').val(code);
+        $('#modalName').val(name);
+
+        $modal.fadeIn(200);
+    });
+
 
 });

@@ -42,6 +42,24 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    public void updateCountryInfo(CountryForm form) {
+        // 1. 現在のデータを取得
+        Optional<CountryEntity> optionalEntity = countryDao.selectById(form.id());
+
+        // 2. 画面からの入力値で上書き
+        CountryEntity entity = optionalEntity
+                .orElseThrow(() -> new NotFoundException("国が見つかりません。"));
+
+        entity.setId(form.id());
+        entity.setCode(form.code());
+        entity.setName(form.name());
+
+        // 3. 更新実行
+        countryDao.update(entity);
+
+    }
+
+    @Override
     public void deleteCountryInfoById(Integer id) {
         Optional<CountryEntity> optionalRecord = countryDao.selectById(id);
         // orElseThrowを使って、中身（CountryEntity）を取り出す

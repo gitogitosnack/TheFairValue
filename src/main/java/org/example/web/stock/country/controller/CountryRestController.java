@@ -28,6 +28,17 @@ public class CountryRestController {
         countryService.insertCountryInfo(form);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<String> update(@RequestBody CountryForm form) {
+        try {
+            countryService.updateCountryInfo(form);
+            return ResponseEntity.ok("更新に成功しました");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("更新失敗");
+        }
+
+    }
+
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public ResponseEntity<String> delete(@PathVariable Integer id) {
