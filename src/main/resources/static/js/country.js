@@ -87,7 +87,8 @@ $(document).ready(function () {
             .fail(function (xhr) {
                 // 5. 失敗時の処理
                 console.error('Error:', xhr);
-                alert('削除に失敗しました。時間をおいて再度お試しください。');
+                const message = xhr.responseText || '削除に失敗しました。時間をおいて再度お試しください。';
+                alert(message);
             });
     });
 

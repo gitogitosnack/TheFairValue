@@ -68,7 +68,7 @@
                         <td th:text="${item.code}">JP</td>
                         <td th:text="${item.name}">日本</td>
                         <td><a href="#" class="operation-link edit-link">編集</a></td>
-                        <td><a href="#" class="operation-link delete-link">削除</a></td>
+                        <td><a href="#" class="operation-link delete-link" th:data-id=${item.id}>削除</a></td>
                     </tr>
                 </tbody>
             </table>
