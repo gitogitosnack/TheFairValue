@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@3.0.2/destyle.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/stock-list.css}">
+    <link rel="stylesheet" th:href="@{/css/stock-list-modals.css}">
 </head>
 
 <body>
@@ -67,12 +68,41 @@
                         <td th:text="${item.modelName}">DCF</td>
                         <td th:text="${item.formulaDescription}">将来キャッシュフローの割引</td>
                         <td><a href="#" class="operation-link edit-link">編集</a></td>
-                        <td><a href="#" class="operation-link delete-link">削除</a></td>
+                        <td><a href="#" class="operation-link delete-link" th:data-id="${item.id}">削除</a></td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>評価モデル情報の編集</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="modalId" name="id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>モデル名</label>
+                        <input type="text" id="modalModelName" name="modelName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>式説明</label>
+                        <input type="text" id="modalFormulaDescription" name="formulaDescription" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal">キャンセル</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script th:src="@{/js/valuation-model.js}"></script>
 </body>
 
 </html>

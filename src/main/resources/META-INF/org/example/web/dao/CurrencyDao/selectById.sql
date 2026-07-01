@@ -3,4 +3,4 @@ select
 from
   currencies
 where
-  code = /* currencyCode */'JPY'
+  id = /* id */1
