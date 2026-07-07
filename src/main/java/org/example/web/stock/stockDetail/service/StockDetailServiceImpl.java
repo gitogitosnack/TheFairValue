@@ -1,11 +1,17 @@
 package org.example.web.stock.stockDetail.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.example.web.dao.AnalysisIndicatorDao;
-import org.example.web.dao.CalculatedFairValueDao;
 import org.example.web.dao.CompanyDao;
 import org.example.web.dao.ValuationModelDao;
 import org.example.web.entity.AnalysisIndicatorEntity;
-import org.example.web.entity.CalculatedFairValueEntity;
 import org.example.web.entity.CompanyEntity;
 import org.example.web.entity.ValuationModelEntity;
 import org.example.web.stock.common.service.CIMapper;
@@ -15,29 +21,21 @@ import org.example.web.stock.stockDetail.domain.StockDetailDto2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 @Service
-public class StockDetailServiceImpl implements StockDetailService{
+public class StockDetailServiceImpl implements StockDetailService {
 
-	// 本日の日付から「年」を取得して入れる
-	private static final int CURRENT_YEAR = LocalDate.now().getYear();
+    // 本日の日付から「年」を取得して入れる
+    private static final int CURRENT_YEAR = LocalDate.now().getYear();
     // private static final int CURRENT_YEAR = 2025;
-	private static final String FISCAL_QUARTER_Q4 = "Q4";
-	private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
-	
+    private static final String FISCAL_QUARTER_Q4 = "Q4";
+    private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
+
     // initialize the dto1
     StockDetailDto1 stockDetailDto1 = new StockDetailDto1();
 
     // initialize the dto2
     StockDetailDto2 stockDetailDto2 = new StockDetailDto2();
-    
+
     @Autowired
     CIMapper ciMapper;
 
@@ -48,32 +46,25 @@ public class StockDetailServiceImpl implements StockDetailService{
     ValuationModelDao valuationModelDao;
 
     @Autowired
-    CalculatedFairValueDao calculatedFairValueDao;
-
-    @Autowired
     AnalysisIndicatorDao analysisIndicatorDao;
-    
-//  ====================================================
-//--- 0. main process for getting company details indicators ---
-//  ====================================================
 
-    public StockAnalysisResponse getComprehensiveAnalysis(String code){
+    // ====================================================
+    // --- 0. main process for getting company details indicators ---
+    // ====================================================
 
-// Get data in the upper side of the detail display.
-    	
-    	// どのテーブルのIDが欲しいかに合わせて、テーブル名を固定値で渡す
+    public StockAnalysisResponse getComprehensiveAnalysis(String code) {
+
+        // Get data in the upper side of the detail display.
+
+        // どのテーブルのIDが欲しいかに合わせて、テーブル名を固定値で渡す
         Integer companyId = ciMapper.convertCodeToId("companies", code);
-    	
+
         // Get the company code and name
         // Get the current_price
         this.getCompanyCodeAndName(companyId);
 
         // Get the calc model id and name
         this.getCalculationCodeAndName(companyId);
-        
-
-        // Get the calculated_fair_value
-        this.getFairValue(companyId);
 
         // Get the 割安割高度(TBC)
 
@@ -82,7 +73,7 @@ public class StockDetailServiceImpl implements StockDetailService{
         // Get the per, pbr, dividend_yield, equity_ratio
         this.getMarketIndicators(companyId);
 
-// Get data in the lower side of the detail display called dto2.
+        // Get data in the lower side of the detail display called dto2.
         // Get each analysis indicators for 5 years
         this.getAnalysisIndicators(companyId);
 
@@ -94,15 +85,15 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     }
 
-//  ====================================================
-// --- 1. Upper Side Data (StockDetailDto1) ---
-//  ====================================================
+    // ====================================================
+    // --- 1. Upper Side Data (StockDetailDto1) ---
+    // ====================================================
 
     // This function gets the company code and name.
     // Get the current_price
     void getCompanyCodeAndName(Integer id) {
         Optional<CompanyEntity> company = companyDao.selectById(id);
-        if(company.isPresent()){
+        if (company.isPresent()) {
             // Set the company code to dto
             stockDetailDto1.setCompanyCode(company.get().getCode());
             // Set the company name to dto
@@ -113,24 +104,15 @@ public class StockDetailServiceImpl implements StockDetailService{
     }
 
     // This function gets the calc model and name.
-    void getCalculationCodeAndName (Integer id) {
+    void getCalculationCodeAndName(Integer id) {
         Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(id);
-        if(calcModel.isPresent()){
+        if (calcModel.isPresent()) {
             // Set the calcModel id to dto / String.valueOf() or Integer.toString()
             stockDetailDto1.setCalcurationId(String.valueOf(calcModel.get().getId()));
             // Set the calcModel name to dto
             stockDetailDto1.setCalcurationName(calcModel.get().getModelName());
         }
     }
-
-    // Get the calculated_fair_value
-    void getFairValue(Integer id) {
-        Optional<CalculatedFairValueEntity> fairValue = calculatedFairValueDao.selectById(id);
-        if (fairValue.isPresent()) {
-            stockDetailDto1.setFairValue(fairValue.get().getFairValue());
-        }
-    }
-
 
     // Get the 割安割高度
 
@@ -140,18 +122,19 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     void getMarketIndicators(Integer id) {
         // Get the latest fiscal year that has Q4 data in DB
-    	int row_count = 10;
+        int row_count = 10;
         List<AnalysisIndicatorEntity> indicators = analysisIndicatorDao.selectByCompanyId(id, row_count);
-        
+
         // Find the latest fiscal year with Q4 data
         Integer latestYear = indicators.stream()
-            .filter(indicator -> FISCAL_QUARTER_Q4.equals(indicator.getFiscalQuarter()))
-            .map(AnalysisIndicatorEntity::getFiscalYear)
-            .max(Integer::compareTo)
-            .orElse(CURRENT_YEAR);
+                .filter(indicator -> FISCAL_QUARTER_Q4.equals(indicator.getFiscalQuarter()))
+                .map(AnalysisIndicatorEntity::getFiscalYear)
+                .max(Integer::compareTo)
+                .orElse(CURRENT_YEAR);
 
         // Get market indicators for the latest Q4 year
-        Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(id, latestYear, FISCAL_QUARTER_Q4);
+        Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(id, latestYear,
+                FISCAL_QUARTER_Q4);
         if (indicator.isPresent()) {
             stockDetailDto1.setPer(indicator.get().getPer());
             stockDetailDto1.setPbr(indicator.get().getPbr());
@@ -162,18 +145,20 @@ public class StockDetailServiceImpl implements StockDetailService{
         }
     }
 
-//  ====================================================
-// --- 2. Lower Side Data (StockDetailDto2 - 5 Years History) ---
-//  ====================================================
-// Get the analysis indicators for 5 years to use those data in lower tables.
+    // ====================================================
+    // --- 2. Lower Side Data (StockDetailDto2 - 5 Years History) ---
+    // ====================================================
+    // Get the analysis indicators for 5 years to use those data in lower tables.
     void getAnalysisIndicators(Integer id) {
         // Data fetch from DAO.
-        List<AnalysisIndicatorEntity> indicators = analysisIndicatorDao.selectByCompanyId(id, DEFAULT_DISPLAY_YEARS_COUNT);
+        List<AnalysisIndicatorEntity> indicators = analysisIndicatorDao.selectByCompanyId(id,
+                DEFAULT_DISPLAY_YEARS_COUNT);
 
         // Set label names
         this.setupLabels(stockDetailDto2);
 
-        // make the map with key as fiscal year and value as the entity for easy access when filling the lists for each indicator.
+        // make the map with key as fiscal year and value as the entity for easy access
+        // when filling the lists for each indicator.
         Map<Integer, AnalysisIndicatorEntity> dataMap = new HashMap<>();
         for (AnalysisIndicatorEntity entity : indicators) {
             Integer year = entity.getFiscalYear();
@@ -185,9 +170,9 @@ public class StockDetailServiceImpl implements StockDetailService{
 
         // Determine the latest year in data; fallback to CURRENT_YEAR
         int latestYear = indicators.stream()
-            .map(AnalysisIndicatorEntity::getFiscalYear)
-            .max(Integer::compareTo)
-            .orElse(CURRENT_YEAR);
+                .map(AnalysisIndicatorEntity::getFiscalYear)
+                .max(Integer::compareTo)
+                .orElse(CURRENT_YEAR);
 
         // For missing latest 5-year, use whatever the latest available year is.
         int endYear = latestYear;
@@ -257,7 +242,7 @@ public class StockDetailServiceImpl implements StockDetailService{
 
     // function to set the label name for each table and their rows.
     private void setupLabels(StockDetailDto2 dto2) {
-    	// dto2.setTableTitle("財務分析指標（5期推移）");
+        // dto2.setTableTitle("財務分析指標（5期推移）");
         dto2.setRoeLabel("ROE (%)");
         dto2.setGrossMarginLabel("売上高総利益率 (%)");
         dto2.setNetMarginLabel("売上高純利益率 (%)");
