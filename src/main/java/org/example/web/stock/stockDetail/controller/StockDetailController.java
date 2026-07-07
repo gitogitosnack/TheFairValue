@@ -15,16 +15,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/stock-detail")
 public class StockDetailController {
 
-    @Autowired
-    StockDetailService stockDetailService;
+    final StockDetailService stockDetailService;
+
+    StockDetailController(StockDetailService stockDetailService) {
+        this.stockDetailService = stockDetailService;
+    }
 
     @GetMapping("/{code}")
-    public ModelAndView display (@PathVariable String code, StockDetailForm form, ModelAndView mav) {
+    public ModelAndView display(@PathVariable String code, StockDetailForm form, ModelAndView mav) {
 
-        //画面のHTMLを設定
-        mav.setViewName("stock-detail/stock-detail");
+        // 画面のHTMLを設定
+        mav.setViewName("stock-detail/stock-detail002");
 
-        //call the service class
+        // call the service class
         StockAnalysisResponse analysisData = stockDetailService.getComprehensiveAnalysis(code);
         mav.addObject("analysisData", analysisData);
 
