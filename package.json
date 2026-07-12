@@ -1,0 +1,27 @@
+{
+  "name": "thefairvalue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitogitosnack/TheFairValue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/gitogitosnack/TheFairValue/issues"
+  },
+  "homepage": "https://github.com/gitogitosnack/TheFairValue#readme",
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  }
+}
