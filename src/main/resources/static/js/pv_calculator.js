@@ -7,7 +7,7 @@ const logger = typeof window !== 'undefined' && window.logger ? window.logger : 
 class pv_calculator {
 
     // DCF法を用いて適正現在株価を予測するロジック
-    dcf_calc(fcf, growth_ratio, discount_ratio, perpetual_growth_ratio){
+    dcf_calc(fcf, growth_ratio, discount_ratio, perpetual_growth_ratio, financial_data){
         logger.info("dcf_calc method started.");
 
         // 0. エラーハンドリング: 割引率が永続成長率以下の場合、ゴードン・モデルは成立しません
@@ -19,7 +19,7 @@ class pv_calculator {
         // 1. 1〜5年目の予測FCFとその事業価値の計算
         const term = 5;
         let discounted_years = [];
-        let total_present_value = 0;
+        let business_value = 0;
         let current_fcf;
 
         for(let i = 1; i <= term; i++) {
@@ -29,7 +29,7 @@ class pv_calculator {
         }
 
         for (const year of discounted_years){
-            total_present_value += year;
+            business_value += year;
         }
 
         // 2. ターミナルバリュー（6年目以降の永続価値）の計算
@@ -41,18 +41,12 @@ class pv_calculator {
         let discounted_terminal_value = terminal_value / Math.pow(1 + discount_ratio, term);
 
         // 3. 1〜5年目の事業価値とターミナルバリューの事業価値を合算
-        total_present_value += discounted_terminal_value;
+        business_value += discounted_terminal_value;
 
-        logger.info("dcf_calc method ended.");
-        return total_present_value;
-    }
-
-    // 2. 決算書データ（JSON）を加味して適正株価を割り出すメソッド
-    calculate_fair_stock_price(business_value, financial_data) {
         // 非事業資産の集計
         const non_operating_assets = Object.values(financial_data.non_operating_assets)
             .reduce((sum, value) => sum + value, 0);
-
+        
         // 有利子負債の集計
         const interest_bearing_debt = Object.values(financial_data.interest_bearing_debt)
             .reduce((sum, value) => sum + value, 0);
@@ -66,14 +60,12 @@ class pv_calculator {
             throw new Error("発行済株式総数が不正です。");
         }
 
+        // 4. 現在の適正株価算出
         const fair_price = equity_value / shares;
 
-        return {
-            equity_value: equity_value,
-            fair_stock_price: fair_price
-        };
+        logger.info("dcf_calc method ended.");
+        return fair_price;
     }
-
 }
 
 // ブラウザ環境（window）を壊さず、Node.js環境（Vitest）の時だけグローバルに展開する
