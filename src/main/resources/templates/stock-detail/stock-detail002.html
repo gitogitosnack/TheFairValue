@@ -45,15 +45,15 @@
                 <h3 class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2"><i class="fa-solid fa-sliders mr-2 text-emerald-400"></i>シミュレーション前提</h3>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">WACC(割引率,一年後の100万円): <span id="wacc-value" class="text-emerald-400 font-mono font-bold">5.5%</span></label>
-                    <input id="wacc-slider" type="range" min="0" max="50" step="0.1" value="5.5" class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                    <input id="wacc-slider" type="range" min="0" max="50" step="0.1" value="50.0" class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
                 </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">将来5年間の成長率: <span id="future-5years-growth-ratio-value" class="text-emerald-400 font-mono font-bold">14.0倍</span></label>
-                    <input id="future-5years-growth-ratio-slider" type="range" min="-100" max="100" step="0.5" value="14.0" class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                <div class="slider-param-group">
+                    <label class="block text-xs text-gray-400 mb-1">将来5年間の成長率: <span class="slider-value text-emerald-400 font-mono font-bold">14.0倍</span></label>
+                    <input type="range" min="-100" max="100" step="0.5" value="10.0" class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
                 </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">永久成長率: <span id="perpetual-growth-ratio-value" class="text-emerald-400 font-mono font-bold">1.5%</span></label>
-                    <input id="perpetual-growth-ratio-slider" type="range" min="-50" max="50" step="0.1" value="1.5" class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                <div class="slider-param-group">
+                    <label class="block text-xs text-gray-400 mb-1">永久成長率: <span class="slider-value text-emerald-400 font-mono font-bold">1.5%</span></label>
+                    <input type="range" min="-50" max="50" step="0.1" value="0.0" class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
                 </div>
                 <button class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20">
                     数値を再計算する
