@@ -16,8 +16,9 @@ import org.example.web.entity.CompanyEntity;
 import org.example.web.entity.ValuationModelEntity;
 import org.example.web.stock.common.service.CIMapper;
 import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
-import org.example.web.stock.stockDetail.domain.StockDetailDto1;
-import org.example.web.stock.stockDetail.domain.StockDetailDto2;
+import org.example.web.stock.stockDetail.domain.KeyFinancialIndicatorDto;
+import org.example.web.stock.stockDetail.domain.FinancialIndicatorDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +32,10 @@ public class StockDetailServiceImpl implements StockDetailService {
     private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
 
     // initialize the dto1
-    StockDetailDto1 stockDetailDto1 = new StockDetailDto1();
+    KeyFinancialIndicatorDto keyFinancialIndicatorDto = new KeyFinancialIndicatorDto();
 
-    // initialize the dto2
-    StockDetailDto2 stockDetailDto2 = new StockDetailDto2();
+    // initialize the FinancialIndicatorDto
+    FinancialIndicatorDto financialIndicatorDto = new FinancialIndicatorDto();
 
     @Autowired
     CIMapper ciMapper;
@@ -73,20 +74,21 @@ public class StockDetailServiceImpl implements StockDetailService {
         // Get the per, pbr, dividend_yield, equity_ratio
         this.getMarketIndicators(companyId);
 
-        // Get data in the lower side of the detail display called dto2.
+        // Get data in the lower side of the detail display called
+        // FinancialIndicatorDto.
         // Get each analysis indicators for 5 years
         this.getAnalysisIndicators(companyId);
 
         // Set data1 and data2 to the StockAnalysisResponse class.
         StockAnalysisResponse response = new StockAnalysisResponse();
-        response.setDto1(stockDetailDto1);
-        response.setDto2(stockDetailDto2);
+        response.setKeyFinancialIndicatorDto(keyFinancialIndicatorDto);
+        response.setFinancialIndicatorDto(financialIndicatorDto);
         return response;
 
     }
 
     // ====================================================
-    // --- 1. Upper Side Data (StockDetailDto1) ---
+    // --- 1. Upper Side Data (KeyFinancialIndicatorDto) ---
     // ====================================================
 
     // This function gets the company code and name.
@@ -95,11 +97,11 @@ public class StockDetailServiceImpl implements StockDetailService {
         Optional<CompanyEntity> company = companyDao.selectById(id);
         if (company.isPresent()) {
             // Set the company code to dto
-            stockDetailDto1.setCompanyCode(company.get().getCode());
+            keyFinancialIndicatorDto.setCompanyCode(company.get().getCode());
             // Set the company name to dto
-            stockDetailDto1.setCompanyName(company.get().getName());
+            keyFinancialIndicatorDto.setCompanyName(company.get().getName());
             // Set the current price to dto
-            stockDetailDto1.setCurrentPrice(company.get().getCurrentPrice());
+            keyFinancialIndicatorDto.setCurrentPrice(company.get().getCurrentPrice());
         }
     }
 
@@ -108,9 +110,9 @@ public class StockDetailServiceImpl implements StockDetailService {
         Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(id);
         if (calcModel.isPresent()) {
             // Set the calcModel id to dto / String.valueOf() or Integer.toString()
-            stockDetailDto1.setCalcurationId(String.valueOf(calcModel.get().getId()));
+            keyFinancialIndicatorDto.setCalcurationId(String.valueOf(calcModel.get().getId()));
             // Set the calcModel name to dto
-            stockDetailDto1.setCalcurationName(calcModel.get().getModelName());
+            keyFinancialIndicatorDto.setCalcurationName(calcModel.get().getModelName());
         }
     }
 
@@ -136,17 +138,17 @@ public class StockDetailServiceImpl implements StockDetailService {
         Optional<AnalysisIndicatorEntity> indicator = analysisIndicatorDao.selectById(id, latestYear,
                 FISCAL_QUARTER_Q4);
         if (indicator.isPresent()) {
-            stockDetailDto1.setPer(indicator.get().getPer());
-            stockDetailDto1.setPbr(indicator.get().getPbr());
-            stockDetailDto1.setDividendYield(indicator.get().getDividendYield());
-            stockDetailDto1.setEquityRatio(indicator.get().getEquityRatio());
+            keyFinancialIndicatorDto.setPer(indicator.get().getPer());
+            keyFinancialIndicatorDto.setPbr(indicator.get().getPbr());
+            keyFinancialIndicatorDto.setDividendYield(indicator.get().getDividendYield());
+            keyFinancialIndicatorDto.setEquityRatio(indicator.get().getEquityRatio());
             // Set the fiscal year for reference
-            stockDetailDto1.setMainIndicatorYearLabel(latestYear);
+            keyFinancialIndicatorDto.setMainIndicatorYearLabel(latestYear);
         }
     }
 
     // ====================================================
-    // --- 2. Lower Side Data (StockDetailDto2 - 5 Years History) ---
+    // --- 2. Lower Side Data (FinancialIndicatorDto - 5 Years History) ---
     // ====================================================
     // Get the analysis indicators for 5 years to use those data in lower tables.
     void getAnalysisIndicators(Integer id) {
@@ -155,7 +157,7 @@ public class StockDetailServiceImpl implements StockDetailService {
                 DEFAULT_DISPLAY_YEARS_COUNT);
 
         // Set label names
-        this.setupLabels(stockDetailDto2);
+        this.setupLabels(financialIndicatorDto);
 
         // make the map with key as fiscal year and value as the entity for easy access
         // when filling the lists for each indicator.
@@ -225,36 +227,36 @@ public class StockDetailServiceImpl implements StockDetailService {
             }
         }
 
-        stockDetailDto2.setFiscalYearLabels(fiscalYearLabels);
-        stockDetailDto2.setRoeList(roeList);
-        stockDetailDto2.setGrossMarginList(grossMarginList);
-        stockDetailDto2.setNetMarginList(netMarginList);
-        stockDetailDto2.setEpsList(epsList);
-        stockDetailDto2.setAssetTurnoverList(assetTurnoverList);
-        stockDetailDto2.setInventoryTurnoverList(inventoryTurnoverList);
-        stockDetailDto2.setReceivablesTurnoverList(receivablesTurnoverList);
-        stockDetailDto2.setEquityRatioList(equityRatioList);
-        stockDetailDto2.setDebtEquityRatioList(debtEquityRatioList);
-        stockDetailDto2.setInterestCoverageRatioList(interestCoverageRatioList);
-        stockDetailDto2.setFcfList(fcfList);
-        stockDetailDto2.setOperationCfMarginList(operationCfMarginList);
+        financialIndicatorDto.setFiscalYearLabels(fiscalYearLabels);
+        financialIndicatorDto.setRoeList(roeList);
+        financialIndicatorDto.setGrossMarginList(grossMarginList);
+        financialIndicatorDto.setNetMarginList(netMarginList);
+        financialIndicatorDto.setEpsList(epsList);
+        financialIndicatorDto.setAssetTurnoverList(assetTurnoverList);
+        financialIndicatorDto.setInventoryTurnoverList(inventoryTurnoverList);
+        financialIndicatorDto.setReceivablesTurnoverList(receivablesTurnoverList);
+        financialIndicatorDto.setEquityRatioList(equityRatioList);
+        financialIndicatorDto.setDebtEquityRatioList(debtEquityRatioList);
+        financialIndicatorDto.setInterestCoverageRatioList(interestCoverageRatioList);
+        financialIndicatorDto.setFcfList(fcfList);
+        financialIndicatorDto.setOperationCfMarginList(operationCfMarginList);
     } // end of this method
 
     // function to set the label name for each table and their rows.
-    private void setupLabels(StockDetailDto2 dto2) {
-        // dto2.setTableTitle("財務分析指標（5期推移）");
-        dto2.setRoeLabel("ROE (%)");
-        dto2.setGrossMarginLabel("売上高総利益率 (%)");
-        dto2.setNetMarginLabel("売上高純利益率 (%)");
-        dto2.setEpsLabel("EPS (円)");
-        dto2.setAssetTurnoverLabel("総資産回転率 (回)");
-        dto2.setInventoryTurnoverLabel("棚卸資産回転率 (回)");
-        dto2.setReceivablesTurnoverLabel("売上債権回転率 (回)");
-        dto2.setEquityRatioLabel("自己資本比率 (%)");
-        dto2.setDebtEquityRatioLabel("D/Eレシオ (倍)");
-        dto2.setInterestCoverageRatioLabel("インタレスト・カバレッジ・レシオ (倍)");
-        dto2.setFcfLabel("フリーキャッシュフロー (百万円)");
-        dto2.setOperationCfMarginLabel("営業CFマージン (%)");
+    private void setupLabels(FinancialIndicatorDto dto) {
+        // dto.setTableTitle("財務分析指標（5期推移）");
+        dto.setRoeLabel("ROE (%)");
+        dto.setGrossMarginLabel("売上高総利益率 (%)");
+        dto.setNetMarginLabel("売上高純利益率 (%)");
+        dto.setEpsLabel("EPS (円)");
+        dto.setAssetTurnoverLabel("総資産回転率 (回)");
+        dto.setInventoryTurnoverLabel("棚卸資産回転率 (回)");
+        dto.setReceivablesTurnoverLabel("売上債権回転率 (回)");
+        dto.setEquityRatioLabel("自己資本比率 (%)");
+        dto.setDebtEquityRatioLabel("D/Eレシオ (倍)");
+        dto.setInterestCoverageRatioLabel("インタレスト・カバレッジ・レシオ (倍)");
+        dto.setFcfLabel("フリーキャッシュフロー (百万円)");
+        dto.setOperationCfMarginLabel("営業CFマージン (%)");
     }
 
     // BigDecimalをDoubleに安全に変換する補助メソッド

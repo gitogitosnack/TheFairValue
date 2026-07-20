@@ -4,7 +4,7 @@ import org.example.web.entity.CompanyEntity;
 
 import java.math.BigDecimal;
 
-public class StockDetailDto1 {
+public class KeyFinancialIndicatorDto {
     // 画面の上半分の基本情報を取得するDao
 
     private String companyCode;
@@ -18,8 +18,6 @@ public class StockDetailDto1 {
     private BigDecimal dividendYield;
     private BigDecimal equityRatio;
     private Integer mainIndicatorYearLabel;
-
-
 
     // Getter and Setter
 
