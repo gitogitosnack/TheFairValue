@@ -1,306 +1,703 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ValueScope Pro - 高度銘柄分析シミュレーター</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body class="bg-gray-900 text-gray-100 font-sans antialiased">
-
+  </head>
+  <body class="bg-gray-900 text-gray-100 font-sans antialiased">
     <header class="border-b border-gray-800 bg-gray-950 p-4 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-chart-line text-emerald-400 text-2xl"></i>
-                <h1 class="text-xl font-bold tracking-wider text-white">ValueScope Pro</h1>
-            </div>
-            <div class="relative w-full md:w-96">
-                <input type="text" placeholder="証券コードまたは銘柄名を入力 (例: 7203 トヨタ)" class="w-full bg-gray-800 text-sm rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-gray-700">
-                <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
-            </div>
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
+      >
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-chart-line text-emerald-400 text-2xl"></i>
+          <h1 class="text-xl font-bold tracking-wider text-white">
+            ValueScope Pro
+          </h1>
         </div>
+        <div class="relative w-full md:w-96">
+          <input
+            type="text"
+            placeholder="証券コードまたは銘柄名を入力 (例: 7203 トヨタ)"
+            class="w-full bg-gray-800 text-sm rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-gray-700"
+          />
+          <i
+            class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-sm"
+          ></i>
+        </div>
+      </div>
     </header>
 
     <main class="max-w-7xl mx-auto p-4 space-y-6">
-        
-        <div class="bg-gray-950 border border-gray-800 rounded-xl p-5">
-            <div class="flex justify-between items-start">
-                <div th:object="${analysisData.dto1}">
-                    <span th:text="*{companyCode} + ' / ' + 'xx市場'" class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-800 px-2 py-0.5 rounded">7203 / 東証プライム</span>
-                    <h2 th:text="*{companyName}" class="text-2xl font-bold mt-1 text-white">トヨタ自動車(株)</h2>
-                </div>
-                <div class="text-right">
-                    <div th:text="'¥' + ${#numbers.formatInteger(analysisData.dto1.currentPrice, 3, 'COMMA')}" class="text-2xl font-mono font-bold text-white">2,650.5<span class="text-sm font-normal text-gray-400 ml-1">円</span></div>
-                    <span class="text-xs text-rose-400 font-medium"><i class="fa-solid fa-caret-down"></i> -1.2% (前日比)</span>
-                </div>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-5">
+        <div class="flex justify-between items-start">
+          <div th:object="${analysisData.dto1}">
+            <span
+              th:text="*{companyCode} + ' / ' + 'xx市場'"
+              class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-800 px-2 py-0.5 rounded"
+              >7203 / 東証プライム</span
+            >
+            <h2
+              th:text="*{companyName}"
+              class="text-2xl font-bold mt-1 text-white"
+            >
+              トヨタ自動車(株)
+            </h2>
+          </div>
+          <div class="text-right">
+            <div
+              th:text="'¥' + ${#numbers.formatInteger(analysisData.dto1.currentPrice, 3, 'COMMA')}"
+              class="text-2xl font-mono font-bold text-white"
+            >
+              2,650.5<span class="text-sm font-normal text-gray-400 ml-1"
+                >円</span
+              >
             </div>
+            <span class="text-xs text-rose-400 font-medium"
+              ><i class="fa-solid fa-caret-down"></i> -1.2% (前日比)</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          class="lg:col-span-1 bg-gray-950 border border-gray-800 rounded-xl p-5 space-y-4 h-fit"
+        >
+          <h3
+            class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2"
+          >
+            <i class="fa-solid fa-sliders mr-2 text-emerald-400"></i
+            >シミュレーションパラメータ
+          </h3>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1"
+              >WACC(割引率,一年後の100万円):
+              <span id="wacc-value" class="text-emerald-400 font-mono font-bold"
+                >5.5%</span
+              ></label
+            >
+            <input
+              id="wacc-slider"
+              type="range"
+              min="0"
+              max="50"
+              step="0.1"
+              value="50.0"
+              class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+          <div class="slider-param-group">
+            <label class="block text-xs text-gray-400 mb-1"
+              >将来5年間の成長率:
+              <span class="slider-value text-emerald-400 font-mono font-bold"
+                >14.0倍</span
+              ></label
+            >
+            <input
+              type="range"
+              min="-100"
+              max="100"
+              step="0.5"
+              value="10.0"
+              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+          <div class="slider-param-group">
+            <label class="block text-xs text-gray-400 mb-1"
+              >永久成長率:
+              <span class="slider-value text-emerald-400 font-mono font-bold"
+                >1.5%</span
+              ></label
+            >
+            <input
+              type="range"
+              min="-50"
+              max="50"
+              step="0.1"
+              value="0.0"
+              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+          <button
+            class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20"
+          >
+            数値を再計算する
+          </button>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <div class="lg:col-span-1 bg-gray-950 border border-gray-800 rounded-xl p-5 space-y-4 h-fit">
-                <h3 class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2"><i class="fa-solid fa-sliders mr-2 text-emerald-400"></i>シミュレーションパラメータ</h3>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">WACC(割引率,一年後の100万円): <span id="wacc-value" class="text-emerald-400 font-mono font-bold">5.5%</span></label>
-                    <input id="wacc-slider" type="range" min="0" max="50" step="0.1" value="50.0" class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-5">
+            <h3 class="text-sm font-bold text-gray-300 mb-4">
+              <i class="fa-solid fa-scale-balanced mr-2 text-emerald-400"></i
+              >理論株価レンジ比較（現在株価: 2,650.5円）
+            </h3>
+            <div class="space-y-6 py-2">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="font-medium text-gray-300"
+                    >① DCF法 (事業価値ベース)</span
+                  >
+                  <span class="font-mono text-emerald-400 font-bold"
+                    >3,200.0 円 (割安)</span
+                  >
                 </div>
-                <div class="slider-param-group">
-                    <label class="block text-xs text-gray-400 mb-1">将来5年間の成長率: <span class="slider-value text-emerald-400 font-mono font-bold">14.0倍</span></label>
-                    <input type="range" min="-100" max="100" step="0.5" value="10.0" class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                <div
+                  class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden"
+                >
+                  <div
+                    class="absolute left-[30%] right-[20%] bg-emerald-500/30 border-l border-r border-emerald-400 h-full"
+                  ></div>
+                  <div
+                    class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"
+                  ></div>
                 </div>
-                <div class="slider-param-group">
-                    <label class="block text-xs text-gray-400 mb-1">永久成長率: <span class="slider-value text-emerald-400 font-mono font-bold">1.5%</span></label>
-                    <input type="range" min="-50" max="50" step="0.1" value="0.0" class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="font-medium text-gray-300"
+                    >② PERマルチプル法</span
+                  >
+                  <span class="font-mono text-gray-400 font-bold"
+                    >2,550.0 円 (適正)</span
+                  >
                 </div>
-                <button class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20">
-                    数値を再計算する
-                </button>
+                <div
+                  class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden"
+                >
+                  <div
+                    class="absolute left-[40%] right-[35%] bg-yellow-500/30 border-l border-r border-yellow-400 h-full"
+                  ></div>
+                  <div
+                    class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="font-medium text-gray-300"
+                    >③ 配当割引モデル (DDM)</span
+                  >
+                  <span class="font-mono text-rose-400 font-bold"
+                    >2,100.0 円 (割高)</span
+                  >
+                </div>
+                <div
+                  class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden"
+                >
+                  <div
+                    class="absolute left-[15%] right-[55%] bg-rose-500/30 border-l border-r border-rose-400 h-full"
+                  ></div>
+                  <div
+                    class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"
+                  ></div>
+                </div>
+              </div>
             </div>
-
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-gray-950 border border-gray-800 rounded-xl p-5">
-                    <h3 class="text-sm font-bold text-gray-300 mb-4"><i class="fa-solid fa-scale-balanced mr-2 text-emerald-400"></i>理論株価レンジ比較（現在株価: 2,650.5円）</h3>
-                    <div class="space-y-6 py-2">
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="font-medium text-gray-300">① DCF法 (事業価値ベース)</span>
-                                <span class="font-mono text-emerald-400 font-bold">3,200.0 円 (割安)</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden">
-                                <div class="absolute left-[30%] right-[20%] bg-emerald-500/30 border-l border-r border-emerald-400 h-full"></div>
-                                <div class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="font-medium text-gray-300">② PERマルチプル法</span>
-                                <span class="font-mono text-gray-400 font-bold">2,550.0 円 (適正)</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden">
-                                <div class="absolute left-[40%] right-[35%] bg-yellow-500/30 border-l border-r border-yellow-400 h-full"></div>
-                                <div class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="font-medium text-gray-300">③ 配当割引モデル (DDM)</span>
-                                <span class="font-mono text-rose-400 font-bold">2,100.0 円 (割高)</span>
-                            </div>
-                            <div class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden">
-                                <div class="absolute left-[15%] right-[55%] bg-rose-500/30 border-l border-r border-rose-400 h-full"></div>
-                                <div class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center gap-6 text-xs text-gray-400 mt-4 pt-3 border-t border-gray-900">
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-1.5 bg-white shadow-[0_0_4px_#fff]"></span>現在株価</span>
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-1.5 bg-emerald-500/30 border border-emerald-400"></span>DCF理論レンジ</span>
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-1.5 bg-yellow-500/30 border border-yellow-400"></span>PER適正レンジ</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
-                        <div class="text-xs text-emerald-400 font-bold mb-1">DCF法</div>
-                        <div class="text-xl font-mono font-bold text-white">3,200 <span class="text-xs font-normal text-gray-400">円</span></div>
-                        <p class="text-[11px] text-gray-400 mt-2">将来FCFをWACC 5.5%で割引。事業の現金創出力に対して現株価は割安水準。</p>
-                    </div>
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
-                        <div class="text-xs text-yellow-400 font-bold mb-1">PER倍率法</div>
-                        <div class="text-xl font-mono font-bold text-white">2,550 <span class="text-xs font-normal text-gray-400">円</span></div>
-                        <p class="text-[11px] text-gray-400 mt-2">予想EPS × 類似企業14倍。セクター平均と比較してほぼ適正な株価水準。</p>
-                    </div>
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
-                        <div class="text-xs text-rose-400 font-bold mb-1">配当割引モデル</div>
-                        <div class="text-xl font-mono font-bold text-white">2,100 <span class="text-xs font-normal text-gray-400">円</span></div>
-                        <p class="text-[11px] text-gray-400 mt-2">現在の配当利回りと成長率から逆算。配当単体で見るとやや割高。</p>
-                    </div>
-                </div>
+            <div
+              class="flex justify-center gap-6 text-xs text-gray-400 mt-4 pt-3 border-t border-gray-900"
+            >
+              <span class="flex items-center gap-1.5"
+                ><span class="w-3 h-1.5 bg-white shadow-[0_0_4px_#fff]"></span
+                >現在株価</span
+              >
+              <span class="flex items-center gap-1.5"
+                ><span
+                  class="w-3 h-1.5 bg-emerald-500/30 border border-emerald-400"
+                ></span
+                >DCF理論レンジ</span
+              >
+              <span class="flex items-center gap-1.5"
+                ><span
+                  class="w-3 h-1.5 bg-yellow-500/30 border border-yellow-400"
+                ></span
+                >PER適正レンジ</span
+              >
             </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
+              <div class="text-xs text-emerald-400 font-bold mb-1">DCF法</div>
+              <div class="text-xl font-mono font-bold text-white">
+                3,200 <span class="text-xs font-normal text-gray-400">円</span>
+              </div>
+              <p class="text-[11px] text-gray-400 mt-2">
+                将来FCFをWACC
+                5.5%で割引。事業の現金創出力に対して現株価は割安水準。
+              </p>
+            </div>
+            <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
+              <div class="text-xs text-yellow-400 font-bold mb-1">
+                PER倍率法
+              </div>
+              <div class="text-xl font-mono font-bold text-white">
+                2,550 <span class="text-xs font-normal text-gray-400">円</span>
+              </div>
+              <p class="text-[11px] text-gray-400 mt-2">
+                予想EPS ×
+                類似企業14倍。セクター平均と比較してほぼ適正な株価水準。
+              </p>
+            </div>
+            <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
+              <div class="text-xs text-rose-400 font-bold mb-1">
+                配当割引モデル
+              </div>
+              <div class="text-xl font-mono font-bold text-white">
+                2,100 <span class="text-xs font-normal text-gray-400">円</span>
+              </div>
+              <p class="text-[11px] text-gray-400 mt-2">
+                現在の配当利回りと成長率から逆算。配当単体で見るとやや割高。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          <div class="space-y-1">
+            <h3 class="text-base font-bold text-gray-200 flex items-center">
+              <i class="fa-solid fa-gauge-high mr-2 text-emerald-400"></i
+              >主要指標
+            </h3>
+            <p class="text-xs text-gray-400">
+              <span
+                th:if="${analysisData.dto1.mainIndicatorYearLabel != null}"
+                th:text="|${analysisData.dto1.mainIndicatorYearLabel}年度のデータ|"
+                >2025年度のデータ</span
+              >
+              <span
+                th:unless="${analysisData.dto1.mainIndicatorYearLabel != null}"
+                >最新確定通期ベース</span
+              >
+            </p>
+          </div>
+
+          <div
+            class="grid grid-cols-2 sm:grid-cols-4 gap-4 border-y lg:border-y-0 lg:border-x border-gray-800 py-4 lg:py-0 lg:px-6"
+          >
+            <div class="text-center lg:text-left">
+              <div class="text-xs text-gray-400 mb-0.5">PER (予想)</div>
+              <div
+                class="text-base font-mono font-bold text-white"
+                th:text="|${analysisData.dto1.per}倍|"
+              >
+                12.4倍
+              </div>
+            </div>
+            <div class="text-center lg:text-left">
+              <div class="text-xs text-gray-400 mb-0.5">PBR (実績)</div>
+              <div
+                class="text-base font-mono font-bold text-white"
+                th:text="|${analysisData.dto1.pbr}倍|"
+              >
+                0.85倍
+              </div>
+            </div>
+            <div class="text-center lg:text-left">
+              <div class="text-xs text-gray-400 mb-0.5">配当利回り</div>
+              <div
+                class="text-base font-mono font-bold text-white"
+                th:text="|${analysisData.dto1.dividendYield}%|"
+              >
+                3.8%
+              </div>
+            </div>
+            <div class="text-center lg:text-left">
+              <div class="text-xs text-gray-400 mb-0.5">自己資本比率</div>
+              <div
+                class="text-base font-mono font-bold text-white"
+                th:text="|${analysisData.dto1.equityRatio}%|"
+              >
+                62.5%
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end w-full">
+            <button
+              class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-3 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2"
+            >
+              <i class="fa-solid fa-scale-unbalanced-flip"></i
+              >他の銘柄と比較する
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-gray-950 border border-gray-800 rounded-xl p-6 space-y-6 w-full"
+      >
+        <div
+          class="flex border-b border-gray-800 overflow-x-auto gap-2 pb-px no-scrollbar"
+        >
+          <button
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-emerald-500 text-emerald-400 transition-all duration-200"
+            data-tab="profit"
+          >
+            <i class="fa-solid fa-seedling mr-1.5"></i>収益・成長性 (①-⑥)
+          </button>
+          <button
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200"
+            data-tab="efficiency"
+          >
+            <i class="fa-solid fa-arrows-spin mr-1.5"></i>効率性 (⑦-⑨)
+          </button>
+          <button
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200"
+            data-tab="safety"
+          >
+            <i class="fa-solid fa-shield-halved mr-1.5"></i>安全性 (⑩-⑭)
+          </button>
+          <button
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200"
+            data-tab="cashflow"
+          >
+            <i class="fa-solid fa-money-bill-trend-up mr-1.5"></i
+            >キャッシュフロー (⑮-⑰)
+          </button>
         </div>
 
-        <div class="bg-gray-950 border border-gray-800 rounded-xl p-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-                
-                <div class="space-y-1">
-                    <h3 class="text-base font-bold text-gray-200 flex items-center">
-                        <i class="fa-solid fa-gauge-high mr-2 text-emerald-400"></i>主要指標
-                    </h3>
-                    <p class="text-xs text-gray-400">
-                        <span th:if="${analysisData.dto1.mainIndicatorYearLabel != null}" th:text="|${analysisData.dto1.mainIndicatorYearLabel}年度のデータ|">2025年度のデータ</span>
-                        <span th:unless="${analysisData.dto1.mainIndicatorYearLabel != null}">最新確定通期ベース</span>
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 border-y lg:border-y-0 lg:border-x border-gray-800 py-4 lg:py-0 lg:px-6">
-                    <div class="text-center lg:text-left">
-                        <div class="text-xs text-gray-400 mb-0.5">PER (予想)</div>
-                        <div class="text-base font-mono font-bold text-white" th:text="|${analysisData.dto1.per}倍|">12.4倍</div>
-                    </div>
-                    <div class="text-center lg:text-left">
-                        <div class="text-xs text-gray-400 mb-0.5">PBR (実績)</div>
-                        <div class="text-base font-mono font-bold text-white" th:text="|${analysisData.dto1.pbr}倍|">0.85倍</div>
-                    </div>
-                    <div class="text-center lg:text-left">
-                        <div class="text-xs text-gray-400 mb-0.5">配当利回り</div>
-                        <div class="text-base font-mono font-bold text-white" th:text="|${analysisData.dto1.dividendYield}%|">3.8%</div>
-                    </div>
-                    <div class="text-center lg:text-left">
-                        <div class="text-xs text-gray-400 mb-0.5">自己資本比率</div>
-                        <div class="text-base font-mono font-bold text-white" th:text="|${analysisData.dto1.equityRatio}%|">62.5%</div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end w-full">
-                    <button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-3 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-scale-unbalanced-flip"></i>他の銘柄と比較する
-                    </button>
-                </div>
-                
+        <div
+          id="profit"
+          class="tab-content block"
+          th:object="${analysisData.dto2}"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+            >
+              <canvas id="profitChart" class="w-full max-h-64"></canvas>
             </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead
+                  class="text-xs uppercase bg-gray-900 text-gray-400 border-b border-gray-800"
+                >
+                  <tr>
+                    <th class="p-4 font-semibold">指標(収益・成長)</th>
+                    <th
+                      class="p-4 text-right font-mono"
+                      th:each="year : *{fiscalYearLabels}"
+                      th:text="${year}"
+                    >
+                      2023
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800/40">
+                  <tr class="bg-emerald-500/5 text-emerald-300 font-medium">
+                    <td class="p-4" th:text="*{roeLabel}">⑤ ROE (%)</td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{roeList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      12.5
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td class="p-4 text-gray-300" th:text="*{grossMarginLabel}">
+                      ① Gross Margin (%)
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{grossMarginList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      33.5
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td class="p-4 text-gray-300" th:text="*{netMarginLabel}">
+                      ② Net Margin (%)
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{netMarginList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      8.0
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td class="p-4 text-gray-300" th:text="*{epsLabel}">
+                      ⑥ EPS (円)
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{epsList}"
+                      th:text="${val != null ? #numbers.formatInteger(val, 0, 'COMMA') : 'NA'}"
+                    >
+                      485
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <div class="bg-gray-950 border border-gray-800 rounded-xl p-6 space-y-6 w-full">
-            <div class="flex border-b border-gray-800 overflow-x-auto gap-2 pb-px no-scrollbar">
-                <button 
-                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-emerald-500 text-emerald-400 transition-all duration-200" 
-                data-tab="profit">
-                    <i class="fa-solid fa-seedling mr-1.5"></i>収益・成長性 (①-⑥)
-                </button>
-                <button 
-                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" 
-                data-tab="efficiency">
-                    <i class="fa-solid fa-arrows-spin mr-1.5"></i>効率性 (⑦-⑨)
-                </button>
-                <button 
-                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" 
-                data-tab="safety">
-                    <i class="fa-solid fa-shield-halved mr-1.5"></i>安全性 (⑩-⑭)
-                </button>
-                <button 
-                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" 
-                data-tab="cashflow">
-                    <i class="fa-solid fa-money-bill-trend-up mr-1.5"></i>キャッシュフロー (⑮-⑰)
-                </button>
+        <div
+          id="efficiency"
+          class="tab-content hidden"
+          th:object="${analysisData.dto2}"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+            >
+              <canvas id="efficiencyChart" class="w-full max-h-64"></canvas>
             </div>
-
-            <div id="profit" class="tab-content block" th:object="${analysisData.dto2}">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]">
-                        <canvas id="profitChart" class="w-full max-h-64"></canvas>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs uppercase bg-gray-900 text-gray-400 border-b border-gray-800">
-                                <tr>
-                                    <th class="p-4 font-semibold">指標(収益・成長)</th>
-                                    <th class="p-4 text-right font-mono" th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-800/40">
-                                <tr class="bg-emerald-500/5 text-emerald-300 font-medium"><td class="p-4" th:text="*{roeLabel}">⑤ ROE (%)</td><td class="p-4 text-right font-mono" th:each="val : *{roeList}" th:text="${val != null ? val : 'NA'}">12.5</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{grossMarginLabel}">① Gross Margin (%)</td><td class="p-4 text-right font-mono" th:each="val : *{grossMarginList}" th:text="${val != null ? val : 'NA'}">33.5</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{netMarginLabel}">② Net Margin (%)</td><td class="p-4 text-right font-mono" th:each="val : *{netMarginList}" th:text="${val != null ? val : 'NA'}">8.0</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{epsLabel}">⑥ EPS (円)</td><td class="p-4 text-right font-mono" th:each="val : *{epsList}" th:text="${val != null ? #numbers.formatInteger(val, 0, 'COMMA') : 'NA'}">485</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead
+                  class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800"
+                >
+                  <tr>
+                    <th class="p-4">指標(効率性)</th>
+                    <th
+                      class="p-4 text-right font-mono"
+                      th:each="year : *{fiscalYearLabels}"
+                      th:text="${year}"
+                    >
+                      2023
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800/40">
+                  <tr class="bg-yellow-500/5 text-yellow-300 font-medium">
+                    <td class="p-4" th:text="*{assetTurnoverLabel}">
+                      ⑦ 総資産回転率
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{assetTurnoverList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      1.2
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td
+                      class="p-4 text-gray-300"
+                      th:text="*{inventoryTurnoverLabel}"
+                    >
+                      ⑧ 在庫回転率
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{inventoryTurnoverList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      1.2
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td
+                      class="p-4 text-gray-300"
+                      th:text="*{receivablesTurnoverLabel}"
+                    >
+                      ⑨ 売上債権回転率
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{receivablesTurnoverList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      1.2
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-
-            <div id="efficiency" class="tab-content hidden" th:object="${analysisData.dto2}">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]">
-                        <canvas id="efficiencyChart" class="w-full max-h-64"></canvas>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800">
-                                <tr>
-                                    <th class="p-4">指標(効率性)</th>
-                                    <th class="p-4 text-right font-mono" th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-800/40">
-                                <tr class="bg-yellow-500/5 text-yellow-300 font-medium"><td class="p-4" th:text="*{assetTurnoverLabel}">⑦ 総資産回転率</td><td class="p-4 text-right font-mono" th:each="val : *{assetTurnoverList}" th:text="${val != null ? val : 'NA'}">1.2</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{inventoryTurnoverLabel}">⑧ 在庫回転率</td><td class="p-4 text-right font-mono" th:each="val : *{inventoryTurnoverList}" th:text="${val != null ? val : 'NA'}">1.2</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{receivablesTurnoverLabel}">⑨ 売上債権回転率</td><td class="p-4 text-right font-mono" th:each="val : *{receivablesTurnoverList}" th:text="${val != null ? val : 'NA'}">1.2</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="safety" class="tab-content hidden" th:object="${analysisData.dto2}">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]">
-                        <canvas id="safetyChart" class="w-full max-h-64"></canvas>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800">
-                                <tr>
-                                    <th class="p-4">指標(安全性)</th>
-                                    <th class="p-4 text-right font-mono" th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-800/40">
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{equityRatioLabel}">⑫ 自己資本比率 (%)</td><td class="p-4 text-right font-mono" th:each="val : *{equityRatioList}" th:text="${val != null ? val : 'NA'}">62.5</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{debtEquityRatioLabel}">⑩ D/Eレシオ</td><td class="p-4 text-right font-mono" th:each="val : *{debtEquityRatioList}" th:text="${val != null ? val : 'NA'}">0.45</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{interestCoverageRatioLabel}">⑭ ICR (倍)</td><td class="p-4 text-right font-mono" th:each="val : *{interestCoverageRatioList}" th:text="${val != null ? val : 'NA'}">25.3</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="cashflow" class="tab-content hidden" th:object="${analysisData.dto2}">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]">
-                        <canvas id="cfChart" class="w-full max-h-64"></canvas>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800">
-                                <tr>
-                                    <th class="p-4">指標(CF)</th>
-                                    <th class="p-4 text-right font-mono" th:each="year : *{fiscalYearLabels}" th:text="${year}">2023</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-800/40">
-                                <tr class="bg-blue-500/5 text-blue-300 font-medium"><td class="p-4" th:text="*{fcfLabel}">⑯ フリーCF</td><td class="p-4 text-right font-mono" th:each="val : *{fcfList}" th:text="${val != null ? val : 'NA'}">1,200</td></tr>
-                                <tr class="hover:bg-gray-900/40"><td class="p-4 text-gray-300" th:text="*{operationCfMarginLabel}">⑮ 営業CFマージン</td><td class="p-4 text-right font-mono" th:each="val : *{operationCfMarginList}" th:text="${val != null ? val : 'NA'}">14.2</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div
+          id="safety"
+          class="tab-content hidden"
+          th:object="${analysisData.dto2}"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+            >
+              <canvas id="safetyChart" class="w-full max-h-64"></canvas>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead
+                  class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800"
+                >
+                  <tr>
+                    <th class="p-4">指標(安全性)</th>
+                    <th
+                      class="p-4 text-right font-mono"
+                      th:each="year : *{fiscalYearLabels}"
+                      th:text="${year}"
+                    >
+                      2023
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800/40">
+                  <tr class="hover:bg-gray-900/40">
+                    <td class="p-4 text-gray-300" th:text="*{equityRatioLabel}">
+                      ⑫ 自己資本比率 (%)
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{equityRatioList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      62.5
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td
+                      class="p-4 text-gray-300"
+                      th:text="*{debtEquityRatioLabel}"
+                    >
+                      ⑩ D/Eレシオ
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{debtEquityRatioList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      0.45
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td
+                      class="p-4 text-gray-300"
+                      th:text="*{interestCoverageRatioLabel}"
+                    >
+                      ⑭ ICR (倍)
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{interestCoverageRatioList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      25.3
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="cashflow"
+          class="tab-content hidden"
+          th:object="${analysisData.dto2}"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+            >
+              <canvas id="cfChart" class="w-full max-h-64"></canvas>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead
+                  class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800"
+                >
+                  <tr>
+                    <th class="p-4">指標(CF)</th>
+                    <th
+                      class="p-4 text-right font-mono"
+                      th:each="year : *{fiscalYearLabels}"
+                      th:text="${year}"
+                    >
+                      2023
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800/40">
+                  <tr class="bg-blue-500/5 text-blue-300 font-medium">
+                    <td class="p-4" th:text="*{fcfLabel}">⑯ フリーCF</td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{fcfList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      1,200
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-900/40">
+                    <td
+                      class="p-4 text-gray-300"
+                      th:text="*{operationCfMarginLabel}"
+                    >
+                      ⑮ 営業CFマージン
+                    </td>
+                    <td
+                      class="p-4 text-right font-mono"
+                      th:each="val : *{operationCfMarginList}"
+                      th:text="${val != null ? val : 'NA'}"
+                    >
+                      14.2
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- <div th:insert="modals/stock-detail/compare-modal :: compareModal"></div> -->
 
     <script th:inline="javascript">
-        var chartData = {
-            fiscalYearLabels: /*[[${analysisData.dto2.fiscalYearLabels}]]*/ ['2022', '2023', '2024'],
-            roeList: /*[[${analysisData.dto2.roeList}]]*/ [10.2, 11.5, 12.5],
-            grossMarginList: /*[[${analysisData.dto2.grossMarginList}]]*/ [32.0, 33.0, 33.5],
-            netMarginList: /*[[${analysisData.dto2.netMarginList}]]*/ [7.5, 7.8, 8.0],
-            epsList: /*[[${analysisData.dto2.epsList}]]*/ [420, 450, 485],
-            assetTurnoverList: /*[[${analysisData.dto2.assetTurnoverList}]]*/ [1.0, 1.1, 1.2],
-            inventoryTurnoverList: /*[[${analysisData.dto2.inventoryTurnoverList}]]*/ [4.2, 4.5, 4.8],
-            receivablesTurnoverList: /*[[${analysisData.dto2.receivablesTurnoverList}]]*/ [5.0, 5.2, 5.5],
-            equityRatioList: /*[[${analysisData.dto2.equityRatioList}]]*/ [60.0, 61.2, 62.5],
-            debtEquityRatioList: /*[[${analysisData.dto2.debtEquityRatioList}]]*/ [0.5, 0.48, 0.45],
-            interestCoverageRatioList: /*[[${analysisData.dto2.interestCoverageRatioList}]]*/ [20, 22, 25.3],
-            fcfList: /*[[${analysisData.dto2.fcfList}]]*/ [1000, 1150, 1200],
-            operationCfMarginList: /*[[${analysisData.dto2.operationCfMarginList}]]*/ [13.0, 13.8, 14.2]
-        };
+      var chartData = {
+        fiscalYearLabels: /*[[${analysisData.dto2.fiscalYearLabels}]]*/ [
+          "2022",
+          "2023",
+          "2024",
+        ],
+        roeList: /*[[${analysisData.dto2.roeList}]]*/ [10.2, 11.5, 12.5],
+        grossMarginList: /*[[${analysisData.dto2.grossMarginList}]]*/ [
+          32.0, 33.0, 33.5,
+        ],
+        netMarginList: /*[[${analysisData.dto2.netMarginList}]]*/ [
+          7.5, 7.8, 8.0,
+        ],
+        epsList: /*[[${analysisData.dto2.epsList}]]*/ [420, 450, 485],
+        assetTurnoverList: /*[[${analysisData.dto2.assetTurnoverList}]]*/ [
+          1.0, 1.1, 1.2,
+        ],
+        inventoryTurnoverList:
+          /*[[${analysisData.dto2.inventoryTurnoverList}]]*/ [4.2, 4.5, 4.8],
+        receivablesTurnoverList:
+          /*[[${analysisData.dto2.receivablesTurnoverList}]]*/ [5.0, 5.2, 5.5],
+        equityRatioList: /*[[${analysisData.dto2.equityRatioList}]]*/ [
+          60.0, 61.2, 62.5,
+        ],
+        debtEquityRatioList: /*[[${analysisData.dto2.debtEquityRatioList}]]*/ [
+          0.5, 0.48, 0.45,
+        ],
+        interestCoverageRatioList:
+          /*[[${analysisData.dto2.interestCoverageRatioList}]]*/ [20, 22, 25.3],
+        fcfList: /*[[${analysisData.dto2.fcfList}]]*/ [1000, 1150, 1200],
+        operationCfMarginList:
+          /*[[${analysisData.dto2.operationCfMarginList}]]*/ [13.0, 13.8, 14.2],
+      };
     </script>
 
     <script th:src="@{/js/stock-detail_002.js}"></script>
-</body>
+  </body>
 </html>
