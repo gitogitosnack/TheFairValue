@@ -42,7 +42,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <div class="lg:col-span-1 bg-gray-950 border border-gray-800 rounded-xl p-5 space-y-4 h-fit">
-                <h3 class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2"><i class="fa-solid fa-sliders mr-2 text-emerald-400"></i>シミュレーション前提</h3>
+                <h3 class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2"><i class="fa-solid fa-sliders mr-2 text-emerald-400"></i>シミュレーションパラメータ</h3>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">WACC(割引率,一年後の100万円): <span id="wacc-value" class="text-emerald-400 font-mono font-bold">5.5%</span></label>
                     <input id="wacc-slider" type="range" min="0" max="50" step="0.1" value="50.0" class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer">
@@ -165,16 +165,24 @@
 
         <div class="bg-gray-950 border border-gray-800 rounded-xl p-6 space-y-6 w-full">
             <div class="flex border-b border-gray-800 overflow-x-auto gap-2 pb-px no-scrollbar">
-                <button class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-emerald-500 text-emerald-400 transition-all duration-200" data-tab="profit">
+                <button 
+                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-emerald-500 text-emerald-400 transition-all duration-200" 
+                data-tab="profit">
                     <i class="fa-solid fa-seedling mr-1.5"></i>収益・成長性 (①-⑥)
                 </button>
-                <button class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" data-tab="efficiency">
+                <button 
+                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" 
+                data-tab="efficiency">
                     <i class="fa-solid fa-arrows-spin mr-1.5"></i>効率性 (⑦-⑨)
                 </button>
-                <button class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" data-tab="safety">
+                <button 
+                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" 
+                data-tab="safety">
                     <i class="fa-solid fa-shield-halved mr-1.5"></i>安全性 (⑩-⑭)
                 </button>
-                <button class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" data-tab="cashflow">
+                <button 
+                class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200" 
+                data-tab="cashflow">
                     <i class="fa-solid fa-money-bill-trend-up mr-1.5"></i>キャッシュフロー (⑮-⑰)
                 </button>
             </div>
@@ -293,21 +301,6 @@
         };
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.tab-btn').on('click', function() {
-                const targetTab = $(this).data('tab');
-                
-                // ボタンの見た目の切り替え
-                $('.tab-btn').removeClass('border-emerald-500 text-emerald-400').addClass('border-transparent text-gray-400 hover:text-white');
-                $(this).addClass('border-emerald-500 text-emerald-400').removeClass('border-transparent text-gray-400');
-                
-                // コンテンツの切り替え表示
-                $('.tab-content').addClass('hidden').removeClass('block');
-                $('#' + targetTab).removeClass('hidden').addClass('block');
-            });
-        });
-    </script>
     <script th:src="@{/js/stock-detail_002.js}"></script>
 </body>
 </html>
