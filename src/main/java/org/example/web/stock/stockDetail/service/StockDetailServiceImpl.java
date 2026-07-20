@@ -192,7 +192,7 @@ public class StockDetailServiceImpl implements StockDetailService {
         List<Double> fcfList = new ArrayList<>();
         List<Double> operationCfMarginList = new ArrayList<>();
 
-        for (int year = endYear; year >= startYear; year--) {
+        for (int year = startYear; year <= endYear; year++) {
             fiscalYearLabels.add(String.valueOf(year));
             AnalysisIndicatorEntity entity = dataMap.get(year);
 
