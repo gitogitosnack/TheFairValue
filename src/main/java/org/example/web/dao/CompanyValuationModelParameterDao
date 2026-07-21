@@ -1,0 +1,52 @@
+package org.example.web.stock.stockDetail.dao; // パッケージ名は環境に合わせて変更してください
+
+import org.example.web.stock.stockDetail.domain.CompanyValuationModelParameter;
+import org.seasar.doma.Dao;
+import org.seasar.doma.Delete;
+import org.seasar.doma.Insert;
+import org.seasar.doma.Select;
+import org.seasar.doma.Update;
+import org.seasar.doma.boot.ConfigAutowireable;
+
+@Dao
+@ConfigAutowireable
+public interface CompanyValuationModelParameterDao {
+
+    /**
+     * 複合主キーで1件検索します。
+     * 
+     * @param companyId 企業ID
+     * @param valuationParameterId 評価パラメータID
+     * @return 該当するパラメータデータ
+     */
+    @Select
+    CompanyValuationModelParameter selectById(Integer companyId, Integer valuationParameterId);
+
+    /**
+     * データを登録します。
+     * 
+     * @param entity 登録対象のエンティティ
+     * @return 更新件数
+     */
+    @Insert
+    int insert(CompanyValuationModelParameter entity);
+
+    /**
+     * データを更新します。
+     * 
+     * @param entity 更新対象のエンティティ
+     * @return 更新件数
+     */
+    @Update
+    int update(CompanyValuationModelParameter entity);
+
+    /**
+     * データを削除します。
+     * 
+     * @param entity 削除対象のエンティティ
+     * @return 更新件数
+     */
+    @Delete
+    int delete(CompanyValuationModelParameter entity);
+
+}

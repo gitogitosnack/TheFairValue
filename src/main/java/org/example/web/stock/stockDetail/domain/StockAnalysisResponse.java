@@ -2,11 +2,19 @@ package org.example.web.stock.stockDetail.domain;
 
 public class StockAnalysisResponse {
 
-    // temporary dto
+    private TheoreticalPriceValuationDto theoreticalPriceValuationDto;
     private KeyFinancialIndicatorDto keyFinancialIndicatorDto;
     private FinancialIndicatorDto financialIndicatorDto;
 
     // Getter and Setter
+    public TheoreticalPriceValuationDto getTheoreticalPriceValuationDto() {
+        return theoreticalPriceValuationDto;
+    }
+
+    public void setTheoreticalPriceValuationDto(TheoreticalPriceValuationDto theoreticalPriceValuationDto) {
+        this.theoreticalPriceValuationDto = theoreticalPriceValuationDto;
+    }
+
     public KeyFinancialIndicatorDto getKeyFinancialIndicatorDto() {
         return keyFinancialIndicatorDto;
     }
@@ -15,7 +23,7 @@ public class StockAnalysisResponse {
         this.keyFinancialIndicatorDto = keyFinancialIndicatorDto;
     }
 
-    public FinancialIndicatorDto getDto2() {
+    public FinancialIndicatorDto getFinancialIndicatorDto() {
         return financialIndicatorDto;
     }
 

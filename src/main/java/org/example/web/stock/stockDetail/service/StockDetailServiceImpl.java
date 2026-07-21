@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.example.web.dao.AnalysisIndicatorDao;
 import org.example.web.dao.CompanyDao;
+import org.example.web.dao.CompanyValuationModelParameterDao;
 import org.example.web.dao.ValuationModelDao;
 import org.example.web.entity.AnalysisIndicatorEntity;
 import org.example.web.entity.CompanyEntity;
@@ -17,6 +18,7 @@ import org.example.web.entity.ValuationModelEntity;
 import org.example.web.stock.common.service.CIMapper;
 import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
 import org.example.web.stock.stockDetail.domain.KeyFinancialIndicatorDto;
+import org.example.web.stock.stockDetail.domain.CompanyValuationModelParameterEntity;
 import org.example.web.stock.stockDetail.domain.FinancialIndicatorDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,9 @@ public class StockDetailServiceImpl implements StockDetailService {
     @Autowired
     AnalysisIndicatorDao analysisIndicatorDao;
 
+    @Autowired
+    CompanyValuationModelParameterDao companyValuationModelParameterDao;
+
     // ====================================================
     // --- 0. main process for getting company details indicators ---
     // ====================================================
@@ -64,10 +69,8 @@ public class StockDetailServiceImpl implements StockDetailService {
         // Get the current_price
         this.getCompanyCodeAndName(companyId);
 
-        // Get the calc model id and name
-        this.getCalculationCodeAndName(companyId);
-
-        // Get the 割安割高度(TBC)
+        // Get the parameters for dcf valuation
+        this.getParamsForDcf(companyId);
 
         // Get the values for レーダーチャート from 総合診断用テーブル(TBC)
 
@@ -105,18 +108,37 @@ public class StockDetailServiceImpl implements StockDetailService {
         }
     }
 
-    // This function gets the calc model and name.
-    void getCalculationCodeAndName(Integer id) {
-        Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(id);
-        if (calcModel.isPresent()) {
-            // Set the calcModel id to dto / String.valueOf() or Integer.toString()
-            keyFinancialIndicatorDto.setCalcurationId(String.valueOf(calcModel.get().getId()));
-            // Set the calcModel name to dto
-            keyFinancialIndicatorDto.setCalcurationName(calcModel.get().getModelName());
-        }
-    }
+    // // This function gets the calc model and name.
+    // void getCalculationCodeAndName(Integer id) {
+    // Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(id);
+    // if (calcModel.isPresent()) {
+    // // Set the calcModel id to dto / String.valueOf() or Integer.toString()
+    // keyFinancialIndicatorDto.setCalcurationId(String.valueOf(calcModel.get().getId()));
+    // // Set the calcModel name to dto
+    // keyFinancialIndicatorDto.setCalcurationName(calcModel.get().getModelName());
+    // }
+    // }
 
-    // Get the 割安割高度
+    // Get the parameters for dcf valuation
+    void getParamsForDcf(Integer companyId) {
+        // get valuation model: dcf
+        // 現在は固定IDを指定しているが、将来、企業データが持っている評価モデルIDを引数に渡してMap型で取得。
+        Integer dcfId = 1;
+        // 企業データが持っている評価モデルIDを取得
+        List<CompanyValuationModelParameterEntity> params = companyValuationModelParameterDao.selectAll(companyId);
+        List<ValuationParametersEntity> models = 
+
+        List<ValuationModelEntity> models = valuationModelDao.selectById(dcfId);
+        if (dcf.isPresent()) {
+            // get params related to dcf; 割引率、将来5年間成長率、永久成長率
+            Map<>
+        }
+
+
+        // get fcf
+        List<>
+
+    }
 
     // Get the values for レーダーチャート from 総合診断用テーブル
 
