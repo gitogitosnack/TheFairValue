@@ -1,6 +1,6 @@
 package org.example.web.stock.valuationmodel.service;
 
-import org.example.web.dao.ValuationModelDao;
+import org.example.web.dao.ValuationModelsDao;
 import org.example.web.stock.valuationmodel.domain.ValuationModelForm;
 import org.example.web.stock.valuationmodel.domain.ValuationModelResponseDto;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ import java.util.List;
 @Transactional
 public class ValuationModelServiceImpl implements ValuationModelService {
 
-    private final ValuationModelDao valuationModelDao;
+    private final ValuationModelsDao valuationModelDao;
 
-    public ValuationModelServiceImpl(ValuationModelDao valuationModelDao) {
+    public ValuationModelServiceImpl(ValuationModelsDao valuationModelDao) {
         this.valuationModelDao = valuationModelDao;
     }
 

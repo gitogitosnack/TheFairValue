@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Dao
 @ConfigAutowireable
-public interface ValuationModelDao {
+public interface ValuationModelsDao {
     @Select
     List<ValuationModelEntity> selectAll();
 

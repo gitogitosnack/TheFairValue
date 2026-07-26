@@ -39,7 +39,7 @@
     <main class="max-w-7xl mx-auto p-4 space-y-6">
       <div class="bg-gray-950 border border-gray-800 rounded-xl p-5">
         <div class="flex justify-between items-start">
-          <div th:object="${analysisData.dto1}">
+          <div th:object="${analysisData.keyFinancialIndicatorDto}">
             <span
               th:text="*{companyCode} + ' / ' + 'xx市場'"
               class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-800 px-2 py-0.5 rounded"
@@ -54,7 +54,7 @@
           </div>
           <div class="text-right">
             <div
-              th:text="'¥' + ${#numbers.formatInteger(analysisData.dto1.currentPrice, 3, 'COMMA')}"
+              th:text="'¥' + ${#numbers.formatInteger(analysisData.keyFinancialIndicatorDto.currentPrice, 3, 'COMMA')}"
               class="text-2xl font-mono font-bold text-white"
             >
               2,650.5<span class="text-sm font-normal text-gray-400 ml-1"
@@ -271,12 +271,12 @@
             </h3>
             <p class="text-xs text-gray-400">
               <span
-                th:if="${analysisData.dto1.mainIndicatorYearLabel != null}"
-                th:text="|${analysisData.dto1.mainIndicatorYearLabel}年度のデータ|"
+                th:if="${analysisData.keyFinancialIndicatorDto.mainIndicatorYearLabel != null}"
+                th:text="|${analysisData.keyFinancialIndicatorDto.mainIndicatorYearLabel}年度のデータ|"
                 >2025年度のデータ</span
               >
               <span
-                th:unless="${analysisData.dto1.mainIndicatorYearLabel != null}"
+                th:unless="${analysisData.keyFinancialIndicatorDto.mainIndicatorYearLabel != null}"
                 >最新確定通期ベース</span
               >
             </p>
@@ -289,7 +289,7 @@
               <div class="text-xs text-gray-400 mb-0.5">PER (予想)</div>
               <div
                 class="text-base font-mono font-bold text-white"
-                th:text="|${analysisData.dto1.per}倍|"
+                th:text="|${analysisData.keyFinancialIndicatorDto.per}倍|"
               >
                 12.4倍
               </div>
@@ -298,7 +298,7 @@
               <div class="text-xs text-gray-400 mb-0.5">PBR (実績)</div>
               <div
                 class="text-base font-mono font-bold text-white"
-                th:text="|${analysisData.dto1.pbr}倍|"
+                th:text="|${analysisData.keyFinancialIndicatorDto.pbr}倍|"
               >
                 0.85倍
               </div>
@@ -307,7 +307,7 @@
               <div class="text-xs text-gray-400 mb-0.5">配当利回り</div>
               <div
                 class="text-base font-mono font-bold text-white"
-                th:text="|${analysisData.dto1.dividendYield}%|"
+                th:text="|${analysisData.keyFinancialIndicatorDto.dividendYield}%|"
               >
                 3.8%
               </div>
@@ -316,7 +316,7 @@
               <div class="text-xs text-gray-400 mb-0.5">自己資本比率</div>
               <div
                 class="text-base font-mono font-bold text-white"
-                th:text="|${analysisData.dto1.equityRatio}%|"
+                th:text="|${analysisData.keyFinancialIndicatorDto.equityRatio}%|"
               >
                 62.5%
               </div>
@@ -370,7 +370,7 @@
         <div
           id="profit"
           class="tab-content block"
-          th:object="${analysisData.dto2}"
+          th:object="${analysisData.financialIndicatorDto}"
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
@@ -450,7 +450,7 @@
         <div
           id="efficiency"
           class="tab-content hidden"
-          th:object="${analysisData.dto2}"
+          th:object="${analysisData.financialIndicatorDto}"
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
@@ -526,7 +526,7 @@
         <div
           id="safety"
           class="tab-content hidden"
-          th:object="${analysisData.dto2}"
+          th:object="${analysisData.financialIndicatorDto}"
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
@@ -602,7 +602,7 @@
         <div
           id="cashflow"
           class="tab-content hidden"
-          th:object="${analysisData.dto2}"
+          th:object="${analysisData.financialIndicatorDto}"
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
@@ -664,37 +664,57 @@
 
     <script th:inline="javascript">
       var chartData = {
-        fiscalYearLabels: /*[[${analysisData.dto2.fiscalYearLabels}]]*/ [
-          "2022",
-          "2023",
-          "2024",
+        fiscalYearLabels:
+          /*[[${analysisData.financialIndicatorDto.fiscalYearLabels}]]*/ [
+            "2022",
+            "2023",
+            "2024",
+          ],
+        roeList: /*[[${analysisData.financialIndicatorDto.roeList}]]*/ [
+          10.2, 11.5, 12.5,
         ],
-        roeList: /*[[${analysisData.dto2.roeList}]]*/ [10.2, 11.5, 12.5],
-        grossMarginList: /*[[${analysisData.dto2.grossMarginList}]]*/ [
-          32.0, 33.0, 33.5,
+        grossMarginList:
+          /*[[${analysisData.financialIndicatorDto.grossMarginList}]]*/ [
+            32.0, 33.0, 33.5,
+          ],
+        netMarginList:
+          /*[[${analysisData.financialIndicatorDto.netMarginList}]]*/ [
+            7.5, 7.8, 8.0,
+          ],
+        epsList: /*[[${analysisData.financialIndicatorDto.epsList}]]*/ [
+          420, 450, 485,
         ],
-        netMarginList: /*[[${analysisData.dto2.netMarginList}]]*/ [
-          7.5, 7.8, 8.0,
-        ],
-        epsList: /*[[${analysisData.dto2.epsList}]]*/ [420, 450, 485],
-        assetTurnoverList: /*[[${analysisData.dto2.assetTurnoverList}]]*/ [
-          1.0, 1.1, 1.2,
-        ],
+        assetTurnoverList:
+          /*[[${analysisData.financialIndicatorDto.assetTurnoverList}]]*/ [
+            1.0, 1.1, 1.2,
+          ],
         inventoryTurnoverList:
-          /*[[${analysisData.dto2.inventoryTurnoverList}]]*/ [4.2, 4.5, 4.8],
+          /*[[${analysisData.financialIndicatorDto.inventoryTurnoverList}]]*/ [
+            4.2, 4.5, 4.8,
+          ],
         receivablesTurnoverList:
-          /*[[${analysisData.dto2.receivablesTurnoverList}]]*/ [5.0, 5.2, 5.5],
-        equityRatioList: /*[[${analysisData.dto2.equityRatioList}]]*/ [
-          60.0, 61.2, 62.5,
-        ],
-        debtEquityRatioList: /*[[${analysisData.dto2.debtEquityRatioList}]]*/ [
-          0.5, 0.48, 0.45,
-        ],
+          /*[[${analysisData.financialIndicatorDto.receivablesTurnoverList}]]*/ [
+            5.0, 5.2, 5.5,
+          ],
+        equityRatioList:
+          /*[[${analysisData.financialIndicatorDto.equityRatioList}]]*/ [
+            60.0, 61.2, 62.5,
+          ],
+        debtEquityRatioList:
+          /*[[${analysisData.financialIndicatorDto.debtEquityRatioList}]]*/ [
+            0.5, 0.48, 0.45,
+          ],
         interestCoverageRatioList:
-          /*[[${analysisData.dto2.interestCoverageRatioList}]]*/ [20, 22, 25.3],
-        fcfList: /*[[${analysisData.dto2.fcfList}]]*/ [1000, 1150, 1200],
+          /*[[${analysisData.financialIndicatorDto.interestCoverageRatioList}]]*/ [
+            20, 22, 25.3,
+          ],
+        fcfList: /*[[${analysisData.financialIndicatorDto.fcfList}]]*/ [
+          1000, 1150, 1200,
+        ],
         operationCfMarginList:
-          /*[[${analysisData.dto2.operationCfMarginList}]]*/ [13.0, 13.8, 14.2],
+          /*[[${analysisData.financialIndicatorDto.operationCfMarginList}]]*/ [
+            13.0, 13.8, 14.2,
+          ],
       };
     </script>
 

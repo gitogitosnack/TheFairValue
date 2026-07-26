@@ -1,4 +1,4 @@
-package org.example.web.stock.stockDetail.domain; // パッケージ名は環境に合わせて調整してください
+package org.example.web.entity;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
@@ -24,6 +24,47 @@ public class ValuationParametersEntity {
 
     @Column(name = "parameter_name")
     private String parameterName;
+
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getValuationModelId() {
+        return valuationModelId;
+    }
+
+    public void setValuationModelId(Integer valuationModelId) {
+        this.valuationModelId = valuationModelId;
+    }
+
+    public String getParameterCode() {
+        return parameterCode;
+    }
+
+    public void setParameterCode(String parameterCode) {
+        this.parameterCode = parameterCode;
+    }
+
+    public String getParameterName() {
+        return parameterName;
+    }
+
+    public void setParameterName(String parameterName) {
+        this.parameterName = parameterName;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
 
     @Column(name = "display_order")
     private Integer displayOrder;
