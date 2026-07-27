@@ -4,7 +4,12 @@ import java.math.BigDecimal;
 
 public class ValuationParameterDto {
     private Integer parameterId;
+    private String parameterCode;
+    private String parameterName; // 例: "WACC", "加重平均資本コスト"
+    private Integer displayOrder;
+    private BigDecimal defaultValue;
 
+    // getter and setter
     public Integer getParameterId() {
         return parameterId;
     }
@@ -29,6 +34,14 @@ public class ValuationParameterDto {
         this.parameterName = parameterName;
     }
 
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
+
     public BigDecimal getDefaultValue() {
         return defaultValue;
     }
@@ -36,9 +49,4 @@ public class ValuationParameterDto {
     public void setDefaultValue(BigDecimal defaultValue) {
         this.defaultValue = defaultValue;
     }
-
-    private String parameterCode; // 例: "WACC"
-    private String parameterName; // 例: "加重平均資本コスト"
-    private BigDecimal defaultValue;
-
 }
