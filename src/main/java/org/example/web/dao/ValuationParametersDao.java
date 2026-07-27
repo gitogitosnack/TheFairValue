@@ -14,7 +14,7 @@ public interface ValuationParametersDao {
     List<ValuationParametersEntity> selectAll();
 
     @Select
-    Optional<ValuationParametersEntity> selectById(Integer id);
+    List<ValuationParametersEntity> selectById(Integer id);
 
     @Insert
     int insert(ValuationParametersEntity entity);

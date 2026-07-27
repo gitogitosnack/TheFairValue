@@ -25,6 +25,9 @@ public class ValuationParametersEntity {
     @Column(name = "parameter_name")
     private String parameterName;
 
+    @Column(name = "display_order")
+    private Integer displayOrder;
+
     // Getters and Setters
     public Integer getId() {
         return id;
@@ -65,8 +68,4 @@ public class ValuationParametersEntity {
     public void setDisplayOrder(Integer displayOrder) {
         this.displayOrder = displayOrder;
     }
-
-    @Column(name = "display_order")
-    private Integer displayOrder;
-
 }
