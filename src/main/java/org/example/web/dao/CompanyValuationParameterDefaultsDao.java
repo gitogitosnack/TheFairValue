@@ -11,13 +11,24 @@ import java.util.Optional;
 public interface CompanyValuationParameterDefaultsDao {
 
     /**
-     * 複合主キーで1件検索します。
+     * 複合主キーの内、企業IDのみで検索し、複数件取得する。
      * 
      * @param companyId 企業ID
      * @return 該当するパラメータデータ
      */
     @Select
     List<CompanyValuationParameterDefaultsEntity> selectById(Integer companyId);
+
+    /**
+     * 複合主キーで1件検索します。
+     * 
+     * @param companyId            企業ID
+     * @param valuationParameterId パラメータID
+     * @return 該当するパラメータデータ
+     */
+    @Select
+    CompanyValuationParameterDefaultsEntity selectByCompanyIdAndParamId(Integer companyId,
+            Integer valuationParameterId);
 
     /**
      * データを登録します。

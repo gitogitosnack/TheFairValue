@@ -9,31 +9,40 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.example.web.dao.AnalysisIndicatorDao;
+import org.example.web.dao.AnalysisIndicatorDaoImpl;
 import org.example.web.dao.CompanyDao;
-import org.example.web.dao.CompanyValuationModelParameterDao;
-import org.example.web.dao.ValuationModelDao;
+import org.example.web.dao.CompanyValuationModelsDao;
+import org.example.web.dao.CompanyValuationParameterDefaultsDao;
+import org.example.web.dao.ValuationModelsDao;
+import org.example.web.dao.ValuationParametersDao;
 import org.example.web.entity.AnalysisIndicatorEntity;
 import org.example.web.entity.CompanyEntity;
+import org.example.web.entity.CompanyValuationModelsEntity;
+import org.example.web.entity.CompanyValuationParameterDefaultsEntity;
 import org.example.web.entity.ValuationModelEntity;
+import org.example.web.entity.ValuationParametersEntity;
 import org.example.web.stock.common.service.CIMapper;
-import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
-import org.example.web.stock.stockDetail.domain.KeyFinancialIndicatorDto;
-import org.example.web.stock.stockDetail.domain.CompanyValuationModelParameterEntity;
 import org.example.web.stock.stockDetail.domain.FinancialIndicatorDto;
-
+import org.example.web.stock.stockDetail.domain.KeyFinancialIndicatorDto;
+import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
+import org.example.web.stock.stockDetail.domain.ValuationModelDto;
+import org.example.web.stock.stockDetail.domain.ValuationParameterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ch.qos.logback.core.model.Model;
 
 @Service
 public class StockDetailServiceImpl implements StockDetailService {
 
+    private final AnalysisIndicatorDaoImpl analysisIndicatorDaoImpl;
     // 本日の日付から「年」を取得して入れる
     private static final int CURRENT_YEAR = LocalDate.now().getYear();
     // private static final int CURRENT_YEAR = 2025;
     private static final String FISCAL_QUARTER_Q4 = "Q4";
     private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
 
-    // initialize the dto1
+    // initialize the keyFinancialIndicatorDto
     KeyFinancialIndicatorDto keyFinancialIndicatorDto = new KeyFinancialIndicatorDto();
 
     // initialize the FinancialIndicatorDto
@@ -46,13 +55,23 @@ public class StockDetailServiceImpl implements StockDetailService {
     CompanyDao companyDao;
 
     @Autowired
-    ValuationModelDao valuationModelDao;
+    ValuationModelsDao valuationModelDao;
 
     @Autowired
     AnalysisIndicatorDao analysisIndicatorDao;
 
     @Autowired
-    CompanyValuationModelParameterDao companyValuationModelParameterDao;
+    CompanyValuationParameterDefaultsDao companyValuationParameterDefaultsDao;
+
+    @Autowired
+    CompanyValuationModelsDao companyValuationModelsDao;
+
+    @Autowired
+    ValuationParametersDao valuationParameterDao;
+
+    StockDetailServiceImpl(AnalysisIndicatorDaoImpl analysisIndicatorDaoImpl) {
+        this.analysisIndicatorDaoImpl = analysisIndicatorDaoImpl;
+    }
 
     // ====================================================
     // --- 0. main process for getting company details indicators ---
@@ -70,9 +89,12 @@ public class StockDetailServiceImpl implements StockDetailService {
         this.getCompanyCodeAndName(companyId);
 
         // Get the parameters for dcf valuation
-        this.getParamsForDcf(companyId);
+        // List<CompanyValuationModelsEntity> models =
+        // this.getModelsRelatedToCompany(companyId);
 
-        // Get the values for レーダーチャート from 総合診断用テーブル(TBC)
+        // Get the parameters for each model and their default values from the
+        // company_valuation_parameter_defaults table.
+        this.getDefaultParamValues(companyId);
 
         // Get the per, pbr, dividend_yield, equity_ratio
         this.getMarketIndicators(companyId);
@@ -108,39 +130,56 @@ public class StockDetailServiceImpl implements StockDetailService {
         }
     }
 
-    // // This function gets the calc model and name.
-    // void getCalculationCodeAndName(Integer id) {
-    // Optional<ValuationModelEntity> calcModel = valuationModelDao.selectById(id);
-    // if (calcModel.isPresent()) {
-    // // Set the calcModel id to dto / String.valueOf() or Integer.toString()
-    // keyFinancialIndicatorDto.setCalcurationId(String.valueOf(calcModel.get().getId()));
-    // // Set the calcModel name to dto
-    // keyFinancialIndicatorDto.setCalcurationName(calcModel.get().getModelName());
-    // }
-    // }
+    // Get the parameters to display in the company detail page.
+    void getDefaultParamValues(Integer id) {
+        // get company id from company master table.
+        Optional<CompanyEntity> company = companyDao.selectById(id);
+        if (company.isPresent()) {
+            // get models related to the company from company_valuation_models table.
+            List<CompanyValuationModelsEntity> models = companyValuationModelsDao.selectById(id);
+            // prepare the valuation model DTOs to send to the front-end.
+            List<ValuationModelDto> valuationModelDtoList = new ArrayList<>();
 
-    // Get the parameters for dcf valuation
-    void getParamsForDcf(Integer companyId) {
-        // get valuation model: dcf
-        // 現在は固定IDを指定しているが、将来、企業データが持っている評価モデルIDを引数に渡してMap型で取得。
-        Integer dcfId = 1;
-        // 企業データが持っている評価モデルIDを取得
-        List<CompanyValuationModelParameterEntity> params = companyValuationModelParameterDao.selectAll(companyId);
-        List<ValuationParametersEntity> models = 
+            for (CompanyValuationModelsEntity model : models) {
+                // prepare the valuation model DTO for each model and add it to the list.
+                ValuationModelDto valuationModelDto = new ValuationModelDto();
+                valuationModelDto.setModelId(model.getValuationModelId());
 
-        List<ValuationModelEntity> models = valuationModelDao.selectById(dcfId);
-        if (dcf.isPresent()) {
-            // get params related to dcf; 割引率、将来5年間成長率、永久成長率
-            Map<>
+                // get the model name from the valuation_model master table using the model id.
+                Optional<ValuationModelEntity> modelMaster = valuationModelDao.selectById(model.getValuationModelId());
+                if (modelMaster.isPresent()) {
+                    valuationModelDto.setModelName(modelMaster.get().getModelName());
+                }
+                // get the default parameters making up the model.
+                List<ValuationParametersEntity> params = valuationParameterDao
+                        .selectById(model.getValuationModelId());
+
+                // prepare the param DTOs to send to the front-end.
+                List<ValuationParameterDto> paramDtoList = new ArrayList<>();
+
+                for (ValuationParametersEntity param : params) {
+                    // Process each default parameter
+                    ValuationParameterDto paramDto = new ValuationParameterDto();
+                    paramDto.setParameterId(param.getId());
+                    paramDto.setParameterName(param.getParameterName());
+                    paramDto.setParameterCode(param.getParameterCode());
+                    paramDto.setDisplayOrder(param.getDisplayOrder());
+                    // get the default value of the param.
+                    CompanyValuationParameterDefaultsEntity paramDefault = companyValuationParameterDefaultsDao
+                            .selectByCompanyIdAndParamId(id, param.getId());
+                    if (paramDefault.getDefaultValue() != null) {
+                        paramDto.setDefaultValue(paramDefault.getDefaultValue());
+                    }
+                    paramDtoList.add(paramDto);
+                }
+                valuationModelDto.setParameters(paramDtoList);
+
+                valuationModelDtoList.add(valuationModelDto);
+            }
+            // Set the valuation model DTO list to the keyFinancialIndicatorDto
+            keyFinancialIndicatorDto.setModels(valuationModelDtoList);
         }
-
-
-        // get fcf
-        List<>
-
     }
-
-    // Get the values for レーダーチャート from 総合診断用テーブル
 
     // Get the per, pbr, dividend_yield, equity_ratio
 
