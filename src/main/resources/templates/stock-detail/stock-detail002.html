@@ -15,7 +15,8 @@
   <body class="bg-gray-900 text-gray-100 font-sans antialiased">
     <header class="border-b border-gray-800 bg-gray-950 p-4 sticky top-0 z-50">
       <div
-        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between
+          items-center gap-4"
       >
         <div class="flex items-center gap-3">
           <i class="fa-solid fa-chart-line text-emerald-400 text-2xl"></i>
@@ -27,10 +28,13 @@
           <input
             type="text"
             placeholder="証券コードまたは銘柄名を入力 (例: 7203 トヨタ)"
-            class="w-full bg-gray-800 text-sm rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-gray-700"
+            class="w-full bg-gray-800 text-sm rounded-lg pl-10 pr-4 py-2
+              focus:outline-none focus:ring-2 focus:ring-emerald-500 border
+              border-gray-700"
           />
           <i
-            class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-sm"
+            class="fa-solid fa-search absolute left-3 top-3 text-gray-400
+              text-sm"
           ></i>
         </div>
       </div>
@@ -42,7 +46,8 @@
           <div th:object="${analysisData.keyFinancialIndicatorDto}">
             <span
               th:text="*{companyCode} + ' / ' + 'xx市場'"
-              class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-800 px-2 py-0.5 rounded"
+              class="text-xs font-semibold uppercase tracking-wider
+                text-gray-400 bg-gray-800 px-2 py-0.5 rounded"
               >7203 / 東証プライム</span
             >
             <h2
@@ -70,10 +75,12 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div
-          class="lg:col-span-1 bg-gray-950 border border-gray-800 rounded-xl p-5 space-y-4 h-fit"
+          class="lg:col-span-1 bg-gray-950 border border-gray-800 rounded-xl p-5
+            space-y-4 h-fit"
         >
           <h3
-            class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2"
+            class="text-sm font-bold text-gray-300 border-b border-gray-800
+              pb-2"
           >
             <i class="fa-solid fa-sliders mr-2 text-emerald-400"></i
             >シミュレーションパラメータ
@@ -92,7 +99,8 @@
               max="50"
               step="0.1"
               value="50.0"
-              class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer"
+              class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg
+                appearance-none cursor-pointer"
             />
           </div>
           <div class="slider-param-group">
@@ -108,7 +116,8 @@
               max="100"
               step="0.5"
               value="10.0"
-              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer"
+              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5
+                rounded-lg appearance-none cursor-pointer"
             />
           </div>
           <div class="slider-param-group">
@@ -124,138 +133,121 @@
               max="50"
               step="0.1"
               value="0.0"
-              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg appearance-none cursor-pointer"
+              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5
+                rounded-lg appearance-none cursor-pointer"
             />
           </div>
           <button
-            class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20"
+            class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 text-white
+              font-medium text-sm py-2.5 px-4 rounded-lg transition-colors
+              shadow-lg shadow-emerald-900/20"
           >
             数値を再計算する
           </button>
         </div>
 
         <div class="lg:col-span-2 space-y-6">
-          <div class="bg-gray-950 border border-gray-800 rounded-xl p-5">
-            <h3 class="text-sm font-bold text-gray-300 mb-4">
-              <i class="fa-solid fa-scale-balanced mr-2 text-emerald-400"></i
-              >理論株価レンジ比較（現在株価: 2,650.5円）
+          <!-- ================= 理論株価レンジ比較 ================= -->
+          <div
+            class="bg-gray-950 border border-gray-800 rounded-xl p-5"
+            th:if="${analysisData?.theoreticalPriceValuationDto?.models != null and !#lists.isEmpty(analysisData.theoreticalPriceValuationDto.models)}"
+          >
+            <h3 class="text-sm font-bold text-gray-300 mb-4 flex items-center">
+              <i class="fa-solid fa-scale-balanced mr-2 text-emerald-400"></i>
+              理論株価レンジ比較（現在株価: 2,650.5円）
             </h3>
+
             <div class="space-y-6 py-2">
-              <div>
+              <!-- モデルの数だけ繰り返し描画 -->
+              <div
+                th:each="model, iterStat : ${analysisData.theoreticalPriceValuationDto.models}"
+              >
                 <div class="flex justify-between text-xs mb-1">
-                  <span class="font-medium text-gray-300"
-                    >① DCF法 (事業価値ベース)</span
-                  >
-                  <span class="font-mono text-emerald-400 font-bold"
-                    >3,200.0 円 (割安)</span
-                  >
+                  <span class="font-medium text-gray-300">
+                    <span th:text="${iterStat.count}">1</span>.
+                    <span th:text="${model.modelName}">DCF法</span>
+                  </span>
+                  <!-- 動的な判定例 (値に応じて色変更) -->
+                  <span class="font-mono font-bold text-emerald-400">
+                    3,200.0 円 (割安)
+                  </span>
                 </div>
+
                 <div
-                  class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden"
+                  class="w-full bg-gray-800 h-4 rounded-full relative
+                    overflow-hidden"
                 >
+                  <!-- 理論株価レンジバー -->
                   <div
-                    class="absolute left-[30%] right-[20%] bg-emerald-500/30 border-l border-r border-emerald-400 h-full"
+                    class="absolute left-[30%] right-[20%] bg-emerald-500/30
+                      border-l border-r border-emerald-400 h-full"
                   ></div>
+                  <!-- 現在株価インジケーター -->
                   <div
-                    class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between text-xs mb-1">
-                  <span class="font-medium text-gray-300"
-                    >② PERマルチプル法</span
-                  >
-                  <span class="font-mono text-gray-400 font-bold"
-                    >2,550.0 円 (適正)</span
-                  >
-                </div>
-                <div
-                  class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden"
-                >
-                  <div
-                    class="absolute left-[40%] right-[35%] bg-yellow-500/30 border-l border-r border-yellow-400 h-full"
-                  ></div>
-                  <div
-                    class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between text-xs mb-1">
-                  <span class="font-medium text-gray-300"
-                    >③ 配当割引モデル (DDM)</span
-                  >
-                  <span class="font-mono text-rose-400 font-bold"
-                    >2,100.0 円 (割高)</span
-                  >
-                </div>
-                <div
-                  class="w-full bg-gray-800 h-4 rounded-full relative overflow-hidden"
-                >
-                  <div
-                    class="absolute left-[15%] right-[55%] bg-rose-500/30 border-l border-r border-rose-400 h-full"
-                  ></div>
-                  <div
-                    class="absolute left-[45%] w-1 bg-white h-full z-10 shadow-[0_0_8px_#fff]"
+                    class="absolute left-[45%] w-1 bg-white h-full z-10
+                      shadow-[0_0_8px_#fff]"
                   ></div>
                 </div>
               </div>
             </div>
+
+            <!-- 凡例エリア -->
             <div
-              class="flex justify-center gap-6 text-xs text-gray-400 mt-4 pt-3 border-t border-gray-900"
+              class="flex flex-wrap justify-center gap-6 text-xs text-gray-400
+                mt-4 pt-3 border-t border-gray-900"
             >
-              <span class="flex items-center gap-1.5"
-                ><span class="w-3 h-1.5 bg-white shadow-[0_0_4px_#fff]"></span
-                >現在株価</span
-              >
-              <span class="flex items-center gap-1.5"
-                ><span
+              <span class="flex items-center gap-1.5">
+                <span class="w-3 h-1.5 bg-white shadow-[0_0_4px_#fff]"></span
+                >現在株価
+              </span>
+              <span class="flex items-center gap-1.5">
+                <span
                   class="w-3 h-1.5 bg-emerald-500/30 border border-emerald-400"
                 ></span
-                >DCF理論レンジ</span
-              >
-              <span class="flex items-center gap-1.5"
-                ><span
-                  class="w-3 h-1.5 bg-yellow-500/30 border border-yellow-400"
-                ></span
-                >PER適正レンジ</span
-              >
+                >理論レンジ
+              </span>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
-              <div class="text-xs text-emerald-400 font-bold mb-1">DCF法</div>
+          <!-- モデルデータが空（0件）の場合の案内表示 -->
+          <div
+            class="bg-gray-950 border border-gray-800 rounded-xl p-8
+              text-center"
+            th:if="${analysisData?.theoreticalPriceValuationDto?.models == null or #lists.isEmpty(analysisData.theoreticalPriceValuationDto.models)}"
+          >
+            <i class="fa-solid fa-circle-info text-2xl text-gray-500 mb-2"></i>
+            <p class="text-sm text-gray-400">
+              対象企業の理論株価評価モデルデータが登録されていません。
+            </p>
+          </div>
+
+          <!-- ================= モデル別詳細カード (グリッド配置) ================= -->
+          <!-- 取得件数に合わせてレスポンシブな列数を動的コントロール (例: 1列/2列/3列) -->
+          <div
+            class="grid grid-cols-1 gap-4"
+            th:classappend="${#lists.size(analysisData.theoreticalPriceValuationDto.models) == 2} ? 'md:grid-cols-2' : (${#lists.size(analysisData.theoreticalPriceValuationDto.models) >= 3} ? 'md:grid-cols-3' : '')"
+          >
+            <div
+              th:each="model : ${analysisData.theoreticalPriceValuationDto.models}"
+              class="bg-gray-950 border border-gray-800 rounded-xl p-4"
+            >
+              <div
+                class="text-xs text-emerald-400 font-bold mb-1"
+                th:text="${model.modelName}"
+              >
+                DCF法
+              </div>
+
               <div class="text-xl font-mono font-bold text-white">
                 3,200 <span class="text-xs font-normal text-gray-400">円</span>
               </div>
+
+              <!-- パラメータリストから説明文や根拠を表示する場合 -->
               <p class="text-[11px] text-gray-400 mt-2">
-                将来FCFをWACC
-                5.5%で割引。事業の現金創出力に対して現株価は割安水準。
-              </p>
-            </div>
-            <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
-              <div class="text-xs text-yellow-400 font-bold mb-1">
-                PER倍率法
-              </div>
-              <div class="text-xl font-mono font-bold text-white">
-                2,550 <span class="text-xs font-normal text-gray-400">円</span>
-              </div>
-              <p class="text-[11px] text-gray-400 mt-2">
-                予想EPS ×
-                類似企業14倍。セクター平均と比較してほぼ適正な株価水準。
-              </p>
-            </div>
-            <div class="bg-gray-950 border border-gray-800 rounded-xl p-4">
-              <div class="text-xs text-rose-400 font-bold mb-1">
-                配当割引モデル
-              </div>
-              <div class="text-xl font-mono font-bold text-white">
-                2,100 <span class="text-xs font-normal text-gray-400">円</span>
-              </div>
-              <p class="text-[11px] text-gray-400 mt-2">
-                現在の配当利回りと成長率から逆算。配当単体で見るとやや割高。
+                <span th:each="param : ${model.parameters}">
+                  <span th:text="${param.parameterName}">WACC</span>:
+                  <span th:text="${param.defaultValue}">5.5</span>%
+                </span>
               </p>
             </div>
           </div>
@@ -283,7 +275,8 @@
           </div>
 
           <div
-            class="grid grid-cols-2 sm:grid-cols-4 gap-4 border-y lg:border-y-0 lg:border-x border-gray-800 py-4 lg:py-0 lg:px-6"
+            class="grid grid-cols-2 sm:grid-cols-4 gap-4 border-y lg:border-y-0
+              lg:border-x border-gray-800 py-4 lg:py-0 lg:px-6"
           >
             <div class="text-center lg:text-left">
               <div class="text-xs text-gray-400 mb-0.5">PER (予想)</div>
@@ -325,7 +318,10 @@
 
           <div class="flex justify-end w-full">
             <button
-              class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-3 px-4 rounded-lg transition-colors shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2"
+              class="w-full bg-emerald-600 hover:bg-emerald-500 text-white
+                font-medium text-sm py-3 px-4 rounded-lg transition-colors
+                shadow-lg shadow-emerald-900/20 flex items-center justify-center
+                gap-2"
             >
               <i class="fa-solid fa-scale-unbalanced-flip"></i
               >他の銘柄と比較する
@@ -335,31 +331,41 @@
       </div>
 
       <div
-        class="bg-gray-950 border border-gray-800 rounded-xl p-6 space-y-6 w-full"
+        class="bg-gray-950 border border-gray-800 rounded-xl p-6 space-y-6
+          w-full"
       >
         <div
-          class="flex border-b border-gray-800 overflow-x-auto gap-2 pb-px no-scrollbar"
+          class="flex border-b border-gray-800 overflow-x-auto gap-2 pb-px
+            no-scrollbar"
         >
           <button
-            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-emerald-500 text-emerald-400 transition-all duration-200"
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap
+              border-b-2 border-emerald-500 text-emerald-400 transition-all
+              duration-200"
             data-tab="profit"
           >
             <i class="fa-solid fa-seedling mr-1.5"></i>収益・成長性 (①-⑥)
           </button>
           <button
-            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200"
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap
+              border-b-2 border-transparent text-gray-400 hover:text-white
+              transition-all duration-200"
             data-tab="efficiency"
           >
             <i class="fa-solid fa-arrows-spin mr-1.5"></i>効率性 (⑦-⑨)
           </button>
           <button
-            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200"
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap
+              border-b-2 border-transparent text-gray-400 hover:text-white
+              transition-all duration-200"
             data-tab="safety"
           >
             <i class="fa-solid fa-shield-halved mr-1.5"></i>安全性 (⑩-⑭)
           </button>
           <button
-            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-white transition-all duration-200"
+            class="tab-btn px-5 py-3 text-sm font-medium whitespace-nowrap
+              border-b-2 border-transparent text-gray-400 hover:text-white
+              transition-all duration-200"
             data-tab="cashflow"
           >
             <i class="fa-solid fa-money-bill-trend-up mr-1.5"></i
@@ -374,14 +380,16 @@
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
-              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60
+                flex items-center justify-center min-h-[280px]"
             >
               <canvas id="profitChart" class="w-full max-h-64"></canvas>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <thead
-                  class="text-xs uppercase bg-gray-900 text-gray-400 border-b border-gray-800"
+                  class="text-xs uppercase bg-gray-900 text-gray-400 border-b
+                    border-gray-800"
                 >
                   <tr>
                     <th class="p-4 font-semibold">指標(収益・成長)</th>
@@ -454,14 +462,16 @@
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
-              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60
+                flex items-center justify-center min-h-[280px]"
             >
               <canvas id="efficiencyChart" class="w-full max-h-64"></canvas>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <thead
-                  class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800"
+                  class="text-xs bg-gray-900 text-gray-400 border-b
+                    border-gray-800"
                 >
                   <tr>
                     <th class="p-4">指標(効率性)</th>
@@ -530,14 +540,16 @@
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
-              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60
+                flex items-center justify-center min-h-[280px]"
             >
               <canvas id="safetyChart" class="w-full max-h-64"></canvas>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <thead
-                  class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800"
+                  class="text-xs bg-gray-900 text-gray-400 border-b
+                    border-gray-800"
                 >
                   <tr>
                     <th class="p-4">指標(安全性)</th>
@@ -606,14 +618,16 @@
         >
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div
-              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60 flex items-center justify-center min-h-[280px]"
+              class="bg-gray-900/50 p-6 rounded-xl border border-gray-800/60
+                flex items-center justify-center min-h-[280px]"
             >
               <canvas id="cfChart" class="w-full max-h-64"></canvas>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <thead
-                  class="text-xs bg-gray-900 text-gray-400 border-b border-gray-800"
+                  class="text-xs bg-gray-900 text-gray-400 border-b
+                    border-gray-800"
                 >
                   <tr>
                     <th class="p-4">指標(CF)</th>

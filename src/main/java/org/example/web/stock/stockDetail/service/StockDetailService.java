@@ -6,7 +6,4 @@ public interface StockDetailService {
 
     public StockAnalysisResponse getComprehensiveAnalysis(String code);
 
-    // void getCompanyCodeAndName (String code);
-
-
 }

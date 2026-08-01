@@ -8,6 +8,15 @@ public class ValuationParameterDto {
     private String parameterName; // 例: "WACC", "加重平均資本コスト"
     private Integer displayOrder;
     private BigDecimal defaultValue;
+    private BigDecimal fcf; // financial statement data
+
+    public BigDecimal getFcf() {
+        return fcf;
+    }
+
+    public void setFcf(BigDecimal fcf) {
+        this.fcf = fcf;
+    }
 
     // getter and setter
     public Integer getParameterId() {

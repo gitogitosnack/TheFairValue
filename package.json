@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/gitogitosnack/TheFairValue#readme",
   "devDependencies": {
+    "prettier": "^3.9.6",
+    "prettier-plugin-classnames": "^0.10.4",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "vitest": "^4.1.10"
   }
 }

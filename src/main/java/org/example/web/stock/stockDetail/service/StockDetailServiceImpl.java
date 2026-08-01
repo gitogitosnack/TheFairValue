@@ -3,6 +3,7 @@ package org.example.web.stock.stockDetail.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +26,11 @@ import org.example.web.stock.common.service.CIMapper;
 import org.example.web.stock.stockDetail.domain.FinancialIndicatorDto;
 import org.example.web.stock.stockDetail.domain.KeyFinancialIndicatorDto;
 import org.example.web.stock.stockDetail.domain.StockAnalysisResponse;
+import org.example.web.stock.stockDetail.domain.TheoreticalPriceValuationDto;
 import org.example.web.stock.stockDetail.domain.ValuationModelDto;
 import org.example.web.stock.stockDetail.domain.ValuationParameterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ch.qos.logback.core.model.Model;
 
 @Service
 public class StockDetailServiceImpl implements StockDetailService {
@@ -41,6 +41,9 @@ public class StockDetailServiceImpl implements StockDetailService {
     // private static final int CURRENT_YEAR = 2025;
     private static final String FISCAL_QUARTER_Q4 = "Q4";
     private static final int DEFAULT_DISPLAY_YEARS_COUNT = 5;
+
+    // initialize the TheoreticalPriceValuationDto
+    TheoreticalPriceValuationDto theoreticalPriceValuationDto = new TheoreticalPriceValuationDto();
 
     // initialize the keyFinancialIndicatorDto
     KeyFinancialIndicatorDto keyFinancialIndicatorDto = new KeyFinancialIndicatorDto();
@@ -88,13 +91,9 @@ public class StockDetailServiceImpl implements StockDetailService {
         // Get the current_price
         this.getCompanyCodeAndName(companyId);
 
-        // Get the parameters for dcf valuation
-        // List<CompanyValuationModelsEntity> models =
-        // this.getModelsRelatedToCompany(companyId);
-
         // Get the parameters for each model and their default values from the
         // company_valuation_parameter_defaults table.
-        this.getDefaultParamValues(companyId);
+        this.getDefaultModelsAndParamValues(companyId);
 
         // Get the per, pbr, dividend_yield, equity_ratio
         this.getMarketIndicators(companyId);
@@ -106,6 +105,7 @@ public class StockDetailServiceImpl implements StockDetailService {
 
         // Set data1 and data2 to the StockAnalysisResponse class.
         StockAnalysisResponse response = new StockAnalysisResponse();
+        response.setTheoreticalPriceValuationDto(theoreticalPriceValuationDto);
         response.setKeyFinancialIndicatorDto(keyFinancialIndicatorDto);
         response.setFinancialIndicatorDto(financialIndicatorDto);
         return response;
@@ -131,12 +131,22 @@ public class StockDetailServiceImpl implements StockDetailService {
     }
 
     // Get the parameters to display in the company detail page.
-    void getDefaultParamValues(Integer id) {
+    void getDefaultModelsAndParamValues(Integer id) {
         // get company id from company master table.
         Optional<CompanyEntity> company = companyDao.selectById(id);
+        // 企業が存在しない場合 ➔ 空リストをセットして終了
+        if (company.isEmpty()) {
+            theoreticalPriceValuationDto.setModels(Collections.emptyList());
+            return;
+        }
         if (company.isPresent()) {
             // get models related to the company from company_valuation_models table.
             List<CompanyValuationModelsEntity> models = companyValuationModelsDao.selectById(id);
+            // DBからnullまたは空リストが返ってきた場合 ➔ 空リストをセットして終了
+            if (models == null || models.isEmpty()) {
+                theoreticalPriceValuationDto.setModels(Collections.emptyList());
+                return;
+            }
             // prepare the valuation model DTOs to send to the front-end.
             List<ValuationModelDto> valuationModelDtoList = new ArrayList<>();
 
@@ -149,6 +159,8 @@ public class StockDetailServiceImpl implements StockDetailService {
                 Optional<ValuationModelEntity> modelMaster = valuationModelDao.selectById(model.getValuationModelId());
                 if (modelMaster.isPresent()) {
                     valuationModelDto.setModelName(modelMaster.get().getModelName());
+                } else {
+                    valuationModelDto.setModelName("Unknown Model Name");
                 }
                 // get the default parameters making up the model.
                 List<ValuationParametersEntity> params = valuationParameterDao
@@ -156,28 +168,31 @@ public class StockDetailServiceImpl implements StockDetailService {
 
                 // prepare the param DTOs to send to the front-end.
                 List<ValuationParameterDto> paramDtoList = new ArrayList<>();
-
-                for (ValuationParametersEntity param : params) {
-                    // Process each default parameter
-                    ValuationParameterDto paramDto = new ValuationParameterDto();
-                    paramDto.setParameterId(param.getId());
-                    paramDto.setParameterName(param.getParameterName());
-                    paramDto.setParameterCode(param.getParameterCode());
-                    paramDto.setDisplayOrder(param.getDisplayOrder());
-                    // get the default value of the param.
-                    CompanyValuationParameterDefaultsEntity paramDefault = companyValuationParameterDefaultsDao
-                            .selectByCompanyIdAndParamId(id, param.getId());
-                    if (paramDefault.getDefaultValue() != null) {
-                        paramDto.setDefaultValue(paramDefault.getDefaultValue());
+                if (params != null && !params.isEmpty()) {
+                    for (ValuationParametersEntity param : params) {
+                        // Process each default parameter
+                        ValuationParameterDto paramDto = new ValuationParameterDto();
+                        paramDto.setParameterId(param.getId());
+                        paramDto.setParameterName(param.getParameterName());
+                        paramDto.setParameterCode(param.getParameterCode());
+                        paramDto.setDisplayOrder(param.getDisplayOrder());
+                        // get the default value of the param.
+                        CompanyValuationParameterDefaultsEntity paramDefault = companyValuationParameterDefaultsDao
+                                .selectByCompanyIdAndParamId(id, param.getId());
+                        if (paramDefault.getDefaultValue() != null) {
+                            paramDto.setDefaultValue(paramDefault.getDefaultValue());
+                        } else {
+                            paramDto.setDefaultValue(BigDecimal.ZERO);
+                        }
+                        paramDtoList.add(paramDto);
                     }
-                    paramDtoList.add(paramDto);
                 }
                 valuationModelDto.setParameters(paramDtoList);
 
                 valuationModelDtoList.add(valuationModelDto);
             }
             // Set the valuation model DTO list to the keyFinancialIndicatorDto
-            keyFinancialIndicatorDto.setModels(valuationModelDtoList);
+            theoreticalPriceValuationDto.setModels(valuationModelDtoList);
         }
     }
 

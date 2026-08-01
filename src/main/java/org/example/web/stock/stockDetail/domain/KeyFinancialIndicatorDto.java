@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KeyFinancialIndicatorDto {
-    // 画面の上半分の基本情報を取得するDao
+    // 画面の主要指標データを取得するdto
 
     private String companyCode;
     private String companyName;
@@ -20,20 +20,17 @@ public class KeyFinancialIndicatorDto {
     private BigDecimal dividendYield;
     private BigDecimal equityRatio;
     private Integer mainIndicatorYearLabel;
-    private BigDecimal wacc;
-    private BigDecimal fiveYearGrowthRate;
-    private BigDecimal perpetualGrowthRate;
-    private List<ValuationModelDto> models = new ArrayList<>();
+    // private List<ValuationModelDto> models = new ArrayList<>();
 
-    // Getter and Setter
+    // // Getter and Setter
 
-    public List<ValuationModelDto> getModels() {
-        return models;
-    }
+    // public List<ValuationModelDto> getModels() {
+    // return models;
+    // }
 
-    public void setModels(List<ValuationModelDto> models) {
-        this.models = models;
-    }
+    // public void setModels(List<ValuationModelDto> models) {
+    // this.models = models;
+    // }
 
     public String getCompanyCode() {
         return companyCode;
@@ -121,29 +118,5 @@ public class KeyFinancialIndicatorDto {
 
     public void setMainIndicatorYearLabel(Integer mainIndicatorYearLabel) {
         this.mainIndicatorYearLabel = mainIndicatorYearLabel;
-    }
-
-    public BigDecimal getWacc() {
-        return wacc;
-    }
-
-    public void setWacc(BigDecimal wacc) {
-        this.wacc = wacc;
-    }
-
-    public BigDecimal getFiveYearGrowthRate() {
-        return fiveYearGrowthRate;
-    }
-
-    public void setFiveYearGrowthRate(BigDecimal fiveYearGrowthRate) {
-        this.fiveYearGrowthRate = fiveYearGrowthRate;
-    }
-
-    public BigDecimal getPerpetualGrowthRate() {
-        return perpetualGrowthRate;
-    }
-
-    public void setPerpetualGrowthRate(BigDecimal perpetualGrowthRate) {
-        this.perpetualGrowthRate = perpetualGrowthRate;
     }
 }

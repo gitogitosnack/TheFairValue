@@ -1,0 +1,18 @@
+{
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-classnames"],
+  "printWidth": 80,
+  "customCleanUp": [
+    "^w-",
+    "^mt-",
+    "^bg-",
+    "^hover:",
+    "^text-",
+    "^font-",
+    "^py-",
+    "^px-",
+    "^rounded-",
+    "^transition-",
+    "^shadow-"
+  ],
+  "endingPosition": "absolute"
+}
