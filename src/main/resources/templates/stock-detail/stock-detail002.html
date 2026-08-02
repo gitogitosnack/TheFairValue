@@ -77,67 +77,61 @@
         <div
           class="lg:col-span-1 bg-gray-950 border border-gray-800 rounded-xl p-5
             space-y-4 h-fit"
+          th:if="${analysisData?.theoreticalPriceValuationDto?.models != null and !#lists.isEmpty(analysisData.theoreticalPriceValuationDto.models)}"
         >
           <h3
-            class="text-sm font-bold text-gray-300 border-b border-gray-800
-              pb-2"
+            class="text-sm font-bold text-gray-300 border-b border-gray-800 pb-2
+              flex items-center"
           >
-            <i class="fa-solid fa-sliders mr-2 text-emerald-400"></i
-            >シミュレーションパラメータ
+            <i class="fa-solid fa-sliders mr-2 text-emerald-400"></i>
+            シミュレーションパラメータ
           </h3>
-          <div>
-            <label class="block text-xs text-gray-400 mb-1"
-              >WACC(割引率,一年後の100万円):
-              <span id="wacc-value" class="text-emerald-400 font-mono font-bold"
-                >5.5%</span
-              ></label
+
+          <!-- モデルごとにパラメータグループを表示 -->
+          <div
+            th:each="model : ${analysisData.theoreticalPriceValuationDto.models}"
+            class="space-y-4"
+          >
+            <!-- モデル名を表示（複数モデルが存在する場合に識別しやすいように） -->
+            <div
+              class="text-xs font-bold text-emerald-400 border-l-2
+                border-emerald-400 pl-2 mt-2"
+              th:text="${model.modelName}"
             >
-            <input
-              id="wacc-slider"
-              type="range"
-              min="0"
-              max="50"
-              step="0.1"
-              value="50.0"
-              class="w-full accent-emerald-500 bg-gray-800 h-1.5 rounded-lg
-                appearance-none cursor-pointer"
-            />
+              パラメータが属しているモデル名
+            </div>
+
+            <!-- パラメータの繰り返し描画（予約語対策のため変数名は p を使用） -->
+            <div th:each="p : ${model.parameters}" class="slider-param-group">
+              <label class="block text-xs text-gray-400 mb-1">
+                <span th:text="${p.parameterName}">パラメータ名</span>:
+                <!-- JSで動的更新するための要素。初期値はDBから設定された値を表示 -->
+                <span
+                  class="slider-value text-emerald-400 font-mono font-bold"
+                  th:text="${p.defaultValue != null ? p.defaultValue + '%' : '0.0%'}"
+                >
+                  5.5%
+                </span>
+              </label>
+
+              <!-- スライダー（DBの初期値・パラメータIDを埋め込む） -->
+              <input
+                type="range"
+                min="0"
+                max="50"
+                step="0.1"
+                th:value="${p.defaultValue != null ? p.defaultValue : 0.0}"
+                th:data-parameter-id="${p.parameterId}"
+                th:data-parameter-code="${p.parameterCode}"
+                class="slider w-full accent-emerald-500 bg-gray-800 h-1.5
+                  rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
           </div>
-          <div class="slider-param-group">
-            <label class="block text-xs text-gray-400 mb-1"
-              >将来5年間の成長率:
-              <span class="slider-value text-emerald-400 font-mono font-bold"
-                >14.0倍</span
-              ></label
-            >
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              step="0.5"
-              value="10.0"
-              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5
-                rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-          <div class="slider-param-group">
-            <label class="block text-xs text-gray-400 mb-1"
-              >永久成長率:
-              <span class="slider-value text-emerald-400 font-mono font-bold"
-                >1.5%</span
-              ></label
-            >
-            <input
-              type="range"
-              min="-50"
-              max="50"
-              step="0.1"
-              value="0.0"
-              class="slider w-full accent-emerald-500 bg-gray-800 h-1.5
-                rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+
           <button
+            type="button"
+            id="btn-recalculate"
             class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 text-white
               font-medium text-sm py-2.5 px-4 rounded-lg transition-colors
               shadow-lg shadow-emerald-900/20"
@@ -245,8 +239,8 @@
               <!-- パラメータリストから説明文や根拠を表示する場合 -->
               <p class="text-[11px] text-gray-400 mt-2">
                 <span th:each="p : ${model.parameters}">
-                  <span th:text="${p.parameterName}">WACC</span>:
-                  <span th:text="${p.defaultValue}">5.5</span>%
+                  <!-- <span th:text="${p.parameterName}">WACC</span>:
+                  <span th:text="${p.defaultValue}">5.5</span>% -->
                 </span>
               </p>
             </div>

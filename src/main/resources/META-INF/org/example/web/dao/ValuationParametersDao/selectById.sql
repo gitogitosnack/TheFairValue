@@ -3,4 +3,4 @@ select
 from
   valuation_parameters
 where
-  id = /* id */1
+  valuation_model_id = /* valuation_model_id */1
