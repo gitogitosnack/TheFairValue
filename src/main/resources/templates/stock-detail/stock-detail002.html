@@ -225,7 +225,7 @@
           <!-- 取得件数に合わせてレスポンシブな列数を動的コントロール (例: 1列/2列/3列) -->
           <div
             class="grid grid-cols-1 gap-4"
-            th:classappend="${#lists.size(analysisData.theoreticalPriceValuationDto.models) == 2} ? 'md:grid-cols-2' : (${#lists.size(analysisData.theoreticalPriceValuationDto.models) >= 3} ? 'md:grid-cols-3' : '')"
+            th:classappend="${#lists.size(analysisData.theoreticalPriceValuationDto.models) >= 1} ? 'md:grid-cols-2' : (${#lists.size(analysisData.theoreticalPriceValuationDto.models) >= 3} ? 'md:grid-cols-3' : '')"
           >
             <div
               th:each="model : ${analysisData.theoreticalPriceValuationDto.models}"
@@ -244,9 +244,9 @@
 
               <!-- パラメータリストから説明文や根拠を表示する場合 -->
               <p class="text-[11px] text-gray-400 mt-2">
-                <span th:each="param : ${model.parameters}">
-                  <span th:text="${param.parameterName}">WACC</span>:
-                  <span th:text="${param.defaultValue}">5.5</span>%
+                <span th:each="p : ${model.parameters}">
+                  <span th:text="${p.parameterName}">WACC</span>:
+                  <span th:text="${p.defaultValue}">5.5</span>%
                 </span>
               </p>
             </div>

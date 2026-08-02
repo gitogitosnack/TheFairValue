@@ -179,7 +179,7 @@ public class StockDetailServiceImpl implements StockDetailService {
                         // get the default value of the param.
                         CompanyValuationParameterDefaultsEntity paramDefault = companyValuationParameterDefaultsDao
                                 .selectByCompanyIdAndParamId(id, param.getId());
-                        if (paramDefault.getDefaultValue() != null) {
+                        if (paramDefault != null && paramDefault.getDefaultValue() != null) {
                             paramDto.setDefaultValue(paramDefault.getDefaultValue());
                         } else {
                             paramDto.setDefaultValue(BigDecimal.ZERO);

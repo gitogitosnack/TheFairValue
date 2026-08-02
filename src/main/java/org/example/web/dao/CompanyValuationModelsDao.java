@@ -14,7 +14,7 @@ import org.seasar.doma.boot.ConfigAutowireable;
 public interface CompanyValuationModelsDao {
 
     @Select
-    List<CompanyValuationModelsEntity> selectById(Integer id);
+    List<CompanyValuationModelsEntity> selectById(Integer company_id);
 
     @Insert
     int insert(CompanyValuationModelsEntity entity);

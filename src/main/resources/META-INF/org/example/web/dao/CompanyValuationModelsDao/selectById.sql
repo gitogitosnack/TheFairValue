@@ -2,4 +2,4 @@ SELECT *
 FROM
     company_valuation_models
 WHERE
-    id = /* id */1;
+    company_id = /* company_id */1;

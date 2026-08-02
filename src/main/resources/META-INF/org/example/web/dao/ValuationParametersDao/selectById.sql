@@ -3,4 +3,4 @@ select
 from
   valuation_parameters
 where
-  company_id = /* id */1
+  id = /* id */1
